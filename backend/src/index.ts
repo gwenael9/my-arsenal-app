@@ -4,11 +4,12 @@ import { buildSchema } from "type-graphql";
 import "reflect-metadata";
 import PlayerResolver from "./resolvers/player.resolver";
 import { startStandaloneServer } from "@apollo/server/standalone";
+import GoalResolver from "./resolvers/goal.resolver";
 
 const port = 4001;
 
 buildSchema({
-  resolvers: [PlayerResolver],
+  resolvers: [PlayerResolver, GoalResolver],
 }).then(async (schema) => {
   await datasource.initialize();
   const server = new ApolloServer({ schema });

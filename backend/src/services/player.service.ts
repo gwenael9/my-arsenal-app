@@ -1,4 +1,4 @@
-import { Repository } from "typeorm";
+import { Repository, FindOneOptions } from "typeorm";
 import datasource from "../lib/datasource";
 import Player, { InputCreatePlayer } from "../entities/player.entity";
 
@@ -15,5 +15,12 @@ export default class PlayerService {
   async createPlayer({ name, country, age, number }: InputCreatePlayer) {
     const newPlayer = this.db.create({ name, country, age, number });
     return await this.db.save(newPlayer);
+  }
+
+  async getPlayerById(id: string) {
+    const options: FindOneOptions<Player> = {
+      where: { id },
+    };
+    return await this.db.findOne(options);
   }
 }

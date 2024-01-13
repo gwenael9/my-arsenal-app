@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import { ObjectType, Field, InputType } from "type-graphql";
+import Goal from "./goal.entity";
 
 @Entity()
 @ObjectType()
@@ -24,10 +25,13 @@ export default class Player  {
     @Field()
     number: number;
 
+    @OneToMany(() => Goal, (goal) => goal.player)
+    @Field(() => [Goal], { nullable: true})
+    goals: Goal[];
 }
 
 @InputType()
-export class InputCreatePlayer implements Omit<Player, "id"> {
+export class InputCreatePlayer {
     @Field()
     name: string;
 
@@ -39,4 +43,5 @@ export class InputCreatePlayer implements Omit<Player, "id"> {
 
     @Field()
     number: number;
+
 }
