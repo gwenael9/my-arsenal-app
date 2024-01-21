@@ -11,7 +11,7 @@ RUN apk --update --no-cache add curl
 COPY src src
 
 COPY tsconfig.json tsconfig.json
-COPY tailwind.config.js tailwind.config.js
+COPY tailwind.config.ts tailwind.config.ts
 COPY postcss.config.js postcss.config.js
 COPY codegen.ts codegen.ts
 

@@ -16,7 +16,7 @@ services:
 
     build: ./backend
     ports:
-      - 4001:4001
+      - 4000:4000
     volumes:
       - ./backend/src:/app/src
     env_file:
@@ -30,3 +30,15 @@ services:
       interval: 10s
       timeout: 30s
       retries: 5
+
+  frontend:
+    build: ./frontend
+    ports:
+      - 3000:3000
+    volumes:
+      - ./frontend/src:/app/src
+    env_file:
+      - ./global.env
+    depends_on:
+      backend:
+        condition: service_healthy
