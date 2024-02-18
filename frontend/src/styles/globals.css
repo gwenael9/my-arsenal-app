@@ -1,7 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
- 
+
+body {
+  background-color: black;
+  font-family: "Nunito Sans", sans-serif;
+  color: white;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -73,4 +79,18 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* animation mobile menu */
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-down {
+  animation: slideDown 0.2s ease-out;
 }

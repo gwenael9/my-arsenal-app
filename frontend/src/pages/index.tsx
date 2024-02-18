@@ -21,18 +21,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="">
-            <h2 className="text-2xl font-bold text-primary mb-2">Classement des meilleurs buteurs</h2>
-            <div className="grid md:grid-cols-2 gap-2">
-              <p>
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint
-                provident corrupti assumenda similique quia tempora est aperiam
-                enim consectetur! Ducimus esse accusamus est quos incidunt
-                doloribus animi mollitia aliquid voluptatibus.
-              </p>
-              <Ranking />
-            </div>
-          </div>
+          
         </div>
       </div>
     </Layout>

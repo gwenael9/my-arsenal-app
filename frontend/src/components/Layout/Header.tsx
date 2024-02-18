@@ -13,7 +13,7 @@ export default function Header() {
       <div className="flex mx-auto items-center justify-between text-white">
         <div className="flex justify-between items-center gap-2.5">
           <Link href="/" className="">
-            <span className="md:hidden">AFC</span>
+            <span className="md:hidden font-bold">AFC</span>
             <span className="hidden md:inline">ARSENAL</span>
           </Link>
         </div>
@@ -44,24 +44,19 @@ export default function Header() {
 
         {/* Mobile Menu */}
         {isOpen && (
-          <nav className="md:hidden block absolute top-full left-0 right-0 bg-tertiary text-white py-2 px-6">
-            <div className="flex gap-2">
-              <Link href="/statistique" onClick={burgerMenu}>
-                Stats
-              </Link>
-              <Link href="/goals" onClick={burgerMenu}>
-                Buts
-              </Link>
+          <div className="md:hidden block absolute top-full left-0 right-0 bg-tertiary py-2 px-6 overflow-hidden animate-slide-down">
+            <div className="flex justify-center flex-col items-center gap-2">
+              <Link href="/statistique">Stats</Link>
+              <Link href="/goals">Buts</Link>
               <a
                 href="https://github.com/gwenael9/my-arsenal-app"
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={burgerMenu}
               >
                 Github
               </a>
             </div>
-          </nav>
+          </div>
         )}
       </div>
     </header>

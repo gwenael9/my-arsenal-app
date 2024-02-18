@@ -19,6 +19,7 @@ interface GoalCardProps {
 const GoalCard: React.FC<GoalCardProps> = ({ goal }) => {
   const [domicile, setDomicile] = useState(true);
 
+  // si le stade est spécifié --> extérieur sinon domicile
   useEffect(() => {
     setDomicile(goal.where == "");
   }, [goal.where]);
