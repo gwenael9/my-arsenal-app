@@ -1,8 +1,9 @@
-import { Arg, Mutation, Query, Resolver, FieldResolver, Root } from "type-graphql";
+import { Arg, Mutation, Query, Resolver, FieldResolver, Root, Int } from "type-graphql";
 import Goal, { InputCreateGoal } from "../entities/goal.entity";
 import GoalService from "../services/goal.service";
 import PlayerService from "../services/player.service";
 import Player from "../entities/player.entity";
+import { GraphQLError } from "graphql";
 
 @Resolver(of => Goal)
 export default class GoalResolver {
@@ -24,5 +25,11 @@ export default class GoalResolver {
     async player(@Root() goal: Goal) {
         // Utilisez le service PlayerService pour obtenir le joueur associé
         return await new PlayerService().getPlayerById(goal.playerId);
+    }
+
+    // trouver le goal selon son ordre
+    @Query(() => Goal)
+    async getGoalByOrdre(@Arg("goalOrdre") ordre: number) {
+        return await new GoalService().getGoalByOrdre(ordre);
     }
 }

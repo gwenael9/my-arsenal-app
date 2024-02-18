@@ -12,8 +12,8 @@ export default class PlayerService {
     return this.db.find();
   }
 
-  async createPlayer({ name, country, age, number }: InputCreatePlayer) {
-    const newPlayer = this.db.create({ name, country, age, number });
+  async createPlayer({ name, country }: InputCreatePlayer) {
+    const newPlayer = this.db.create({ name, country });
     return await this.db.save(newPlayer);
   }
 

@@ -1,10 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, BaseEntity } from "typeorm";
 import { ObjectType, Field, InputType, Int } from "type-graphql";
 import Player from "./player.entity";
 
 @Entity()
 @ObjectType()
-export default class Goal  {
+export default class Goal extends BaseEntity{
     @PrimaryGeneratedColumn("uuid")
     @Field()
     id: string;
@@ -16,6 +16,18 @@ export default class Goal  {
     @Column()
     @Field()
     link: string;
+    
+    @Column()
+    @Field()
+    against: string;
+
+    @Column({ default: "Emirates Stadium"})
+    @Field()
+    where: string;
+
+    @Column()
+    @Field()
+    ordre: number;
 
     @ManyToOne(() => Player, (player) => player.goals, {
         cascade: true,
@@ -38,4 +50,14 @@ export class InputCreateGoal {
 
     @Field()
     playerId: string;
+
+    @Field()
+    against: string;
+    
+    @Field()
+    where: string;
+
+    @Field()
+    ordre: number;
+
 }

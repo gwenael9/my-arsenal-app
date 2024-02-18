@@ -5,7 +5,8 @@
     "main": "index.ts",
     "scripts": {
         "start": "ts-node-dev --exit-child --watch src --poll src/index.ts",
-        "dev": "ts-node-dev --poll src/index.ts"
+        "dev": "ts-node-dev --poll src/index.ts",
+        "resetDB": "ts-node-dev src/lib/resetDb.ts"
     },
     "author": "",
     "license": "ISC",

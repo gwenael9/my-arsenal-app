@@ -3,15 +3,16 @@ import { gql } from "@apollo/client";
 export const LIST_PLAYERS = gql`
     query Players {
         players {
+            country
             id
             name
-            age
-            country
-            number
             goals {
                 id
-                date
                 link
+                where
+                date
+                against
+                ordre
             }
         }
     }

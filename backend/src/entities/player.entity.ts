@@ -17,14 +17,6 @@ export default class Player  {
     @Field()
     country: string;
 
-    @Column()
-    @Field()
-    age: number;
-
-    @Column({ type: "float" })
-    @Field()
-    number: number;
-
     @OneToMany(() => Goal, (goal) => goal.player)
     @Field(() => [Goal], { nullable: true})
     goals: Goal[];
@@ -37,11 +29,5 @@ export class InputCreatePlayer {
 
     @Field()
     country: string;
-
-    @Field()
-    age: number;
-
-    @Field()
-    number: number;
 
 }

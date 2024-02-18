@@ -4,33 +4,21 @@ import { buildSchema } from "type-graphql";
 import "reflect-metadata";
 import PlayerResolver from "./resolvers/player.resolver";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
-import { startStandaloneServer } from "@apollo/server/standalone";
 import GoalResolver from "./resolvers/goal.resolver";
 import express from "express";
 import cors from "cors";
 import http from "http";
 import { expressMiddleware } from "@apollo/server/express4";
 
-interface MyContext {};
-
 const port = 4000;
 const app = express();
 const httpServer = http.createServer(app);
-
-// buildSchema({
-//   resolvers: [PlayerResolver, GoalResolver],
-// }).then(async (schema) => {
-//   await datasource.initialize();
-//   const server = new ApolloServer({ schema });
-//   const { url } = await startStandaloneServer(server, { listen: { port } });
-//   console.log(`graphql server listening on ${url} zebiiiiiiiiiiii`);
-// });
 
 async function main() {
   const schema = await buildSchema({
     resolvers: [PlayerResolver, GoalResolver],
   });
-  const server = new ApolloServer<MyContext>({
+  const server = new ApolloServer({
     schema,
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })]
   });
@@ -42,7 +30,9 @@ async function main() {
       credentials: true,
     }),
     express.json(),
-    expressMiddleware(server, {})
+    expressMiddleware(server, {
+      context: async ({ req, res }) => ({ req, res }),
+    })
   );
   await datasource.initialize();
   await new Promise<void>((resolve) =>
