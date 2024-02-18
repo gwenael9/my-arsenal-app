@@ -1,51 +1,24 @@
 import Layout from "@/components/Layout/Layout";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useGoalsQuery, usePlayersQuery } from "@/types/graphql";
+import { toUpOne } from "@/lib/functions";
+import Ranking from "@/components/Players/player.ranking";
 
 export default function Statistique() {
 
   const { data: playersData } = usePlayersQuery();
   const players = playersData?.players || [];
 
+  // ameliorer cette algo pour si nb de buts égaux, mettre dans ordre alphabetique
+  const playersFiltre = players.slice().sort((a, b) => {
+    return (b.goals?.length || 0) - (a.goals?.length || 0);
+  })
+
   return (
     <Layout title="Statistique">
-      <div>
-        <div>
-          <h1 className="font-bold text-lg">Page de stats</h1>
-          <p>Nombres de joueurs : {players.length}</p>
-        </div>
-        
-        <Select>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Joueurs" />
-          </SelectTrigger>
-          <SelectContent>
-          {players.map((player) => ( <SelectItem value={player.name}>{player.name}</SelectItem> ))}
-          </SelectContent>
-        </Select>
-
-        <div>
-          {players.map((player, index) => (
-            <div key={index}>
-              <Card className="border bg-slate-500">
-                <CardHeader>
-                  {player.name} <span>{player.country}</span>
-                </CardHeader>
-                <CardContent>
-                  <p>Nombres de but : {player.goals?.length}</p>
-                </CardContent>
-              </Card>
-            </div>
-          ))}
-        </div>
-      </div>
+      <h2 className="font-bold text-xl my-4">Classement des meilleurs buteurs</h2>
+      <Ranking />
     </Layout>
   );
 }
+

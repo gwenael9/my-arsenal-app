@@ -1,34 +1,69 @@
 import Link from "next/link";
+import { useState } from "react";
 
 export default function Header() {
-    return (
-        <header className="sticky top-0 left-0 right-0 p-6 bg-tertiary">
+  const [isOpen, setIsOpen] = useState(false);
 
-            <div className="flex mx-auto items-center justify-between text-white">
+  const burgerMenu = () => {
+    setIsOpen(!isOpen);
+  };
 
-                <nav className="items-center space-x-8 hidden md:inline">
-                    <Link href="/statistique">Stats</Link>
-                    <Link href="/goals">Buts</Link>
-                    <a href="https://github.com/gwenael9/my-arsenal-app" target="_blank" rel="noopener noreferrer">Github</a>
-                </nav>  
+  return (
+    <header className="sticky top-0 left-0 right-0 p-6 bg-tertiary">
+      <div className="flex mx-auto items-center justify-between text-white">
+        <div className="flex justify-between items-center gap-2.5">
+          <Link href="/" className="">
+            <span className="md:hidden">AFC</span>
+            <span className="hidden md:inline">ARSENAL</span>
+          </Link>
+        </div>
 
-                {/* burger */}
-                <div className="md:hidden">
-                    coucou
-                </div>
+        {/* burger */}
+        <div className="md:hidden">
+          <button onClick={burgerMenu}>
+            <span className="material-symbols-outlined">Menu</span>
+          </button>
+        </div>
 
-                {/* search */}
-                <form className="bg-white" action=""></form>
+        {/* Desktop Menu */}
+        <nav
+          className={`items-center space-x-8 hidden md:inline ${
+            isOpen ? "hidden" : "block"
+          }`}
+        >
+          <Link href="/statistique">Stats</Link>
+          <Link href="/goals">Buts</Link>
+          <a
+            href="https://github.com/gwenael9/my-arsenal-app"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Github
+          </a>
+        </nav>
 
-                <div className="flex justify-between items-center gap-2.5">
-                    <Link href="/" className="">
-                        <span className="md:hidden">AFC</span>
-                        <span className="hidden md:inline">ARSENAL</span>
-                    </Link>
-                </div>
-
+        {/* Mobile Menu */}
+        {isOpen && (
+          <nav className="md:hidden block absolute top-full left-0 right-0 bg-tertiary text-white py-2 px-6">
+            <div className="flex gap-2">
+              <Link href="/statistique" onClick={burgerMenu}>
+                Stats
+              </Link>
+              <Link href="/goals" onClick={burgerMenu}>
+                Buts
+              </Link>
+              <a
+                href="https://github.com/gwenael9/my-arsenal-app"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={burgerMenu}
+              >
+                Github
+              </a>
             </div>
-            
-        </header>
-    )
+          </nav>
+        )}
+      </div>
+    </header>
+  );
 }
