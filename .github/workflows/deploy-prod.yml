@@ -1,0 +1,15 @@
+name: Test, compile and push client and server to production
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+jobs:
+  notify-vps:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call VPS webhook to update production
+        uses: wei/curl@master
+        with:
+          args: https://ops.arsenal-goals.dev/hooks/update-production-arsenal-app"
