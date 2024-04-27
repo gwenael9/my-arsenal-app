@@ -1,18 +1,19 @@
-
-FROM node:lts-alpine
+FROM node:20.9.0-alpine3.17
 
 WORKDIR /app
 
-COPY package.json package.json
+COPY package*.json ./
 
 RUN npm i
-RUN apk --update --no-cache add curl
 
-COPY src src
+# hot reload
+RUN apk --update --no-cache add curl 
 
-COPY tsconfig.json tsconfig.json
-COPY tailwind.config.ts tailwind.config.ts
-COPY postcss.config.js postcss.config.js
-COPY codegen.ts codegen.ts
+COPY ./tsconfig.json ./tsconfig.json
+COPY ./next.config.js ./next.config.js
+COPY ./tailwind.config.ts ./tailwind.config.ts
+COPY ./postcss.config.js ./postcss.config.js
+COPY ./public ./public
+COPY ./src ./src
 
-CMD npm run dev & npm run generate
+CMD npm run dev

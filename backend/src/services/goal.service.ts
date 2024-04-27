@@ -1,4 +1,4 @@
-import { GraphQLError } from 'graphql';
+import { GraphQLError } from "graphql";
 import { FindOneOptions, Repository } from "typeorm";
 import datasource from "../lib/datasource";
 import Goal, { InputCreateGoal } from "../entities/goal.entity";
@@ -14,16 +14,30 @@ export default class GoalService {
     return this.db.find();
   }
 
-  async createGoal({ date, link, playerId, against, where, ordre }: InputCreateGoal) {
+  async createGoal({
+    date,
+    link,
+    playerId,
+    against,
+    where,
+    ordre,
+  }: InputCreateGoal) {
     const playerService = new PlayerService();
     const player = await playerService.getPlayerById(playerId);
-    if (!player) { 
-        throw new Error (`Player with id ${playerId} not found`)
+    if (!player) {
+      throw new Error(`Player with id ${playerId} not found`);
     }
 
-    const newGoal = this.db.create({ date, link, playerId, against, where, ordre });
+    const newGoal = this.db.create({
+      date,
+      link,
+      playerId,
+      against,
+      where,
+      ordre,
+    });
     return await this.db.save(newGoal);
-  } 
+  }
 
   async getGoalsByPlayerId(playerId: string) {
     return this.db.find({ where: { playerId } });
@@ -36,5 +50,4 @@ export default class GoalService {
     if (!goal) throw new GraphQLError("introuvable guignolo");
     return await this.db.findOne(goal);
   }
-
 }

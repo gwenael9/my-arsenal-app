@@ -32,7 +32,6 @@ export default function Header() {
           }`}
         >
           <Link href="/statistique">Stats</Link>
-          <Link href="/goals">Buts</Link>
           <a
             href="https://github.com/gwenael9/my-arsenal-app"
             target="_blank"
@@ -47,7 +46,6 @@ export default function Header() {
           <div className="md:hidden block absolute top-full left-0 right-0 bg-tertiary py-2 px-6 overflow-hidden animate-slide-down">
             <div className="flex justify-center flex-col items-center gap-2">
               <Link href="/statistique">Stats</Link>
-              <Link href="/goals">Buts</Link>
               <a
                 href="https://github.com/gwenael9/my-arsenal-app"
                 target="_blank"
