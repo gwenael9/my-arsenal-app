@@ -42,10 +42,30 @@ export type InputCreatePlayer = {
   name: Scalars['String']['input'];
 };
 
+export type InputLogin = {
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+};
+
+export type InputRegister = {
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+  role: Scalars['String']['input'];
+};
+
+export type Message = {
+  __typename?: 'Message';
+  message: Scalars['String']['output'];
+  success: Scalars['Boolean']['output'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createGoal: Goal;
   createPlayer: Player;
+  deletePlayer: Message;
+  register: UserWithoutPassword;
+  upgradeRole: Array<User>;
 };
 
 
@@ -56,6 +76,21 @@ export type MutationCreateGoalArgs = {
 
 export type MutationCreatePlayerArgs = {
   infos: InputCreatePlayer;
+};
+
+
+export type MutationDeletePlayerArgs = {
+  id: Scalars['String']['input'];
+};
+
+
+export type MutationRegisterArgs = {
+  infos: InputRegister;
+};
+
+
+export type MutationUpgradeRoleArgs = {
+  id: Scalars['String']['input'];
 };
 
 export type Player = {
@@ -71,7 +106,11 @@ export type Query = {
   getGoalByOrdre: Goal;
   getPlayerById: Player;
   goals: Array<Goal>;
+  login: Message;
+  logout: Message;
   players: Array<Player>;
+  profile: User;
+  users: Array<User>;
 };
 
 
@@ -83,6 +122,59 @@ export type QueryGetGoalByOrdreArgs = {
 export type QueryGetPlayerByIdArgs = {
   playerId: Scalars['String']['input'];
 };
+
+
+export type QueryLoginArgs = {
+  infos: InputLogin;
+};
+
+export type User = {
+  __typename?: 'User';
+  email: Scalars['String']['output'];
+  id: Scalars['String']['output'];
+  password: Scalars['String']['output'];
+  role: Scalars['String']['output'];
+};
+
+export type UserWithoutPassword = {
+  __typename?: 'UserWithoutPassword';
+  email: Scalars['String']['output'];
+  id: Scalars['String']['output'];
+  role: Scalars['String']['output'];
+};
+
+export type CreateGoalMutationVariables = Exact<{
+  infos: InputCreateGoal;
+}>;
+
+
+export type CreateGoalMutation = { __typename?: 'Mutation', createGoal: { __typename?: 'Goal', id: string, date: string, against: string, ordre: number, where: string, link: string, player?: { __typename?: 'Player', id: string, name: string, country: string } | null } };
+
+export type CreatePlayerMutationVariables = Exact<{
+  infos: InputCreatePlayer;
+}>;
+
+
+export type CreatePlayerMutation = { __typename?: 'Mutation', createPlayer: { __typename?: 'Player', id: string, name: string, country: string, goals?: Array<{ __typename?: 'Goal', id: string, date: string, against: string, ordre: number, where: string, link: string }> | null } };
+
+export type DeletePlayerMutationVariables = Exact<{
+  deletePlayerId: Scalars['String']['input'];
+}>;
+
+
+export type DeletePlayerMutation = { __typename?: 'Mutation', deletePlayer: { __typename?: 'Message', message: string, success: boolean } };
+
+export type LoginQueryVariables = Exact<{
+  infos: InputLogin;
+}>;
+
+
+export type LoginQuery = { __typename?: 'Query', login: { __typename?: 'Message', success: boolean, message: string } };
+
+export type LogoutQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LogoutQuery = { __typename?: 'Query', logout: { __typename?: 'Message', success: boolean, message: string } };
 
 export type GetGoalByOrdreQueryVariables = Exact<{
   goalOrdre: Scalars['Float']['input'];
@@ -102,6 +194,207 @@ export type PlayersQueryVariables = Exact<{ [key: string]: never; }>;
 export type PlayersQuery = { __typename?: 'Query', players: Array<{ __typename?: 'Player', country: string, id: string, name: string, goals?: Array<{ __typename?: 'Goal', id: string, link: string, where: string, date: string, against: string, ordre: number }> | null }> };
 
 
+export const CreateGoalDocument = gql`
+    mutation CreateGoal($infos: InputCreateGoal!) {
+  createGoal(infos: $infos) {
+    id
+    player {
+      id
+      name
+      country
+    }
+    date
+    against
+    ordre
+    where
+    link
+  }
+}
+    `;
+export type CreateGoalMutationFn = Apollo.MutationFunction<CreateGoalMutation, CreateGoalMutationVariables>;
+
+/**
+ * __useCreateGoalMutation__
+ *
+ * To run a mutation, you first call `useCreateGoalMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateGoalMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createGoalMutation, { data, loading, error }] = useCreateGoalMutation({
+ *   variables: {
+ *      infos: // value for 'infos'
+ *   },
+ * });
+ */
+export function useCreateGoalMutation(baseOptions?: Apollo.MutationHookOptions<CreateGoalMutation, CreateGoalMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateGoalMutation, CreateGoalMutationVariables>(CreateGoalDocument, options);
+      }
+export type CreateGoalMutationHookResult = ReturnType<typeof useCreateGoalMutation>;
+export type CreateGoalMutationResult = Apollo.MutationResult<CreateGoalMutation>;
+export type CreateGoalMutationOptions = Apollo.BaseMutationOptions<CreateGoalMutation, CreateGoalMutationVariables>;
+export const CreatePlayerDocument = gql`
+    mutation createPlayer($infos: InputCreatePlayer!) {
+  createPlayer(infos: $infos) {
+    id
+    name
+    country
+    goals {
+      id
+      date
+      against
+      ordre
+      where
+      link
+    }
+  }
+}
+    `;
+export type CreatePlayerMutationFn = Apollo.MutationFunction<CreatePlayerMutation, CreatePlayerMutationVariables>;
+
+/**
+ * __useCreatePlayerMutation__
+ *
+ * To run a mutation, you first call `useCreatePlayerMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreatePlayerMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createPlayerMutation, { data, loading, error }] = useCreatePlayerMutation({
+ *   variables: {
+ *      infos: // value for 'infos'
+ *   },
+ * });
+ */
+export function useCreatePlayerMutation(baseOptions?: Apollo.MutationHookOptions<CreatePlayerMutation, CreatePlayerMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreatePlayerMutation, CreatePlayerMutationVariables>(CreatePlayerDocument, options);
+      }
+export type CreatePlayerMutationHookResult = ReturnType<typeof useCreatePlayerMutation>;
+export type CreatePlayerMutationResult = Apollo.MutationResult<CreatePlayerMutation>;
+export type CreatePlayerMutationOptions = Apollo.BaseMutationOptions<CreatePlayerMutation, CreatePlayerMutationVariables>;
+export const DeletePlayerDocument = gql`
+    mutation DeletePlayer($deletePlayerId: String!) {
+  deletePlayer(id: $deletePlayerId) {
+    message
+    success
+  }
+}
+    `;
+export type DeletePlayerMutationFn = Apollo.MutationFunction<DeletePlayerMutation, DeletePlayerMutationVariables>;
+
+/**
+ * __useDeletePlayerMutation__
+ *
+ * To run a mutation, you first call `useDeletePlayerMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeletePlayerMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deletePlayerMutation, { data, loading, error }] = useDeletePlayerMutation({
+ *   variables: {
+ *      deletePlayerId: // value for 'deletePlayerId'
+ *   },
+ * });
+ */
+export function useDeletePlayerMutation(baseOptions?: Apollo.MutationHookOptions<DeletePlayerMutation, DeletePlayerMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeletePlayerMutation, DeletePlayerMutationVariables>(DeletePlayerDocument, options);
+      }
+export type DeletePlayerMutationHookResult = ReturnType<typeof useDeletePlayerMutation>;
+export type DeletePlayerMutationResult = Apollo.MutationResult<DeletePlayerMutation>;
+export type DeletePlayerMutationOptions = Apollo.BaseMutationOptions<DeletePlayerMutation, DeletePlayerMutationVariables>;
+export const LoginDocument = gql`
+    query Login($infos: InputLogin!) {
+  login(infos: $infos) {
+    success
+    message
+  }
+}
+    `;
+
+/**
+ * __useLoginQuery__
+ *
+ * To run a query within a React component, call `useLoginQuery` and pass it any options that fit your needs.
+ * When your component renders, `useLoginQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useLoginQuery({
+ *   variables: {
+ *      infos: // value for 'infos'
+ *   },
+ * });
+ */
+export function useLoginQuery(baseOptions: Apollo.QueryHookOptions<LoginQuery, LoginQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<LoginQuery, LoginQueryVariables>(LoginDocument, options);
+      }
+export function useLoginLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LoginQuery, LoginQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<LoginQuery, LoginQueryVariables>(LoginDocument, options);
+        }
+export function useLoginSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<LoginQuery, LoginQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<LoginQuery, LoginQueryVariables>(LoginDocument, options);
+        }
+export type LoginQueryHookResult = ReturnType<typeof useLoginQuery>;
+export type LoginLazyQueryHookResult = ReturnType<typeof useLoginLazyQuery>;
+export type LoginSuspenseQueryHookResult = ReturnType<typeof useLoginSuspenseQuery>;
+export type LoginQueryResult = Apollo.QueryResult<LoginQuery, LoginQueryVariables>;
+export const LogoutDocument = gql`
+    query Logout {
+  logout {
+    success
+    message
+  }
+}
+    `;
+
+/**
+ * __useLogoutQuery__
+ *
+ * To run a query within a React component, call `useLogoutQuery` and pass it any options that fit your needs.
+ * When your component renders, `useLogoutQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useLogoutQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useLogoutQuery(baseOptions?: Apollo.QueryHookOptions<LogoutQuery, LogoutQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<LogoutQuery, LogoutQueryVariables>(LogoutDocument, options);
+      }
+export function useLogoutLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LogoutQuery, LogoutQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<LogoutQuery, LogoutQueryVariables>(LogoutDocument, options);
+        }
+export function useLogoutSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<LogoutQuery, LogoutQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<LogoutQuery, LogoutQueryVariables>(LogoutDocument, options);
+        }
+export type LogoutQueryHookResult = ReturnType<typeof useLogoutQuery>;
+export type LogoutLazyQueryHookResult = ReturnType<typeof useLogoutLazyQuery>;
+export type LogoutSuspenseQueryHookResult = ReturnType<typeof useLogoutSuspenseQuery>;
+export type LogoutQueryResult = Apollo.QueryResult<LogoutQuery, LogoutQueryVariables>;
 export const GetGoalByOrdreDocument = gql`
     query GetGoalByOrdre($goalOrdre: Float!) {
   getGoalByOrdre(goalOrdre: $goalOrdre) {
@@ -136,7 +429,7 @@ export const GetGoalByOrdreDocument = gql`
  *   },
  * });
  */
-export function useGetGoalByOrdreQuery(baseOptions: Apollo.QueryHookOptions<GetGoalByOrdreQuery, GetGoalByOrdreQueryVariables> & ({ variables: GetGoalByOrdreQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+export function useGetGoalByOrdreQuery(baseOptions: Apollo.QueryHookOptions<GetGoalByOrdreQuery, GetGoalByOrdreQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<GetGoalByOrdreQuery, GetGoalByOrdreQueryVariables>(GetGoalByOrdreDocument, options);
       }

@@ -53,15 +53,6 @@ export class UserWithoutPassword {
   role: ROLE;
 }
 
-@ObjectType()
-export class Message {
-  @Field()
-  success: boolean;
-
-  @Field()
-  message: string;
-}
-
 /**----------------------
  **      Input Types
  *------------------------**/

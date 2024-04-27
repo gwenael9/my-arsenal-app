@@ -19,9 +19,11 @@ interface GoalCardProps {
 const GoalCard: React.FC<GoalCardProps> = ({ goal }) => {
   const [domicile, setDomicile] = useState(true);
 
+  const stade = "Emirates Stadium";
+
   // si le stade est spécifié --> extérieur sinon domicile
   useEffect(() => {
-    setDomicile(goal.where == "");
+    setDomicile(goal.where == "" || goal.where == stade);
   }, [goal.where]);
 
   return (
@@ -45,7 +47,7 @@ const GoalCard: React.FC<GoalCardProps> = ({ goal }) => {
       <CardFooter>
         <div className="flex gap-1 flex-col">
           <Badge variant={domicile ? "or" : "blue"}>
-            {toUpOne(goal.where) || "Emirates Stadium"}
+            {toUpOne(goal.where) || stade}
           </Badge>
           <Badge variant={domicile ? "or" : "blue"}>{goal.date}</Badge>
         </div>

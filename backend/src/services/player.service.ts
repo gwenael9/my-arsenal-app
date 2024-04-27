@@ -23,4 +23,18 @@ export default class PlayerService {
     };
     return await this.db.findOne(options);
   }
+
+  async findOnePlayer(id: string) {
+    const player = await this.db.findOneBy({ id });
+    if (!player) {
+      throw new Error("Ce joueur n'existe pas!");
+    }
+    return player;
+  }
+
+  async deletePlayer(id: string) {
+    const player = (await this.findOnePlayer(id)) as Player;
+    await this.db.remove(player);
+    return { ...player, id };
+  }
 }

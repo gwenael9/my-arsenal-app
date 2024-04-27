@@ -1,5 +1,3 @@
-// pages/GoalCarousel.tsx
-
 import Layout from "@/components/Layout/Layout";
 import { useGoalsQuery } from "@/types/graphql";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";

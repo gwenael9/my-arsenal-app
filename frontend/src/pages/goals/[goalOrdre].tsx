@@ -1,4 +1,4 @@
-import { useGetGoalByOrdreQuery, useGoalsQuery } from "@/types/graphql";
+import { useGetGoalByOrdreQuery } from "@/types/graphql";
 import Layout from "@/components/Layout/Layout";
 import { useRouter } from "next/router";
 
@@ -17,7 +17,6 @@ const GoalCarouselPage = () => {
   });
 
   const goal = data?.getGoalByOrdre;
-
 
   const nextGoal = () => {
     if (typeof goalOrdre === "string") {

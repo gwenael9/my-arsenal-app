@@ -6,11 +6,11 @@ import { MyContext } from "..";
 import User, {
   InputLogin,
   InputRegister,
-  Message,
   UserWithoutPassword,
 } from "../entities/user.entity";
 import UserService from "../services/user.service";
 import { ContextType } from "../types";
+import { Message } from "../entities/message.entity";
 
 @Resolver()
 export default class UserResolver {
