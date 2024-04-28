@@ -2,5 +2,5 @@ global.env
 secret.env
 note.md
 
-.env.prod
+.env.production
 .env.staging

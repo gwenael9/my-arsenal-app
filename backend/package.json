@@ -6,6 +6,7 @@
     "scripts": {
         "start": "ts-node-dev ./src/index.ts",
         "dev": "ts-node-dev --poll ./src/index.ts",
+        "build": "tsc",
         "start:prod": "node build/index.js",
         "resetDB": "ts-node-dev src/lib/resetDb.ts",
         "seedDB": "ts-node-dev src/lib/seedDb.ts"

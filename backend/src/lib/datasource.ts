@@ -15,5 +15,4 @@ export default new DataSource({
   database: process.env.DB_NAME || "postgres",
   entities: [Player, Goal, User],
   synchronize: true,
-  logging: true,
 });
