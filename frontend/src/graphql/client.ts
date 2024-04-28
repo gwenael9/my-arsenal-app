@@ -1,10 +1,10 @@
 import { ApolloClient, InMemoryCache } from "@apollo/client";
 
-// const devApiUrl = process.env.NEXT_PUBLIC_GRAPHQL_API_URL;
+const devApiUrl = process.env.NEXT_PUBLIC_GRAPHQL_API_URL;
 
 const client = new ApolloClient({
-  // uri: devApiUrl ? devApiUrl : "/graphql",
-  uri: "/graphql",
+  uri: devApiUrl ? devApiUrl : "/graphql",
+  // uri: "/graphql",
   cache: new InMemoryCache(),
   credentials: "include",
 });

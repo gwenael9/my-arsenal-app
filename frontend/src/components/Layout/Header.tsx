@@ -31,7 +31,6 @@ export default function Header() {
             isOpen ? "hidden" : "block"
           }`}
         >
-          <Link href="/admin/players">Admin</Link>
           <Link href="/statistique">Stats</Link>
           <a
             href="https://github.com/gwenael9/my-arsenal-app"
