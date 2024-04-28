@@ -7,7 +7,7 @@ const GoalCarouselPage = () => {
   const router = useRouter();
   const { goalOrdre } = router.query;
 
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
 
   console.log(router.query);
 
@@ -21,11 +21,11 @@ const GoalCarouselPage = () => {
 
   const goal = data?.getGoalByOrdre;
 
-  useEffect(() => {
-    if (typeof goal !== "undefined") {
-      setLoading(false);
-    }
-  }, [goalOrdre]);
+  // useEffect(() => {
+  //   if (typeof goal !== "undefined") {
+  //     setLoading(false);
+  //   }
+  // }, [goalOrdre]);
 
   const nextGoal = () => {
     if (typeof goalOrdre === "string") {
@@ -43,9 +43,9 @@ const GoalCarouselPage = () => {
 
   return (
     <Layout title={`But n°${goalOrdre}`}>
-      {loading ? (
+      {/* {loading ? (
         <div>Chargement...</div>
-      ) : (
+      ) : ( */}
         <div className="flex items-center flex-col mt-5">
           <p className="text-lg font-bold">But n°{goalOrdre}</p>
 
@@ -85,7 +85,7 @@ const GoalCarouselPage = () => {
             </div>
           </div>
         </div>
-      )}
+      {/* )} */}
     </Layout>
   );
 };

@@ -27,6 +27,13 @@ export default class PlayerService {
     };
     return await this.db.findOne(options);
   }
+  
+  async getPlayerByName(name: string) {
+    const options: FindOneOptions<Player> = {
+      where: { name },
+    };
+    return await this.db.findOne(options);
+  }
 
   async findOnePlayer(id: string) {
     const player = await this.db.findOneBy({ id });

@@ -4,7 +4,6 @@ import Ranking from "@/components/Players/player.ranking";
 export default function Statistique() {
   return (
     <Layout title="Statistique">
-      <h1>Page de statistique</h1>
       <div className="">
         <h2 className="font-bold text-xl my-4 text-white">
           Classement des meilleurs buteurs

@@ -45,14 +45,25 @@ async function main() {
     name: "Eddie Nketiah",
     country: "Angleterre",
   });
+  
+  await playerService.createPlayer({
+    name: "Martin Odegaard",
+    country: "Norvège",
+  });
 
-  // await goalService.createGoal({
-  //   date: "30/09/2023",
-  //   link: "https://www.youtube.com/embed/ca5imK6X4tY?si=rnnxKFBFzP8v-XDF&amp;clip=Ugkxegi_3u2QgN7jliZt132tZLjfY6b5rsiY&amp;clipt=ELbsAhiasQM",
-  //   where: "Vitality Stadium",
-  //   ordre: 19,
-  //   playerId: "a",
-  // });
+  const player = await playerService.getPlayerByName("Martin Odegaard");
+
+  if (player?.id) {
+
+    await goalService.createGoal({
+      date: "30/09/2023",
+      link: "https://www.youtube.com/embed/ca5imK6X4tY?si=rnnxKFBFzP8v-XDF&amp;clip=Ugkxegi_3u2QgN7jliZt132tZLjfY6b5rsiY&amp;clipt=ELbsAhiasQM",
+      where: "Vitality Stadium",
+      ordre: 19,
+      against: "Bournemouth",
+      playerId: player?.id,
+    });
+  }
 }
 
 main();

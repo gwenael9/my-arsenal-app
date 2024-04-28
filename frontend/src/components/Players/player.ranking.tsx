@@ -1,5 +1,4 @@
 import { usePlayersQuery } from "@/types/graphql";
-import Layout from "@/components/Layout/Layout";
 import {
   Table,
   TableBody,
@@ -9,9 +8,18 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { toUpOne } from "@/lib/functions";
-import { useRouter } from "next/router";
 
 export default function Ranking() {
+  const flags: { [key: string]: string } = {
+    Angleterre: "gb-eng",
+    France: "fr",
+    Norvège: "no",
+    Brésil: "br",
+    Belgique: "be",
+  };
+
+  const flagCountry = (country: string) => flags[country] || "";
+
   const { data: playersData } = usePlayersQuery();
   const players = playersData?.players || [];
 
@@ -31,13 +39,20 @@ export default function Ranking() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {playersFiltre.map((player) => (
-            <TableRow key={player.id}>
-              <TableCell className="font-bold w-10">
-                1
-              </TableCell>
-              <TableCell className="font-bold">
-                {toUpOne(player.name)}
+          {playersFiltre.map((player, index) => (
+            <TableRow key={index}>
+              <TableCell className="font-bold w-10">{index + 1}</TableCell>
+              <TableCell className="font-bold flex items-center gap-2 justify-center">
+                {flagCountry(player.country) && (
+                  <img
+                    src={`https://flagcdn.com/${flagCountry(
+                      player.country
+                    )}.svg`}
+                    alt={player.country}
+                    className="w-4"
+                  />
+                )}
+                <div>{toUpOne(player.name)}</div>
               </TableCell>
               <TableCell>{player.goals?.length}</TableCell>
             </TableRow>
