@@ -1,0 +1,32 @@
+name: Compile and push client and server to production
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+jobs:
+
+  build-and-push-server:
+    uses: gwenael9/my-arsenal-app/.github/workflows/build-backend.yml@main
+    secrets:
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+    with:
+      image_name: gwenael9/arsenal-app-back
+
+  build-and-push-client:
+    uses: gwenael9/my-arsenal-app/.github/workflows/build-frontend.yml@main
+    secrets:
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+    with:
+      image_name: gwenael9/arsenal-app-front
+
+  notify-vps:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call VPS webhook to update production
+        uses: wei/curl@master
+        with:
+          args: https://ops.arsenalgoal.fr/hooks/update-production"
