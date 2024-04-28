@@ -7,6 +7,8 @@ dotenv.config();
 async function seedDb() {
     const userService = new UserService();
 
+    console.log(process.env.email);
+
     // vérifie si un utilisateur avec l'e-mail spécifié existe déjà
     const user = await userService.findUserByEmail(process.env.email || "");
 
