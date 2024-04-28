@@ -48,7 +48,6 @@ const GoalCarouselPage = () => {
       ) : (
         <div className="flex items-center flex-col mt-5">
           <p className="text-lg font-bold">But n°{goalOrdre}</p>
-          <p>{goal?.link}</p>
 
           <div className="flex gap-5">
             <div className="flex justify-center items-center">

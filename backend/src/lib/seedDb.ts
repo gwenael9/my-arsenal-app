@@ -32,7 +32,7 @@ async function seedDb() {
     }
 
   } else {
-    console.info("user déjà présent.");
+    console.info("user déjà présent!");
   }
 }
 

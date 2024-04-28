@@ -13,6 +13,10 @@ export default class PlayerService {
   }
 
   async createPlayer({ name, country }: InputCreatePlayer) {
+    const existingPlayer = await this.db.findOne({ where: { name }});
+    if (existingPlayer) {
+      throw new Error("Ce joueur existe déjà !");
+    }
     const newPlayer = this.db.create({ name, country });
     return await this.db.save(newPlayer);
   }
