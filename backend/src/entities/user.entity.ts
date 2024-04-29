@@ -41,17 +41,6 @@ export default class User extends BaseEntity {
   })
   role: ROLE;
 }
-@ObjectType()
-export class UserWithoutPassword {
-  @Field()
-  id: string;
-
-  @Field()
-  email: string;
-
-  @Field(() => String)
-  role: ROLE;
-}
 
 /**----------------------
  **      Input Types

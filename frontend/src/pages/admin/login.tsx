@@ -29,7 +29,7 @@ export default function Login() {
         variables: { infos: { email: data.email, password: data.password } },
         onCompleted(data) {
           if (data.login.success) {
-            router.push("/admin/test");
+            router.push("/admin/players");
           } else {
             toast({
               title: data.login.message,
@@ -54,41 +54,39 @@ export default function Login() {
 
   return (
     <Layout title="Connexion">
-      <h1>Page de connexion</h1>
-      <Card className="flex flex-col">
-        <CardHeader className="space-x-1">
-          <CardTitle className="text-2xl">Se connecter</CardTitle>
-          <CardDescription>
-            Entrer votre email pour vous connecter
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="grid gap-4">
-          <form onSubmit={handleSubmit} className="grid gap-2">
-            <div className="grid gap-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                placeholder="name@example.com"
-                type="email"
-                autoCapitalize="none"
-                autoComplete="email"
-                autoCorrect="off"
-                name="email"
-              />
-              <Label htmlFor="password">Mot de passe</Label>
-              <Input
-                id="password"
-                type="password"
-                name="password"
-                data-testid="login-password"
-              />
-            </div>
-            <Button type="submit" className="w-full bg-primary">
-              Connexion
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
+      <div className="flex justify-center h-[calc(100vh-100px)] items-center">
+        <Card className="flex flex-col w-[300px] border rounded">
+          <CardHeader className="space-x-1">
+            <CardTitle className="text-2xl">Se connecter</CardTitle>
+            <CardDescription>
+              Entrer votre email pour vous connecter
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="grid gap-4">
+            <form onSubmit={handleSubmit} className="grid gap-2">
+              <div className="grid gap-2">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  placeholder="name@example.com"
+                  type="email"
+                  autoCapitalize="none"
+                  autoComplete="email"
+                  autoCorrect="off"
+                  name="email"
+                />
+                <Label htmlFor="password">Mot de passe</Label>
+                <Input id="password" type="password" name="password" />
+              </div>
+              <div className="flex justify-end">
+                <Button type="submit" variant="success">
+                  Connexion
+                </Button>
+              </div>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
     </Layout>
   );
 }

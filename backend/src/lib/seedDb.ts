@@ -7,9 +7,6 @@ dotenv.config();
 async function seedDb() {
     const userService = new UserService();
 
-    console.info("toto");
-    console.info("test :", process.env.email);
-
     // vérifie si un utilisateur avec l'e-mail spécifié existe déjà
     const user = await userService.findUserByEmail(process.env.email || "");
 
@@ -19,16 +16,14 @@ async function seedDb() {
     const newUser = await userService.createUser({
       email: process.env.email || "",
       password: process.env.password || "",
+      role: "ADMIN"
     });
 
     if (newUser.email == "" || newUser.password == "") {
         console.info("probleme env");
     } else {
         await newUser.save();
-        // on upgrade l'user en ADMIN
-        const upUser = await userService.upgradeRoleToAdmin(newUser);
-        await upUser.save();
-        console.info(upUser.role, "User createeeeeee");
+        console.info(newUser.role, "User createeeeeee");
     }
 
   } else {

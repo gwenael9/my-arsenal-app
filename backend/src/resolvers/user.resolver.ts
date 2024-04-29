@@ -6,7 +6,6 @@ import { MyContext } from "..";
 import User, {
   InputLogin,
   InputRegister,
-  UserWithoutPassword,
 } from "../entities/user.entity";
 import UserService from "../services/user.service";
 import { ContextType } from "../types";
@@ -28,7 +27,7 @@ export default class UserResolver {
     const isPasswordValid = await argon2.verify(user.password, infos.password);
     const m = new Message();
     if (isPasswordValid) {
-      const token = await new SignJWT({ email: user.email })
+      const token = await new SignJWT({ email: user.email, role: user.role })
         .setProtectedHeader({ alg: "HS256", typ: "jwt" })
         .setExpirationTime("2h")
         .sign(new TextEncoder().encode(`${process.env.SECRET_KEY}`));
@@ -58,30 +57,14 @@ export default class UserResolver {
     return m;
   }
 
-  @Mutation(() => UserWithoutPassword)
+  @Mutation(() => User)
   async register(@Arg("infos") infos: InputRegister) {
     const user = await new UserService().findUserByEmail(infos.email);
     if (user) {
       throw new Error("Cet email est déjà pris!");
     }
+    console.log(infos);
     const newUser = await new UserService().createUser(infos);
     return newUser;
-  }
-
-  @Authorized(["USER"])
-  @Mutation(() => [User])
-  async upgradeRole(@Arg("id") id: string) {
-    const user = await new UserService().findUserById(id);
-    if (!user) {
-      throw new Error("Cet utilisateur n'existe pas.");
-    }
-    const newRole = await new UserService().upgradeRoleToAdmin(user);
-    return newRole;
-  }
-
-  @Authorized(["USER", "ADMIN"])
-  @Query(() => User)
-  async profile(@Ctx() ctx: ContextType): Promise<User> {
-    return ctx.currentUser as User;
   }
 }

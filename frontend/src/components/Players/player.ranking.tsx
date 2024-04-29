@@ -16,6 +16,14 @@ export default function Ranking() {
     Norvège: "no",
     Brésil: "br",
     Belgique: "be",
+    Ukraine: "ua",
+    Allemagne: "de",
+    Egypte: "eg",
+    Ghana: "gh",
+    Italie: "it",
+    Japon: "jp",
+    Pologne: "pl",
+    Portugal: "pt"
   };
 
   const flagCountry = (country: string) => flags[country] || "";
@@ -30,8 +38,8 @@ export default function Ranking() {
 
   return (
     <div className="rounded">
-      <Table className="bg-tertiary text-white">
-        <TableHeader className="">
+      <Table className="bg-tertiary/90 text-white">
+        <TableHeader className="bg-tertiary">
           <TableRow>
             <TableHead>Position</TableHead>
             <TableHead>Joueurs</TableHead>

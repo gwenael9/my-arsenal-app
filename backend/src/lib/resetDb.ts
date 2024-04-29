@@ -51,9 +51,85 @@ async function main() {
     country: "Norvège",
   });
 
-  const player = await playerService.getPlayerByName("Martin Odegaard");
+  await playerService.createPlayer({
+    name: "Kai Havertz",
+    country: "Allemagne",
+  });
 
-  if (player?.id) {
+  await playerService.createPlayer({
+    name: "Gabriel Martinelli",
+    country: "Brésil",
+  });
+
+  await playerService.createPlayer({
+    name: "Reiss Nelson",
+    country: "Angleterre",
+  });
+
+  await playerService.createPlayer({
+    name: "Fabio Viera",
+    country: "Portugal",
+  });
+
+  await playerService.createPlayer({
+    name: "Emile Smith Rowe",
+    country: "Angleterre",
+  });
+
+  await playerService.createPlayer({
+    name: "Thomas Partey",
+    country: "Ghana",
+  });
+
+  await playerService.createPlayer({
+    name: "Declan Rice",
+    country: "Angleterre",
+  });
+
+  await playerService.createPlayer({
+    name: "Jorginho",
+    country: "Italie",
+  });
+
+  await playerService.createPlayer({
+    name: "Gabriel",
+    country: "Brésil",
+  });
+
+  await playerService.createPlayer({
+    name: "William Saliba",
+    country: "France",
+  });
+
+  await playerService.createPlayer({
+    name: "Jakub Kiwior",
+    country: "Pologne",
+  });
+
+  await playerService.createPlayer({
+    name: "Takehiro Tomiyasu",
+    country: "Japon",
+  });
+
+  await playerService.createPlayer({
+    name: "Ben White",
+    country: "Angleterre",
+  });
+
+  await playerService.createPlayer({
+    name: "Oleksandr Zinchenko",
+    country: "Ukraine",
+  });
+
+  await playerService.createPlayer({
+    name: "Mohamed Elneny",
+    country: "Egypte",
+  });
+
+  const odegaard = await playerService.getPlayerByName("Martin Odegaard");
+  const saka = await playerService.getPlayerByName("Bukayo Saka");
+
+  if (odegaard?.id) {
 
     await goalService.createGoal({
       date: "30/09/2023",
@@ -61,7 +137,19 @@ async function main() {
       where: "Vitality Stadium",
       ordre: 19,
       against: "Bournemouth",
-      playerId: player?.id,
+      playerId: odegaard?.id,
+    });
+  }
+
+  if (saka?.id) {
+
+    await goalService.createGoal({
+      date: "30/09/2023",
+      link: "https://www.youtube.com/embed/ca5imK6X4tY?si=rX-4K-1IdmgNvx_P&amp;controls=0&amp;clip=UgkxtVoEX--R_M25Gx7efT3SDCI63SCpRMTe&amp;clipt=EIQYGNOsAQ",
+      where: "Vitality Stadium",
+      ordre: 18,
+      against: "Bournemouth",
+      playerId: saka?.id,
     });
   }
 }

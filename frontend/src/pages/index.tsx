@@ -41,7 +41,7 @@ const Goals: React.FC = () => {
       <div className="flex justify-between p-4">
         <h2 className="font-bold text-xl">{displayGoal} BUTS</h2>
         <button
-          className="p-4 bg-tertiary rounded text-white font-bold"
+          className="bg-tertiary rounded text-white font-bold p-4 flex"
           onClick={triGoals}
         >
           {isFirst ? (

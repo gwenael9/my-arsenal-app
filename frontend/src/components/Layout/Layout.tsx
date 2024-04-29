@@ -2,6 +2,7 @@ import Head from "next/head";
 import { ReactNode } from "react";
 import Header from "./Header";
 import { Toaster } from "../ui/toaster";
+import Footer from "./Footer";
 
 interface LayoutProps {
     children: ReactNode;
@@ -24,6 +25,7 @@ export default function Layout({ children, title }: LayoutProps) {
             </Head>
             <Header />
             <main className="py-0 px-4">{children}</main>
+            <Footer />
             <Toaster />
         </>
     )
