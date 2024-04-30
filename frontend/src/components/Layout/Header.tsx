@@ -1,5 +1,6 @@
+import { AlignJustify, X } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -8,9 +9,31 @@ export default function Header() {
     setIsOpen(!isOpen);
   };
 
+  const handleCloseButton = () => {
+    setIsOpen(false);
+  };
+
+  // ferme la nav mobile quand on resize l'écran
+  useEffect(() => {
+    window.addEventListener("resize", handleCloseButton);
+    return () => {
+      window.removeEventListener("resize", handleCloseButton);
+    };
+  }, []);
+
+  const navLink = [
+    { name: "Statistique", link: "/statistique" },
+    {
+      name: "Github",
+      link: "https://github.com/gwenael9/my-arsenal-app",
+      target: "_blank",
+      rel: "noopener noreferrer",
+    },
+  ];
+
   return (
-    <header className="sticky top-0 left-0 right-0 p-6 bg-tertiary">
-      <div className="flex mx-auto items-center justify-between text-white">
+    <>
+      <header className="p-6 bg-tertiary flex justify-between items-center text-white h-20 border-b">
         <div className="flex justify-between items-center gap-2.5">
           <Link href="/" className="">
             <span className="md:hidden font-bold">AFC</span>
@@ -18,45 +41,44 @@ export default function Header() {
           </Link>
         </div>
 
-        {/* burger */}
-        <div className="md:hidden">
-          <button onClick={burgerMenu}>
-            <span className="material-symbols-outlined">Menu</span>
-          </button>
-        </div>
-
-        {/* Desktop Menu */}
-        <nav
-          className={`items-center space-x-8 hidden md:inline ${
-            isOpen ? "hidden" : "block"
-          }`}
-        >
-          <Link href="/statistique">Stats</Link>
-          <a
-            href="https://github.com/gwenael9/my-arsenal-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Github
-          </a>
+        <nav className={`items-center space-x-8 hidden md:inline`}>
+          {navLink.map((n, index) => (
+            <Link key={index} href={n.link} target={n.target} rel={n.rel}>
+              {n.name}
+            </Link>
+          ))}
         </nav>
 
-        {/* Mobile Menu */}
-        {isOpen && (
-          <div className="md:hidden block absolute top-full left-0 right-0 bg-tertiary py-2 px-6 overflow-hidden animate-slide-down">
-            <div className="flex justify-center flex-col items-center gap-2">
-              <Link href="/statistique">Stats</Link>
-              <a
-                href="https://github.com/gwenael9/my-arsenal-app"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Github
-              </a>
-            </div>
+        <div className="md:hidden">
+          <button onClick={burgerMenu}>
+            {!isOpen ? (
+              <AlignJustify color="white" height={24} />
+            ) : (
+              <X color="white" height={24} />
+            )}
+          </button>
+        </div>
+      </header>
+
+      {/* Mobile Menu */}
+      <div
+        className={`absolute top-20 bottom-0 z-50 w-full transition-all duration-300 ease-in-out text-white ${
+          isOpen ? "left-0" : "left-full"
+        }`}
+      >
+        <div className="h-full w-full bg-tertiary p-5 flex flex-col gap-10">
+          <div className="flex justify-center flex-col items-center gap-2">
+            {navLink.map((n, index) => (
+              <Link key={index} href={n.link} target={n.target} rel={n.rel}>
+                {n.name}
+              </Link>
+            ))}
           </div>
-        )}
+          <div className="flex-grow"></div>
+          <hr />
+          {/* placer un footer style copyright 2024 Gwenael Guého */}
+        </div>
       </div>
-    </header>
+    </>
   );
 }
