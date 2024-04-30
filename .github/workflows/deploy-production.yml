@@ -27,6 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Call VPS webhook to update production
-        uses: wei/curl@master
+        uses: actions/http-client@v2
         with:
-          args: https://ops.arsenalgoal.fr/hooks/update-production"
+          url: https://ops.arsenalgoal.fr/hooks/update-production"
+          method: POST
