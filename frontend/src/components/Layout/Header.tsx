@@ -14,7 +14,7 @@ export default function Header() {
         <div className="flex justify-between items-center gap-2.5">
           <Link href="/" className="">
             <span className="md:hidden font-bold">AFC</span>
-            <span className="hidden md:inline">ARSENAL</span>
+            <span className="hidden md:inline">TEST</span>
           </Link>
         </div>
 
