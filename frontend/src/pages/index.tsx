@@ -45,9 +45,9 @@ const Goals: React.FC = () => {
           onClick={triGoals}
         >
           {isFirst ? (
-            <span className="material-symbols-outlined">arrow_downward</span>
-          ) : (
             <span className="material-symbols-outlined">arrow_upward</span>
+          ) : (
+            <span className="material-symbols-outlined">arrow_downward</span>
           )}
         </button>
       </div>
