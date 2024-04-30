@@ -24,10 +24,12 @@ jobs:
       image_name: gwenael9/arsenal-app-front
 
   notify-vps:
+    needs:
+      - build-and-push-client
+      - build-and-push-server
     runs-on: ubuntu-latest
     steps:
       - name: Call VPS webhook to update production
-        uses: actions/http-client@v2
+        uses: wei/curl@master
         with:
-          url: https://ops.arsenalgoal.fr/hooks/update-production"
-          method: POST
+          args: https://ops.arsenalgoal.fr/hooks/update-production"
