@@ -50,4 +50,18 @@ export default class GoalService {
     if (!goal) throw new GraphQLError("introuvable guignolo");
     return await this.db.findOne(goal);
   }
+
+  async findOneGoal(id: string) {
+    const goal = await this.db.findOneBy({ id });
+    if (!goal) {
+      throw new Error("Ce but n'existe pas");
+    }
+    return goal;
+  }
+
+  async deleteGoal(id: string) {
+    const goal = await this.findOneGoal(id); 
+    await this.db.remove(goal);
+    return { ...goal, id };
+  }
 }

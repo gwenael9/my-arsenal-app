@@ -33,17 +33,17 @@ export default function Header() {
 
   return (
     <>
-      <header className="p-6 bg-tertiary flex justify-between items-center text-white h-20 border-b">
+      <header className="p-6 flex justify-between items-center h-20 border-b">
         <div className="flex justify-between items-center gap-2.5">
-          <Link href="/" className="">
-            <span className="md:hidden font-bold">AFC</span>
-            <span className="hidden md:inline">ARSENAL</span>
+          <Link href="/" className="font-bold">
+            <span className="md:hidden">AFC</span>
+            <span className="hidden md:inline text-lg">ARSENAL</span>
           </Link>
         </div>
 
         <nav className={`items-center space-x-8 hidden md:inline`}>
           {navLink.map((n, index) => (
-            <Link key={index} href={n.link} target={n.target} rel={n.rel}>
+            <Link className="font-bold uppercase hover:text-primary" key={index} href={n.link} target={n.target} rel={n.rel}>
               {n.name}
             </Link>
           ))}
@@ -52,9 +52,9 @@ export default function Header() {
         <div className="md:hidden">
           <button onClick={burgerMenu}>
             {!isOpen ? (
-              <AlignJustify color="white" height={24} />
+              <AlignJustify height={24} />
             ) : (
-              <X color="white" height={24} />
+              <X height={24} />
             )}
           </button>
         </div>
@@ -62,11 +62,11 @@ export default function Header() {
 
       {/* Mobile Menu */}
       <div
-        className={`absolute top-20 bottom-0 z-50 w-full transition-all duration-300 ease-in-out text-white ${
+        className={`bg-background absolute top-20 bottom-0 z-50 w-full transition-all duration-300 ease-in-out ${
           isOpen ? "left-0" : "left-full"
         }`}
       >
-        <div className="h-full w-full bg-tertiary p-5 flex flex-col gap-10">
+        <div className="h-full w-full p-5 flex flex-col gap-10">
           <div className="flex justify-center flex-col items-center gap-2">
             {navLink.map((n, index) => (
               <Link key={index} href={n.link} target={n.target} rel={n.rel}>

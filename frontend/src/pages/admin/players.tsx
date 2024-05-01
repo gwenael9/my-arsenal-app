@@ -1,15 +1,12 @@
-import CardCreateGoal from "@/components/Admin/Create/CardCreateGoal";
 import CardCreatePlayer from "@/components/Admin/Create/CardCreatePlayer";
 import Layout from "@/components/Admin/Layout";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import {
   useDeletePlayerMutation,
-  useGoalsQuery,
   usePlayersQuery,
 } from "@/types/graphql";
 import { useRouter } from "next/router";
-import { useState } from "react";
 
 export default function AdminPlayers() {
   const { toast } = useToast();

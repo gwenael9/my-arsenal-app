@@ -63,9 +63,9 @@ export type Mutation = {
   __typename?: 'Mutation';
   createGoal: Goal;
   createPlayer: Player;
+  deleteGoal: Message;
   deletePlayer: Message;
-  register: UserWithoutPassword;
-  upgradeRole: Array<User>;
+  register: User;
 };
 
 
@@ -79,6 +79,11 @@ export type MutationCreatePlayerArgs = {
 };
 
 
+export type MutationDeleteGoalArgs = {
+  id: Scalars['String']['input'];
+};
+
+
 export type MutationDeletePlayerArgs = {
   id: Scalars['String']['input'];
 };
@@ -86,11 +91,6 @@ export type MutationDeletePlayerArgs = {
 
 export type MutationRegisterArgs = {
   infos: InputRegister;
-};
-
-
-export type MutationUpgradeRoleArgs = {
-  id: Scalars['String']['input'];
 };
 
 export type Player = {
@@ -109,7 +109,6 @@ export type Query = {
   login: Message;
   logout: Message;
   players: Array<Player>;
-  profile: User;
   users: Array<User>;
 };
 
@@ -136,13 +135,6 @@ export type User = {
   role: Scalars['String']['output'];
 };
 
-export type UserWithoutPassword = {
-  __typename?: 'UserWithoutPassword';
-  email: Scalars['String']['output'];
-  id: Scalars['String']['output'];
-  role: Scalars['String']['output'];
-};
-
 export type CreateGoalMutationVariables = Exact<{
   infos: InputCreateGoal;
 }>;
@@ -156,6 +148,13 @@ export type CreatePlayerMutationVariables = Exact<{
 
 
 export type CreatePlayerMutation = { __typename?: 'Mutation', createPlayer: { __typename?: 'Player', id: string, name: string, country: string, goals?: Array<{ __typename?: 'Goal', id: string, date: string, against: string, ordre: number, where: string, link: string }> | null } };
+
+export type DeleteGoalMutationVariables = Exact<{
+  deleteGoalId: Scalars['String']['input'];
+}>;
+
+
+export type DeleteGoalMutation = { __typename?: 'Mutation', deleteGoal: { __typename?: 'Message', message: string, success: boolean } };
 
 export type DeletePlayerMutationVariables = Exact<{
   deletePlayerId: Scalars['String']['input'];
@@ -280,6 +279,40 @@ export function useCreatePlayerMutation(baseOptions?: Apollo.MutationHookOptions
 export type CreatePlayerMutationHookResult = ReturnType<typeof useCreatePlayerMutation>;
 export type CreatePlayerMutationResult = Apollo.MutationResult<CreatePlayerMutation>;
 export type CreatePlayerMutationOptions = Apollo.BaseMutationOptions<CreatePlayerMutation, CreatePlayerMutationVariables>;
+export const DeleteGoalDocument = gql`
+    mutation DeleteGoal($deleteGoalId: String!) {
+  deleteGoal(id: $deleteGoalId) {
+    message
+    success
+  }
+}
+    `;
+export type DeleteGoalMutationFn = Apollo.MutationFunction<DeleteGoalMutation, DeleteGoalMutationVariables>;
+
+/**
+ * __useDeleteGoalMutation__
+ *
+ * To run a mutation, you first call `useDeleteGoalMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteGoalMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteGoalMutation, { data, loading, error }] = useDeleteGoalMutation({
+ *   variables: {
+ *      deleteGoalId: // value for 'deleteGoalId'
+ *   },
+ * });
+ */
+export function useDeleteGoalMutation(baseOptions?: Apollo.MutationHookOptions<DeleteGoalMutation, DeleteGoalMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteGoalMutation, DeleteGoalMutationVariables>(DeleteGoalDocument, options);
+      }
+export type DeleteGoalMutationHookResult = ReturnType<typeof useDeleteGoalMutation>;
+export type DeleteGoalMutationResult = Apollo.MutationResult<DeleteGoalMutation>;
+export type DeleteGoalMutationOptions = Apollo.BaseMutationOptions<DeleteGoalMutation, DeleteGoalMutationVariables>;
 export const DeletePlayerDocument = gql`
     mutation DeletePlayer($deletePlayerId: String!) {
   deletePlayer(id: $deletePlayerId) {

@@ -6,12 +6,14 @@ import {
   FieldResolver,
   Root,
   Int,
+  Authorized,
 } from "type-graphql";
 import Goal, { InputCreateGoal } from "../entities/goal.entity";
 import GoalService from "../services/goal.service";
 import PlayerService from "../services/player.service";
 import Player from "../entities/player.entity";
 import { GraphQLError } from "graphql";
+import { Message } from "../entities/message.entity";
 
 @Resolver((of) => Goal)
 export default class GoalResolver {
@@ -38,5 +40,16 @@ export default class GoalResolver {
   @Query(() => Goal)
   async getGoalByOrdre(@Arg("goalOrdre") ordre: number) {
     return await new GoalService().getGoalByOrdre(ordre);
+  }
+
+  @Authorized(["ADMIN"])
+  @Mutation(() => Message)
+  async deleteGoal(@Arg("id") id: string) {
+    const deletedGoal = await new GoalService().deleteGoal(id);
+    const m = new Message();
+    m.message = `Le but n°${deletedGoal.ordre} a bien été supprimé.`;
+    m.success = true;
+
+    return m;
   }
 }
