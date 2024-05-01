@@ -96,7 +96,7 @@ export default function Home() {
 
   return (
     <Layout title="Accueil">
-      <div className="bg-tertiary/20 px-4">
+      <div className="bg-tertiary/20 px-4 flex flex-col">
         {/* si ona au moins 1 but */}
         {goalsFiltre.length > 0 ? (
           <div className="flex justify-between p-3 items-center">

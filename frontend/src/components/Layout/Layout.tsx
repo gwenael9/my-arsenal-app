@@ -23,7 +23,7 @@ export default function Layout({ children, title }: LayoutProps) {
                 <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap" rel="stylesheet"></link>
             </Head>
             <Header />
-            <main className="p-0">{children}</main>
+            <main className="p-0 overflow-y-auto" style={{ maxHeight: "calc(100vh - 80px"}}>{children}</main>
             <Toaster />
         </>
     )
