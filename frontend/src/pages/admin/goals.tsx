@@ -1,14 +1,35 @@
 import CardCreateGoal from "@/components/Admin/Create/CardCreateGoal";
 import Layout from "@/components/Admin/Layout";
 import { Button } from "@/components/ui/button";
-import { useGoalsQuery } from "@/types/graphql";
+import { useToast } from "@/components/ui/use-toast";
+import { useDeleteGoalMutation, useGoalsQuery } from "@/types/graphql";
 import { useRouter } from "next/router";
 
 export default function AdminGoals() {
+
+  const { toast } = useToast();
   const router = useRouter();
 
   const { data: goalsData } = useGoalsQuery();
   const goals = goalsData?.goals || [];
+
+  const [deleteGoal] = useDeleteGoalMutation();
+
+  const handleDelete = (id: string) => {
+    deleteGoal({
+      variables: {
+        deleteGoalId: id,
+      },
+      onCompleted: (data) => {
+        if (data.deleteGoal.success) {
+          router.reload();
+          toast({
+            title: data.deleteGoal.message,
+          });
+        }
+      },
+    });
+  };
 
   return (
     <Layout title="Configuration - Buts">
@@ -29,9 +50,9 @@ export default function AdminGoals() {
                 className="flex justify-between p-2 bg-secondary/90 rounded"
               >
                 <p>{goal.ordre}</p>
-                {/* <Button onClick={() => handleDelete(goal.id)}>
+                <Button onClick={() => handleDelete(goal.id)}>
                   Supprimer
-                </Button> */}
+                </Button>
               </div>
             ))}
           </div>

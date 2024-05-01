@@ -126,7 +126,9 @@ export default function CardCreateGoal() {
                 <SelectContent>
                   <SelectGroup>
                     {players.map((p) => (
-                      <SelectItem key={p.id} value={p.id}>{p.name}</SelectItem>
+                      <SelectItem key={p.id} value={p.id}>
+                        {p.name}
+                      </SelectItem>
                     ))}
                   </SelectGroup>
                 </SelectContent>

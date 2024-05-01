@@ -128,6 +128,11 @@ async function main() {
 
   const odegaard = await playerService.getPlayerByName("Martin Odegaard");
   const saka = await playerService.getPlayerByName("Bukayo Saka");
+  const jesus = await playerService.getPlayerByName("Gabriel Jesus");
+  const rice = await playerService.getPlayerByName("Declan Rice");
+  const martinelli = await playerService.getPlayerByName("Gabriel Martinelli");
+  const trossard = await playerService.getPlayerByName("Leandro Trossard");
+  const havertz = await playerService.getPlayerByName("Kai Havertz");
 
   if (odegaard?.id) {
 
@@ -151,6 +156,75 @@ async function main() {
       against: "Bournemouth",
       playerId: saka?.id,
     });
+  }
+  
+  if (jesus?.id) {
+
+    await goalService.createGoal({
+      date: "03/09/2023",
+      link: "https://www.youtube.com/embed/rqgAHAnx00k?si=ErtlOik615VK2al7",
+      where: "Emirates Stadium",
+      ordre: 9,
+      against: "Manchester United",
+      playerId: jesus?.id,
+    });
+  }
+
+  if (rice?.id) {
+
+    await goalService.createGoal({
+      date: "03/09/2023",
+      link: "https://www.youtube.com/embed/IGzrjz20Yqo?si=Na9GNvyMeyE2cMLt",
+      where: "Emirates Stadium",
+      ordre: 8,
+      against: "Manchester United",
+      playerId: rice?.id,
+    });
+    
+    await goalService.createGoal({
+      date: "05/12/2023",
+      link: "https://www.youtube.com/embed/pIAWbGeURho?si=06yEdDYXPIU43e3y",
+      where: "Kenilworth Road",
+      ordre: 51,
+      against: "Luton",
+      playerId: rice?.id,
+    });
+  }
+
+  if (trossard?.id) {
+
+    await goalService.createGoal({
+      date: "21/10/2023",
+      link: "https://www.youtube.com/embed/GF1ZIsx6An8?si=azNgHPSE3QB7hXhl",
+      where: "Stamford Bridge",
+      ordre: 25,
+      against: "Chelsea",
+      playerId: trossard.id,
+    })
+  }
+  
+  if (martinelli?.id) {
+
+    await goalService.createGoal({
+      date: "08/10/2023",
+      link: "https://www.youtube.com/embed/DIVuMUeqDZ4?si=mp_vXPcmNXypH371",
+      where: "Emirates Stadium",
+      ordre: 23,
+      against: "Manchester City",
+      playerId: martinelli.id,
+    })
+  }
+  
+  if (havertz?.id) {
+
+    await goalService.createGoal({
+      date: "25/11/2023",
+      link: "https://www.youtube.com/embed/l49sD0WOJhE?si=CTsHuIAfo9OAo2S2",
+      where: "Community Stadium",
+      ordre: 39,
+      against: "Brentford",
+      playerId: havertz.id,
+    })
   }
 }
 
