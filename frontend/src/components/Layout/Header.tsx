@@ -62,7 +62,7 @@ export default function Header() {
 
       {/* Mobile Menu */}
       <div
-        className={`bg-background absolute top-20 bottom-0 z-50 w-full transition-all duration-300 ease-in-out ${
+        className={`bg-background absolute top-20 bottom-0 z-50 w-full transition-all duration-300 ease-in-out overflow-hidden ${
           isOpen ? "left-0" : "left-full"
         }`}
       >
