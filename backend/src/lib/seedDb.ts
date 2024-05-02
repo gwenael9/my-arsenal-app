@@ -8,22 +8,22 @@ async function seedDb() {
   const userService = new UserService();
 
   // vérifie si un utilisateur avec l'e-mail spécifié existe déjà
-  const user = await userService.findUserByEmail(process.env.email || "");
+  const user = await userService.findUserByEmail("test@mail.com");
 
   console.info("user :", user);
 
   if (!user) {
     const newUser = await userService.createUser({
-      email: process.env.email || "",
-      password: process.env.password || "",
+      email:"test@mail.com",
+      password: "test",
       role: "ADMIN",
     });
 
     if (newUser.email == "" || newUser.password == "") {
-      console.info("probleme env");
+      console.info("problemeeeeeee");
     } else {
       await newUser.save();
-      console.info(newUser.role, "User createeeeeee");
+      console.info(newUser, "User createeeeeee");
     }
   } else {
     console.info("user déjà présent!");

@@ -26,13 +26,6 @@ async function main() {
 
   const playerService = new PlayerService();
   const goalService = new GoalService();
-  const userService = new UserService();
-
-  await userService.createUser({
-    email: "test",
-    password: "test",
-    role: "ADMIN"
-  });
 
   await playerService.createPlayer({
     name: "Bukayo Saka",
