@@ -1,5 +1,6 @@
 import GoalService from "../services/goal.service";
 import PlayerService from "../services/player.service";
+import UserService from "../services/user.service";
 import db from "./datasource";
 
 export async function clearDB() {
@@ -25,6 +26,13 @@ async function main() {
 
   const playerService = new PlayerService();
   const goalService = new GoalService();
+  const userService = new UserService();
+
+  await userService.createUser({
+    email: "test",
+    password: "test",
+    role: "ADMIN"
+  });
 
   await playerService.createPlayer({
     name: "Bukayo Saka",

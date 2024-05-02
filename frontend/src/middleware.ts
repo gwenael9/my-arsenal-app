@@ -29,7 +29,10 @@ async function checkToken(token: string | undefined, request: NextRequest) {
   // si token undefined
   if (!token) {
     // si l'user essaie d'aller sur ces deux liens
-    if (request.nextUrl.pathname.startsWith("/admin/players") || request.nextUrl.pathname.startsWith("/admin/goals")) {
+    if (
+      request.nextUrl.pathname.startsWith("/admin/players") ||
+      request.nextUrl.pathname.startsWith("/admin/goals")
+    ) {
       // on renvoie à l'accueil
       response = NextResponse.redirect(new URL("/", request.url));
     } else {
@@ -40,7 +43,7 @@ async function checkToken(token: string | undefined, request: NextRequest) {
     response.cookies.delete("email");
     response.cookies.delete("role");
     return response;
-  } 
+  }
 
   try {
     const payload = await verify(token);
@@ -50,12 +53,13 @@ async function checkToken(token: string | undefined, request: NextRequest) {
       response = NextResponse.next();
 
       // si on est sur le login en etant connecté
-      if (request.nextUrl.pathname.startsWith("/admin/login")) {
-        console.log(payload.role);
+      if (request.nextUrl.pathname === "/admin") {
         // si c'est un admin
         if (payload.role === "ADMIN") {
           // on renvoie directement vers la page des players sans se reconnecter
-          response = NextResponse.redirect(new URL("/admin/players", request.url));
+          response = NextResponse.redirect(
+            new URL("/admin/players", request.url)
+          );
         } else {
           // sinon on renvoie à l'accueil
           response = NextResponse.redirect(new URL("/", request.url));
