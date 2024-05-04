@@ -13,6 +13,16 @@ export const LIST_PLAYERS = gql`
                 date
                 against
                 ordre
+                competition
+            }
+            passes {
+                id
+                link
+                where
+                date
+                against
+                ordre
+                competition
             }
         }
     }

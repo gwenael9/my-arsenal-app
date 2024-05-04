@@ -20,20 +20,24 @@ export type Scalars = {
 export type Goal = {
   __typename?: 'Goal';
   against: Scalars['String']['output'];
+  buteur?: Maybe<Player>;
+  competition: Scalars['String']['output'];
   date: Scalars['String']['output'];
   id: Scalars['String']['output'];
   link: Scalars['String']['output'];
   ordre: Scalars['Float']['output'];
-  player?: Maybe<Player>;
+  passeur?: Maybe<Player>;
   where: Scalars['String']['output'];
 };
 
 export type InputCreateGoal = {
   against: Scalars['String']['input'];
+  buteurId: Scalars['String']['input'];
+  competition: Scalars['String']['input'];
   date: Scalars['String']['input'];
   link: Scalars['String']['input'];
   ordre: Scalars['Float']['input'];
-  playerId: Scalars['String']['input'];
+  passeurId?: InputMaybe<Scalars['String']['input']>;
   where: Scalars['String']['input'];
 };
 
@@ -99,6 +103,7 @@ export type Player = {
   goals?: Maybe<Array<Goal>>;
   id: Scalars['String']['output'];
   name: Scalars['String']['output'];
+  passes?: Maybe<Array<Goal>>;
 };
 
 export type Query = {
@@ -140,7 +145,7 @@ export type CreateGoalMutationVariables = Exact<{
 }>;
 
 
-export type CreateGoalMutation = { __typename?: 'Mutation', createGoal: { __typename?: 'Goal', id: string, date: string, against: string, ordre: number, where: string, link: string, player?: { __typename?: 'Player', id: string, name: string, country: string } | null } };
+export type CreateGoalMutation = { __typename?: 'Mutation', createGoal: { __typename?: 'Goal', id: string, date: string, against: string, ordre: number, where: string, link: string, buteur?: { __typename?: 'Player', id: string, name: string, country: string } | null, passeur?: { __typename?: 'Player', id: string, name: string, country: string } | null } };
 
 export type CreatePlayerMutationVariables = Exact<{
   infos: InputCreatePlayer;
@@ -180,17 +185,17 @@ export type GetGoalByOrdreQueryVariables = Exact<{
 }>;
 
 
-export type GetGoalByOrdreQuery = { __typename?: 'Query', getGoalByOrdre: { __typename?: 'Goal', id: string, date: string, against: string, link: string, ordre: number, where: string, player?: { __typename?: 'Player', id: string, country: string, name: string } | null } };
+export type GetGoalByOrdreQuery = { __typename?: 'Query', getGoalByOrdre: { __typename?: 'Goal', id: string, date: string, against: string, link: string, ordre: number, where: string, competition: string, buteur?: { __typename?: 'Player', id: string, country: string, name: string } | null, passeur?: { __typename?: 'Player', id: string, country: string, name: string } | null } };
 
 export type GoalsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GoalsQuery = { __typename?: 'Query', goals: Array<{ __typename?: 'Goal', id: string, link: string, where: string, date: string, against: string, ordre: number, player?: { __typename?: 'Player', id: string, name: string, country: string } | null }> };
+export type GoalsQuery = { __typename?: 'Query', goals: Array<{ __typename?: 'Goal', id: string, link: string, where: string, date: string, against: string, ordre: number, competition: string, buteur?: { __typename?: 'Player', id: string, name: string, country: string } | null, passeur?: { __typename?: 'Player', id: string, name: string, country: string } | null }> };
 
 export type PlayersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type PlayersQuery = { __typename?: 'Query', players: Array<{ __typename?: 'Player', country: string, id: string, name: string, goals?: Array<{ __typename?: 'Goal', id: string, link: string, where: string, date: string, against: string, ordre: number }> | null }> };
+export type PlayersQuery = { __typename?: 'Query', players: Array<{ __typename?: 'Player', country: string, id: string, name: string, goals?: Array<{ __typename?: 'Goal', id: string, link: string, where: string, date: string, against: string, ordre: number, competition: string }> | null, passes?: Array<{ __typename?: 'Goal', id: string, link: string, where: string, date: string, against: string, ordre: number, competition: string }> | null }> };
 
 export type GetPlayerByIdQueryVariables = Exact<{
   playerId: Scalars['String']['input'];
@@ -204,7 +209,12 @@ export const CreateGoalDocument = gql`
     mutation CreateGoal($infos: InputCreateGoal!) {
   createGoal(infos: $infos) {
     id
-    player {
+    buteur {
+      id
+      name
+      country
+    }
+    passeur {
       id
       name
       country
@@ -444,7 +454,13 @@ export const GetGoalByOrdreDocument = gql`
     link
     ordre
     where
-    player {
+    competition
+    buteur {
+      id
+      country
+      name
+    }
+    passeur {
       id
       country
       name
@@ -489,7 +505,12 @@ export const GoalsDocument = gql`
     query Goals {
   goals {
     id
-    player {
+    buteur {
+      id
+      name
+      country
+    }
+    passeur {
       id
       name
       country
@@ -499,6 +520,7 @@ export const GoalsDocument = gql`
     date
     against
     ordre
+    competition
   }
 }
     `;
@@ -547,6 +569,16 @@ export const PlayersDocument = gql`
       date
       against
       ordre
+      competition
+    }
+    passes {
+      id
+      link
+      where
+      date
+      against
+      ordre
+      competition
     }
   }
 }

@@ -134,6 +134,7 @@ async function main() {
   const martinelli = await playerService.getPlayerByName("Gabriel Martinelli");
   const trossard = await playerService.getPlayerByName("Leandro Trossard");
   const havertz = await playerService.getPlayerByName("Kai Havertz");
+  const viera = await playerService.getPlayerByName("Fabio Viera");
 
   if (odegaard?.id) {
 
@@ -143,7 +144,8 @@ async function main() {
       where: "Vitality Stadium",
       ordre: 19,
       against: "Bournemouth",
-      playerId: odegaard?.id,
+      buteurId: odegaard.id,
+      competition: "Premier League"
     });
   }
 
@@ -155,11 +157,12 @@ async function main() {
       where: "Vitality Stadium",
       ordre: 18,
       against: "Bournemouth",
-      playerId: saka?.id,
+      buteurId: saka.id,
+      competition: "Premier League"
     });
   }
   
-  if (jesus?.id) {
+  if (jesus?.id && viera?.id) {
 
     await goalService.createGoal({
       date: "03/09/2023",
@@ -167,11 +170,13 @@ async function main() {
       where: "Emirates Stadium",
       ordre: 9,
       against: "Manchester United",
-      playerId: jesus?.id,
+      buteurId: jesus.id,
+      passeurId: viera.id,
+      competition: "Premier League"
     });
   }
 
-  if (rice?.id) {
+  if (rice?.id && saka?.id && odegaard?.id) {
 
     await goalService.createGoal({
       date: "03/09/2023",
@@ -179,7 +184,9 @@ async function main() {
       where: "Emirates Stadium",
       ordre: 8,
       against: "Manchester United",
-      playerId: rice?.id,
+      buteurId: rice.id,
+      passeurId: saka.id,
+      competition: "Premier League"
     });
     
     await goalService.createGoal({
@@ -188,11 +195,13 @@ async function main() {
       where: "Kenilworth Road",
       ordre: 51,
       against: "Luton",
-      playerId: rice?.id,
+      buteurId: rice.id,
+      passeurId: odegaard.id,
+      competition: "Premier League"
     });
   }
 
-  if (trossard?.id) {
+  if (trossard?.id && saka?.id) {
 
     await goalService.createGoal({
       date: "21/10/2023",
@@ -200,11 +209,13 @@ async function main() {
       where: "Stamford Bridge",
       ordre: 25,
       against: "Chelsea",
-      playerId: trossard.id,
+      buteurId: trossard.id,
+      passeurId: saka.id,
+      competition: "Premier League"
     })
   }
   
-  if (martinelli?.id) {
+  if (martinelli?.id && havertz?.id) {
 
     await goalService.createGoal({
       date: "08/10/2023",
@@ -212,11 +223,13 @@ async function main() {
       where: "Emirates Stadium",
       ordre: 23,
       against: "Manchester City",
-      playerId: martinelli.id,
+      buteurId: martinelli.id,
+      passeurId: havertz.id,
+      competition: "Premier League"
     })
   }
   
-  if (havertz?.id) {
+  if (havertz?.id && saka?.id) {
 
     await goalService.createGoal({
       date: "25/11/2023",
@@ -224,7 +237,9 @@ async function main() {
       where: "Community Stadium",
       ordre: 39,
       against: "Brentford",
-      playerId: havertz.id,
+      buteurId: havertz.id,
+      passeurId: saka.id,
+      competition: "Premier League"
     })
   }
 }

@@ -41,7 +41,7 @@ const GoalCard: React.FC<GoalCardProps> = ({ goal }) => {
         style={{ transform: "rotate(45deg)" }}
       ></div>
       <CardHeader className="flex flex-col z-10">
-        <CardTitle>{goal.player?.name.toUpperCase()}</CardTitle>
+        <CardTitle>{goal.buteur?.name.toUpperCase()}</CardTitle>
         <p>But n°{goal.ordre}.</p>
       </CardHeader>
       <CardContent>

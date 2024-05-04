@@ -31,9 +31,16 @@ export default class GoalResolver {
 
   // Champ résolveur pour obtenir l'ID du joueur associé à un goal
   @FieldResolver(() => Player, { nullable: true })
-  async player(@Root() goal: Goal) {
+  async buteur(@Root() goal: Goal) {
     // Utilisez le service PlayerService pour obtenir le joueur associé
-    return await new PlayerService().getPlayerById(goal.playerId);
+    return await new PlayerService().getPlayerById(goal.buteurId);
+  }
+
+  // Champ résolveur pour obtenir l'ID du joueur associé à un goal
+  @FieldResolver(() => Player, { nullable: true })
+  async passeur(@Root() goal: Goal) {
+    // Utilisez le service PlayerService pour obtenir le joueur associé
+    return await new PlayerService().getPlayerById(goal.passeurId);
   }
 
   // trouver le goal selon son ordre

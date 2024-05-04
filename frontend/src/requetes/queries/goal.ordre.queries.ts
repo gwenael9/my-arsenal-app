@@ -10,7 +10,13 @@ export const GOAL_ORDRE = gql`
     link
     ordre
     where
-    player {
+    competition
+    buteur {
+      id
+      country
+      name
+    }
+    passeur {
       id
       country
       name

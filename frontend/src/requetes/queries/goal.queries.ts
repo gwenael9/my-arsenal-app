@@ -4,7 +4,12 @@ export const LIST_GOALS = gql`
     query Goals {
         goals {
             id
-            player {
+            buteur {
+                id
+                name
+                country
+            }
+            passeur {
                 id
                 name
                 country
@@ -14,6 +19,7 @@ export const LIST_GOALS = gql`
             date
             against
             ordre
+            competition
         }
     }
 `

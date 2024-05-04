@@ -4,7 +4,12 @@ export const CREATE_GOAL = gql`
   mutation CreateGoal($infos: InputCreateGoal!) {
     createGoal(infos: $infos) {
       id
-      player {
+      buteur {
+        id
+        name
+        country
+      }
+      passeur {
         id
         name
         country

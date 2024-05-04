@@ -17,30 +17,45 @@ export default class GoalService {
   async createGoal({
     date,
     link,
-    playerId,
+    buteurId,
+    passeurId,
     against,
     where,
     ordre,
+    competition,
   }: InputCreateGoal) {
     const playerService = new PlayerService();
-    const player = await playerService.getPlayerById(playerId);
-    if (!player) {
-      throw new Error(`Player with id ${playerId} not found`);
+    const buteur = await playerService.getPlayerById(buteurId);
+    if (!buteur) {
+      throw new Error(`Player with id ${buteurId} not found`);
+    }
+
+    if (passeurId) {
+      const passeur = await playerService.getPlayerById(passeurId);
+      if (!passeur) {
+        throw new Error(`Player with id ${passeurId} not found`);
+      }
     }
 
     const newGoal = this.db.create({
       date,
       link,
-      playerId,
+      buteurId,
+      passeurId,
       against,
       where,
       ordre,
+      competition
     });
     return await this.db.save(newGoal);
   }
 
-  async getGoalsByPlayerId(playerId: string) {
-    return this.db.find({ where: { playerId } });
+  async getGoalsByButeurId(buteurId: string) {
+    return this.db.find({ where: { buteurId } });
+  }
+
+  async getGoalsByPasseurId(passeurId: string) {
+    return this.db.find({ where: { passeurId } });
   }
 
   async getGoalByOrdre(ordre: number) {
@@ -60,7 +75,7 @@ export default class GoalService {
   }
 
   async deleteGoal(id: string) {
-    const goal = await this.findOneGoal(id); 
+    const goal = await this.findOneGoal(id);
     await this.db.remove(goal);
     return { ...goal, id };
   }

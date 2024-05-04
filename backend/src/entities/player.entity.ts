@@ -17,9 +17,13 @@ export default class Player  {
     @Field()
     country: string;
 
-    @OneToMany(() => Goal, (goal) => goal.player)
+    @OneToMany(() => Goal, (goal) => goal.buteur)
     @Field(() => [Goal], { nullable: true})
     goals: Goal[];
+
+    @OneToMany(() => Goal, (goal) => goal.passeur)
+    @Field(() => [Goal], { nullable: true})
+    passes: Goal[];
 }
 
 @InputType()

@@ -35,15 +35,29 @@ export default class Goal extends BaseEntity {
   @Field()
   ordre: number;
 
+  @Column()
+  @Field()
+  competition: string;
+
   @ManyToOne(() => Player, (player) => player.goals, {
     cascade: true,
     onDelete: "CASCADE",
   })
   @Field(() => Player, { nullable: true })
-  player: Player;
+  buteur: Player;
+
+  @ManyToOne(() => Player, (player) => player.passes, {
+    cascade: true,
+    onDelete: "CASCADE",
+  })
+  @Field(() => Player, { nullable: true })
+  passeur: Player;
 
   @Column({ nullable: true })
-  playerId: string;
+  buteurId: string;
+
+  @Column({ nullable: true })
+  passeurId: string;
 }
 
 @InputType()
@@ -55,7 +69,10 @@ export class InputCreateGoal {
   link: string;
 
   @Field()
-  playerId: string;
+  buteurId: string;
+
+  @Field({ nullable: true })
+  passeurId?: string;
 
   @Field()
   against: string;
@@ -65,4 +82,7 @@ export class InputCreateGoal {
 
   @Field()
   ordre: number;
+
+  @Field()
+  competition?: string;
 }
