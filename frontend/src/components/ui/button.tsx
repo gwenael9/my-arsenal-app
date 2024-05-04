@@ -21,6 +21,7 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
         success: "bg-green-500 text-white hover:bg-green-500/90",
         filtre: "bg-tertiary text-white hover:bg-tertiary/90",
+        black: "bg-black text-white hover:bg-black/80",
         arrow: ""
       },
       size: {

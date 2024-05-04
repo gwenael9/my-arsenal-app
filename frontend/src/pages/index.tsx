@@ -1,204 +1,237 @@
-import GoalCard from "@/components/Goals/goal.card";
+import React, { useState, useEffect } from "react";
+import { useQuery } from "@apollo/client";
 import Layout from "@/components/Layout/Layout";
+import GoalCard from "@/components/Goals/goal.card";
 import { Button } from "@/components/ui/button";
 import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+Select,
+SelectContent,
+SelectItem,
+SelectTrigger,
+SelectValue,
 } from "@/components/ui/select";
-import { useToast } from "@/components/ui/use-toast";
-import { Goal, useGoalsQuery, usePlayersQuery } from "@/types/graphql";
+import { useGoalsQuery, usePlayersQuery } from "@/types/graphql";
+import { PLAYER_BY_ID } from "@/requetes/queries/playerById.queries";
 import { SlidersHorizontal, Undo2, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useToast } from "@/components/ui/use-toast";
+
+const stade = "Emirates Stadium";
+
+const filters = {
+Joueurs: "Joueurs",
+Stade: "Stade",
+};
+
+const lieuOptions = [stade, "Extérieur"];
 
 export default function Home() {
-  // tout nos buts
-  const { data } = useGoalsQuery();
-  const goals = data?.goals || [];
-  // va nous permettre d'ajouter un effet sur le nbr de buts
-  const [displayGoal, setDisplayGoal] = useState(0);
-  // ordre des buts, décroissant par défaut
-  const [isFirst, setIsFirst] = useState(true);
 
-  // player sélectionné dans les filtres
-  const [selectedPlayerId, setSelectedPlayerId] = useState("");
-  // buts du player sélectionné
-  const [filteredGoals, setFilteredGoals] = useState<Goal[]>([]);
+    const { toast } = useToast();
 
-  // button filtre
-  const [buttonFiltre, setButtonFiltre] = useState(true);
+    // tout nos buts
+    const { data: goalsData } = useGoalsQuery();
+    // tout nos joueurs
+    const { data: playersData } = usePlayersQuery();
 
-  const { toast } = useToast();
+    // effet sur le nbr de buts
+    const [displayGoal, setDisplayGoal] = useState(0);
+    // ordre des buts, décroissant par défaut
+    const [isFirst, setIsFirst] = useState(true);
 
-  // tout nos joueurs
-  const { data: playersData } = usePlayersQuery();
-  const players = playersData?.players || [];
+    // player sélectionné dans les filtres
+    const [selectedPlayerId, setSelectedPlayerId] = useState("");
+    // stade sélectionné dans les filtres
+    const [selectStade, setSelectStade] = useState("");
 
-  const triGoals = () => {
-    setIsFirst(!isFirst);
-  };
+    // button filtre
+    const [buttonFiltre, setButtonFiltre] = useState(true);
 
-  useEffect(() => {
-    if (selectedPlayerId) {
-      const goalOfPlayer = goals.filter(
-        (goal) => goal.player?.id === selectedPlayerId
-      );
-      setFilteredGoals(goalOfPlayer);
-    } else {
-      setFilteredGoals(goals);
-    }
-  }, [selectedPlayerId, goals]);
-
-  // trier dans l'ordre decroissant/croissant
-  const goalsFiltre = filteredGoals.slice().sort((a, b) => {
-    return isFirst ? b.ordre - a.ordre : a.ordre - b.ordre;
-  });
-
-  const filters = [
-    { name: "Joueurs", value: "" },
-    // { name: "Lieu", value: "Domicile" },
-  ];
-
-  // reinitialiser les filtres
-  const handleMaj = () => {
-    setSelectedPlayerId("");
-    setButtonFiltre(true);
-    toast({
-      title: "Filtre supprimé.",
-      variant: "success",
+    // query qui recup le joueur selon son id
+    const { loading, error, data: playerData} = useQuery(PLAYER_BY_ID, {
+        variables: { playerId: selectedPlayerId },
     });
-  };
 
-  // animation pour le nombre de buts
-  useEffect(() => {
-    const interval = setInterval(() => {
-      // incrémentation progressive jusqu'à la valeur finale
-      if (displayGoal < goalsFiltre.length) {
-        setDisplayGoal(displayGoal + 1);
-      } else {
-        clearInterval(interval);
-      }
-    }, 100);
+    // reset les filtres
+    const handleMaj = () => {
+        setSelectedPlayerId("");
+        setSelectStade("");
+        setButtonFiltre(true);
+        toast({
+            title: "Filtre(s) supprimé(s).",
+        })
+    };
 
-    return () => clearInterval(interval);
-  }, [goalsFiltre.length, displayGoal]);
+    // nous permet de changer de joueur/stade et l'afficher directement
+    const handleSelectChange = (value: string, filter: string) => {
+        if (filter === filters.Joueurs) {
+        setSelectedPlayerId(value === filters.Joueurs ? "" : value);
+        } else if (filter === filters.Stade) {
+        setSelectStade(value === "Tout" ? "" : value);
+        }
+    };
 
-  const handlePlayerselect = (value: string) => {
-    if (value !== "Joueurs") {
-      setSelectedPlayerId(value);
-    } else {
-      setSelectedPlayerId("");
-    }
-  };
+    // contenu de nos selects
+    const renderSelectOptions = (filter: string) => {
+        switch (filter) {
+        case filters.Joueurs:
+            return (
+            <>
+                <SelectItem value={filters.Joueurs}>Tous les joueurs</SelectItem>
+                {playersData?.players.map((p, index) => (
+                <SelectItem key={index} value={p.id}>
+                    {p.name}
+                </SelectItem>
+                ))}
+            </>
+            );
+        case filters.Stade:
+            return (
+            <>
+                <SelectItem value="Tout">Tout</SelectItem>
+                {lieuOptions.map((option, index) => (
+                <SelectItem key={index} value={option}>
+                    {option}
+                </SelectItem>
+                ))}
+            </>
+            );
+        default:
+            return null;
+        }
+    };
 
-  return (
-    <Layout title="Accueil">
-      <div className="bg-tertiary/20 px-4 flex flex-col">
-        {/* si ona au moins 1 but */}
-        {goalsFiltre.length > 0 ? (
-          <div className="flex justify-between p-3 items-center">
-            <h2 className="font-bold text-2xl">
-              {/* si on a un joueur filtré */}
-              {selectedPlayerId
-                ? // et qu'il a plus d'un but
-                  goalsFiltre.length > 1
-                  ? "Les " + goalsFiltre.length + " buts de " + goalsFiltre[0].player?.name
-                  : // ou seulement 1 but
-                    "Le but de " + goalsFiltre[0].player?.name
-                : // si on a aucun joueur filtré, page de base
-                  "Les " +
-                  goalsFiltre.length +
-                  " buts d'Arsenal cette saison !"}
-            </h2>
-          </div>
-        ) : (
-          // si on aucun but pour le joueur filtré
-          <div className="p-3"></div>
-        )}
+    // filtrer les buts en fonction des joueurs et/ou du stade sélectionnés
+    const filteredGoals = goalsData?.goals.filter((goal) => {
+        // on filtre par le joueur si un joueur est sélectionné
+        const playerMatch = !selectedPlayerId || goal.player?.id === selectedPlayerId;
+        // on filtre par le stade si un stade est sélectionné
+        const stadeMatch = !selectStade || (selectStade === stade && goal.where === stade) || (selectStade === "Extérieur" && goal.where !== stade);
+        return playerMatch && stadeMatch;
+        }) || [];
 
-        <div className="p-3 flex justify-between">
-          {buttonFiltre ? (
-            <div className="flex justify-start">
-              <Button
-                className="flex gap-1"
-                variant="filtre"
-                onClick={() => setButtonFiltre(false)}
-              >
-                <SlidersHorizontal width={16} />
-                Filtres
-              </Button>
+    // trier dans l'ordre décroissant/croissant
+    const goalsFiltre = filteredGoals.slice().sort((a, b) => (isFirst ? b.ordre - a.ordre : a.ordre - b.ordre));
+
+    // animation pour le nb de but
+    useEffect(() => {
+        const interval = setInterval(() => {
+        if (displayGoal < goalsFiltre.length) {
+            setDisplayGoal(displayGoal + 1);
+        } else {
+            clearInterval(interval);
+        }
+        }, 100);
+
+        return () => clearInterval(interval);
+    }, [goalsFiltre.length, displayGoal]);
+
+    return (
+        <Layout title="Accueil">
+        <div className="bg-tertiary/20 px-4 flex flex-col">
+            <div className="flex p-2">
+            <h2 className="font-bold text-2xl">{displayGoal} BUTS</h2>
             </div>
-          ) : (
-            <form className="flex justify-between gap-4">
-              {filters.map((f, index) => (
-                <Select
-                  key={index}
-                  name={f.name}
-                  onValueChange={handlePlayerselect}
+
+            <div className="p-3 flex justify-between">
+            {buttonFiltre ? (
+                <div className="flex justify-start">
+                <Button
+                    className="flex gap-1"
+                    variant="filtre"
+                    onClick={() => setButtonFiltre(false)}
                 >
-                  <SelectTrigger>
-                    <SelectValue placeholder={f.name} />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectItem value={f.name}>{f.name}</SelectItem>
-                      {f.name === "Joueurs" &&
-                        players.map((p, index) => (
-                          <SelectItem key={index} value={p.id}>
-                            {p.name}
-                          </SelectItem>
-                        ))}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              ))}
-              <div className="flex">
-                {!selectedPlayerId && (
-                  <Button
-                    variant="destructive"
-                    onClick={() => setButtonFiltre(true)}
-                  >
-                    <Undo2 />
-                  </Button>
-                )}
-              </div>
-            </form>
-          )}
-
-          <Button variant="filtre" onClick={triGoals}>
-            {isFirst ? (
-              <span className="material-symbols-outlined">arrow_upward</span>
+                    <SlidersHorizontal width={16} />
+                    Filtres
+                </Button>
+                </div>
             ) : (
-              <span className="material-symbols-outlined">arrow_downward</span>
+                <form className="flex justify-between gap-4 flex-col sm:flex-row">
+                {Object.values(filters).map((filter, index) => (
+                    <Select
+                    key={index}
+                    name={filter}
+                    onValueChange={(value) => handleSelectChange(value, filter)}
+                    value={
+                        filter === filters.Joueurs ? selectedPlayerId : selectStade
+                    }
+                    >
+                    <SelectTrigger>
+                        <SelectValue placeholder={filter} />
+                    </SelectTrigger>
+                    <SelectContent>{renderSelectOptions(filter)}</SelectContent>
+                    </Select>
+                ))}
+                <div className="flex">
+                    {!selectedPlayerId && !selectStade && (
+                    <Button variant="destructive" onClick={handleMaj}>
+                        <Undo2 />
+                    </Button>
+                    )}
+                </div>
+                </form>
             )}
-          </Button>
-        </div>
-        {selectedPlayerId && goalsFiltre.length > 0 && (
-          <div className="flex p-4">
-            <div className="py-1 px-3 border rounded flex items-center justify-between bg-background">
-              {goalsFiltre[0].player?.name}
-              <Button size="arrow" variant="arrow" onClick={handleMaj}>
-                <X />
-              </Button>
-            </div>
-          </div>
-        )}
-      </div>
 
-      <div className="flex justify-center mt-2">
-        {goalsFiltre.length > 0 ? (
-          <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {goalsFiltre.map((goal) => (
-              <GoalCard key={goal.id} goal={goal} />
-            ))}
-          </div>
-        ) : (
-          <div>Aucun but pour le moment...</div>
-        )}
-      </div>
-    </Layout>
-  );
-}
+            <Button variant="filtre" onClick={() => setIsFirst(!isFirst)}>
+                {isFirst ? (
+                <span className="material-symbols-outlined">arrow_upward</span>
+                ) : (
+                <span className="material-symbols-outlined">arrow_downward</span>
+                )}
+            </Button>
+            </div>
+
+            <div className="flex justify-between items-center">
+            <div className="flex">
+                {selectedPlayerId && (
+                <div className="flex p-4">
+                    <div className="py-1 px-3 border rounded flex items-center justify-between bg-background">
+                    {loading
+                        ? "Chargement..."
+                        : error
+                        ? `Erreur: ${error.message}`
+                        : playerData?.getPlayerById?.name}
+                    <Button
+                        size="arrow"
+                        variant="arrow"
+                        onClick={() => setSelectedPlayerId("")}
+                    >
+                        <X />
+                    </Button>
+                    </div>
+                </div>
+                )}
+                {selectStade && (
+                <div className="flex p-4">
+                    <div className="py-1 px-3 border rounded flex items-center justify-between bg-background">
+                    {selectStade}
+                    <Button
+                        size="arrow"
+                        variant="arrow"
+                        onClick={() => setSelectStade("")}
+                    >
+                        <X />
+                    </Button>
+                    </div>
+                </div>
+                )}
+            </div>
+            {(selectStade || selectedPlayerId) && (
+                <Button onClick={handleMaj}>Réinitialiser</Button>
+            )}
+            </div>
+        </div>
+
+        <div className="flex justify-center mt-2">
+            {goalsFiltre.length > 0 ? (
+            <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                {goalsFiltre.map((goal) => (
+                <GoalCard key={goal.id} goal={goal} />
+                ))}
+            </div>
+            ) : (
+            <div>Aucun but pour le moment...</div>
+            )}
+        </div>
+        </Layout>
+    );
+    }

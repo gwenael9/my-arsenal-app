@@ -20,6 +20,7 @@ const GoalCard: React.FC<GoalCardProps> = ({ goal }) => {
   const [domicile, setDomicile] = useState(true);
 
   const stade = "Emirates Stadium";
+  const bandeWidth = `${(goal.against.length + 2) * 10}px`;
 
   // si le stade est spécifié --> extérieur sinon domicile
   useEffect(() => {
@@ -28,31 +29,42 @@ const GoalCard: React.FC<GoalCardProps> = ({ goal }) => {
 
   return (
     <Card
-      className={`${
-        domicile ? "bg-primary text-or" : "bg-secondary text-blue"
-      }`}
+      // className={`${
+      //   domicile ? "bg-primary text-or" : "bg-secondary text-blue"
+      // }`}
+      className="border relative overflow-hidden"
     >
-      <CardHeader className="flex flex-col">
+      <div
+        className={`absolute w-20 top-0 left-[230px] text-xs p-2 transform ${
+          domicile ? "bg-primary" : "bg-secondary"
+        }`}
+        style={{ transform: "rotate(45deg)" }}
+      ></div>
+      <CardHeader className="flex flex-col z-10">
         <CardTitle>{goal.player?.name.toUpperCase()}</CardTitle>
         <p>But n°{goal.ordre}.</p>
       </CardHeader>
       <CardContent>
+        {/* <div
+          className={`absolute top-26 left-10 text-xs p-2 transform z-[-1] ${
+            domicile ? "bg-primary" : "bg-secondary"
+          }`}
+          style={{ width: bandeWidth }}
+        ></div> */}
         <p>
           vs{" "}
-          <span className="text-xl font-bold">
+          <span className="text-lg font-bold">
             {goal.against.toUpperCase()}
           </span>
         </p>
       </CardContent>
       <CardFooter>
         <div className="flex gap-1 flex-col">
-          <Badge variant={domicile ? "or" : "blue"}>
-            {toUpOne(goal.where) || stade}
-          </Badge>
-          <Badge variant={domicile ? "or" : "blue"}>{goal.date}</Badge>
+          <Badge variant="black">{toUpOne(goal.where) || stade}</Badge>
+          <Badge variant="black">{goal.date}</Badge>
         </div>
         <Link href={`/goals/${goal.ordre}`}>
-          <Button variant={domicile ? "or" : "blue"}>Voir le but</Button>
+          <Button variant="black">Voir le but</Button>
         </Link>
       </CardFooter>
     </Card>

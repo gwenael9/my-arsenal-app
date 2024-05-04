@@ -14,6 +14,8 @@ const badgeVariants = cva(
           "border-transparent bg-or text-white hover:bg-or/80 w-fit",
         blue:
           "border-transparent bg-blue text-white hover:bg-blue/80 w-fit",
+        black:
+          "border-transparent bg-black text-white hover:bg-black/80 w-fit",
         destructive:
           "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
         filtre: "",

@@ -192,6 +192,13 @@ export type PlayersQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type PlayersQuery = { __typename?: 'Query', players: Array<{ __typename?: 'Player', country: string, id: string, name: string, goals?: Array<{ __typename?: 'Goal', id: string, link: string, where: string, date: string, against: string, ordre: number }> | null }> };
 
+export type GetPlayerByIdQueryVariables = Exact<{
+  playerId: Scalars['String']['input'];
+}>;
+
+
+export type GetPlayerByIdQuery = { __typename?: 'Query', getPlayerById: { __typename?: 'Player', name: string } };
+
 
 export const CreateGoalDocument = gql`
     mutation CreateGoal($infos: InputCreateGoal!) {
@@ -576,3 +583,43 @@ export type PlayersQueryHookResult = ReturnType<typeof usePlayersQuery>;
 export type PlayersLazyQueryHookResult = ReturnType<typeof usePlayersLazyQuery>;
 export type PlayersSuspenseQueryHookResult = ReturnType<typeof usePlayersSuspenseQuery>;
 export type PlayersQueryResult = Apollo.QueryResult<PlayersQuery, PlayersQueryVariables>;
+export const GetPlayerByIdDocument = gql`
+    query GetPlayerById($playerId: String!) {
+  getPlayerById(playerId: $playerId) {
+    name
+  }
+}
+    `;
+
+/**
+ * __useGetPlayerByIdQuery__
+ *
+ * To run a query within a React component, call `useGetPlayerByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetPlayerByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetPlayerByIdQuery({
+ *   variables: {
+ *      playerId: // value for 'playerId'
+ *   },
+ * });
+ */
+export function useGetPlayerByIdQuery(baseOptions: Apollo.QueryHookOptions<GetPlayerByIdQuery, GetPlayerByIdQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetPlayerByIdQuery, GetPlayerByIdQueryVariables>(GetPlayerByIdDocument, options);
+      }
+export function useGetPlayerByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPlayerByIdQuery, GetPlayerByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetPlayerByIdQuery, GetPlayerByIdQueryVariables>(GetPlayerByIdDocument, options);
+        }
+export function useGetPlayerByIdSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetPlayerByIdQuery, GetPlayerByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetPlayerByIdQuery, GetPlayerByIdQueryVariables>(GetPlayerByIdDocument, options);
+        }
+export type GetPlayerByIdQueryHookResult = ReturnType<typeof useGetPlayerByIdQuery>;
+export type GetPlayerByIdLazyQueryHookResult = ReturnType<typeof useGetPlayerByIdLazyQuery>;
+export type GetPlayerByIdSuspenseQueryHookResult = ReturnType<typeof useGetPlayerByIdSuspenseQuery>;
+export type GetPlayerByIdQueryResult = Apollo.QueryResult<GetPlayerByIdQuery, GetPlayerByIdQueryVariables>;
