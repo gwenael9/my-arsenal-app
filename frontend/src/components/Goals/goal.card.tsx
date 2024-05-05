@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
+  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -28,12 +29,7 @@ const GoalCard: React.FC<GoalCardProps> = ({ goal }) => {
   }, [goal.where]);
 
   return (
-    <Card
-      // className={`${
-      //   domicile ? "bg-primary text-or" : "bg-secondary text-blue"
-      // }`}
-      className="border relative overflow-hidden"
-    >
+    <Card className="border relative overflow-hidden">
       <div
         className={`absolute w-20 top-0 left-[230px] text-xs p-2 transform ${
           domicile ? "bg-primary" : "bg-secondary"
@@ -42,6 +38,10 @@ const GoalCard: React.FC<GoalCardProps> = ({ goal }) => {
       ></div>
       <CardHeader className="flex flex-col z-10">
         <CardTitle>{goal.buteur?.name.toUpperCase()}</CardTitle>
+        {goal.passeur != null && (
+          <CardDescription>({goal.passeur?.name})</CardDescription>
+        )}
+        {goal.passeur == null && <div className="h-5"></div>}
         <p>But n°{goal.ordre}.</p>
       </CardHeader>
       <CardContent>

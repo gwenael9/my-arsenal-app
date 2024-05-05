@@ -22,6 +22,7 @@ export default function Header() {
   }, []);
 
   const navLink = [
+    { name: "Buts", link: "/goals/1"},
     { name: "Statistique", link: "/statistique" },
     {
       name: "Github",

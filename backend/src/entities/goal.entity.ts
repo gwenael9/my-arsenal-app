@@ -46,10 +46,7 @@ export default class Goal extends BaseEntity {
   @Field(() => Player, { nullable: true })
   buteur: Player;
 
-  @ManyToOne(() => Player, (player) => player.passes, {
-    cascade: true,
-    onDelete: "CASCADE",
-  })
+  @ManyToOne(() => Player, (player) => player.passes)
   @Field(() => Player, { nullable: true })
   passeur: Player;
 
@@ -57,7 +54,7 @@ export default class Goal extends BaseEntity {
   buteurId: string;
 
   @Column({ nullable: true })
-  passeurId: string;
+  passeurId?: string;
 }
 
 @InputType()

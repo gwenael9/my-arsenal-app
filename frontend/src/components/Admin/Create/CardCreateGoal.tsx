@@ -27,13 +27,11 @@ import {
 } from "@/types/graphql";
 import { useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
+import SelectPlayer from "./SelectPlayer";
 
 export default function CardCreateGoal() {
   const { toast } = useToast();
   const router = useRouter();
-
-  const { data: playersData } = usePlayersQuery();
-  const players = playersData?.players || [];
 
   const [createGoal] = useMutation<
     CreateGoalMutation,
@@ -63,9 +61,11 @@ export default function CardCreateGoal() {
       data.date &&
       data.link &&
       data.ordre &&
-      data.playerId &&
-      data.where
+      data.buteurId &&
+      data.where &&
+      data.competition
     ) {
+      const passeurId = data.passeurId !== "" ? data.passeurId : null;
       createGoal({
         variables: {
           infos: {
@@ -74,7 +74,9 @@ export default function CardCreateGoal() {
             link: data.link,
             ordre: parseFloat(data.ordre as unknown as string),
             where: data.where,
-            playerId: data.playerId,
+            buteurId: data.buteurId,
+            passeurId: passeurId,
+            competition: data.competition
           },
         },
       });
@@ -106,6 +108,10 @@ export default function CardCreateGoal() {
               <Input name="date" id="date" placeholder="12/08/2023" />
             </div>
             <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="competition">Compétition</Label>
+              <Input name="competition" id="competition" placeholder="Premier League" />
+            </div>
+            <div className="flex flex-col space-y-1.5">
               <Label htmlFor="against">Contre</Label>
               <Input
                 name="against"
@@ -117,23 +123,8 @@ export default function CardCreateGoal() {
               <Label htmlFor="where">Stade</Label>
               <Input name="where" id="where" placeholder="Emirates Stadium" />
             </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="playerId">Buteur</Label>
-              <Select name="playerId">
-                <SelectTrigger>
-                  <SelectValue placeholder="Select a player" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    {players.map((p) => (
-                      <SelectItem key={p.id} value={p.id}>
-                        {p.name}
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </div>
+            <SelectPlayer name="buteurId" placeholder="Select a buteur" label="Buteur" />
+            <SelectPlayer name="passeurId" placeholder="Select a passeur" label="Passeur" />
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="link">Lien</Label>
               <Input name="link" id="link" placeholder="https://youtube.com" />

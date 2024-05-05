@@ -30,23 +30,26 @@ export default class GoalService {
       throw new Error(`Player with id ${buteurId} not found`);
     }
 
+    let passeurIdToSave: string | null = null;
     if (passeurId) {
       const passeur = await playerService.getPlayerById(passeurId);
       if (!passeur) {
         throw new Error(`Player with id ${passeurId} not found`);
       }
+      passeurIdToSave = passeurId;
     }
 
     const newGoal = this.db.create({
       date,
       link,
       buteurId,
-      passeurId,
+      passeurId: passeurIdToSave as string, 
       against,
       where,
       ordre,
-      competition
+      competition,
     });
+
     return await this.db.save(newGoal);
   }
 

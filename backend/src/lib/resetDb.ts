@@ -46,7 +46,7 @@ async function main() {
     name: "Eddie Nketiah",
     country: "Angleterre",
   });
-  
+
   await playerService.createPlayer({
     name: "Martin Odegaard",
     country: "Norvège",
@@ -135,9 +135,19 @@ async function main() {
   const trossard = await playerService.getPlayerByName("Leandro Trossard");
   const havertz = await playerService.getPlayerByName("Kai Havertz");
   const viera = await playerService.getPlayerByName("Fabio Viera");
+  const white = await playerService.getPlayerByName("Ben White");
 
-  if (odegaard?.id) {
-
+  if (
+    odegaard?.id &&
+    saka?.id &&
+    jesus?.id &&
+    rice?.id &&
+    martinelli?.id &&
+    trossard?.id &&
+    havertz?.id &&
+    viera?.id &&
+    white?.id
+  ) {
     await goalService.createGoal({
       date: "30/09/2023",
       link: "https://www.youtube.com/embed/ca5imK6X4tY?si=rnnxKFBFzP8v-XDF&amp;clip=Ugkxegi_3u2QgN7jliZt132tZLjfY6b5rsiY&amp;clipt=ELbsAhiasQM",
@@ -145,24 +155,18 @@ async function main() {
       ordre: 19,
       against: "Bournemouth",
       buteurId: odegaard.id,
-      competition: "Premier League"
+      competition: "Premier League",
     });
-  }
-
-  if (saka?.id) {
 
     await goalService.createGoal({
       date: "30/09/2023",
-      link: "https://www.youtube.com/embed/ca5imK6X4tY?si=rX-4K-1IdmgNvx_P&amp;controls=0&amp;clip=UgkxtVoEX--R_M25Gx7efT3SDCI63SCpRMTe&amp;clipt=EIQYGNOsAQ",
+      link: "https://www.youtube.com/embed/J-ZItV1PSRQ?si=jbJZj54XYbc9icKb;clipt=EIQYGNOsAQ",
       where: "Vitality Stadium",
       ordre: 18,
       against: "Bournemouth",
       buteurId: saka.id,
-      competition: "Premier League"
+      competition: "Premier League",
     });
-  }
-  
-  if (jesus?.id && viera?.id) {
 
     await goalService.createGoal({
       date: "03/09/2023",
@@ -172,11 +176,8 @@ async function main() {
       against: "Manchester United",
       buteurId: jesus.id,
       passeurId: viera.id,
-      competition: "Premier League"
+      competition: "Premier League",
     });
-  }
-
-  if (rice?.id && saka?.id && odegaard?.id) {
 
     await goalService.createGoal({
       date: "03/09/2023",
@@ -186,9 +187,9 @@ async function main() {
       against: "Manchester United",
       buteurId: rice.id,
       passeurId: saka.id,
-      competition: "Premier League"
+      competition: "Premier League",
     });
-    
+
     await goalService.createGoal({
       date: "05/12/2023",
       link: "https://www.youtube.com/embed/pIAWbGeURho?si=06yEdDYXPIU43e3y",
@@ -197,11 +198,40 @@ async function main() {
       against: "Luton",
       buteurId: rice.id,
       passeurId: odegaard.id,
-      competition: "Premier League"
+      competition: "Premier League",
     });
-  }
 
-  if (trossard?.id && saka?.id) {
+    await goalService.createGoal({
+      date: "04/05/2024",
+      link: "https://www.youtube.com/embed/urvQq03Q900?si=9sIq5BWwzhSHdxCf",
+      where: "Emirates Stadium",
+      ordre: 110,
+      against: "Bournemouth",
+      buteurId: rice.id,
+      passeurId: jesus.id,
+      competition: "Premier League",
+    });
+
+    await goalService.createGoal({
+      date: "04/05/2024",
+      link: "https://www.youtube.com/embed/T8qvLtM88rA?si=-bb-64phDeM2zveS",
+      where: "Emirates Stadium",
+      ordre: 109,
+      against: "Bournemouth",
+      buteurId: trossard.id,
+      passeurId: rice.id,
+      competition: "Premier League",
+    });
+
+    await goalService.createGoal({
+      date: "04/05/2024",
+      link: "https://www.youtube.com/embed/t2o306PuOQs?si=W7WKY2e3pWuVGkZc",
+      where: "Emirates Stadium",
+      ordre: 108,
+      against: "Bournemouth",
+      buteurId: saka.id,
+      competition: "Premier League",
+    });
 
     await goalService.createGoal({
       date: "21/10/2023",
@@ -211,11 +241,8 @@ async function main() {
       against: "Chelsea",
       buteurId: trossard.id,
       passeurId: saka.id,
-      competition: "Premier League"
-    })
-  }
-  
-  if (martinelli?.id && havertz?.id) {
+      competition: "Premier League",
+    });
 
     await goalService.createGoal({
       date: "08/10/2023",
@@ -225,11 +252,8 @@ async function main() {
       against: "Manchester City",
       buteurId: martinelli.id,
       passeurId: havertz.id,
-      competition: "Premier League"
-    })
-  }
-  
-  if (havertz?.id && saka?.id) {
+      competition: "Premier League",
+    });
 
     await goalService.createGoal({
       date: "25/11/2023",
@@ -239,8 +263,29 @@ async function main() {
       against: "Brentford",
       buteurId: havertz.id,
       passeurId: saka.id,
-      competition: "Premier League"
-    })
+      competition: "Premier League",
+    });
+
+    await goalService.createGoal({
+      date: "30/09/2023",
+      link: "https://www.youtube.com/embed/Hli5jnOBgDE?si=AUEP8agfdazyVoyN",
+      where: "Vitality Stadium",
+      ordre: 20,
+      against: "Bournemouth",
+      buteurId: havertz.id,
+      competition: "Premier League",
+    });
+
+    await goalService.createGoal({
+      date: "30/09/2023",
+      link: "https://www.youtube.com/embed/3nTIOvuH1dA?si=75edUgCE0OEimODn",
+      where: "Vitality Stadium",
+      ordre: 21,
+      against: "Bournemouth",
+      buteurId: white.id,
+      passeurId: odegaard.id,
+      competition: "Premier League",
+    });
   }
 }
 

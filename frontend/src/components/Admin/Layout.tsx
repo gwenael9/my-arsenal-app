@@ -26,7 +26,12 @@ export default function Layout({ children, title }: LayoutProps) {
         ></link>
       </Head>
       <Header />
-      <main className="py-2 px-4">{children}</main>
+      <main
+        className="py-2 px-4 overflow-y-auto"
+        style={{ maxHeight: "calc(100vh - 80px" }}
+      >
+        {children}
+      </main>
       <Toaster />
     </>
   );
