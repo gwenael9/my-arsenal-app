@@ -21,12 +21,6 @@ const GoalCarouselPage = () => {
 
   const goal = data?.getGoalByOrdre;
 
-  // useEffect(() => {
-  //   if (typeof goal !== "undefined") {
-  //     setLoading(false);
-  //   }
-  // }, [goalOrdre]);
-
   const nextGoal = () => {
     if (typeof goalOrdre === "string") {
       const next = parseInt(goalOrdre, 10) + 1;
