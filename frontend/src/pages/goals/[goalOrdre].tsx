@@ -66,7 +66,7 @@ const GoalCarouselPage = () => {
                   className="h-[400px] w-[350px] sm:w-[500px] sm:h-[500px] lg:w-[800px] border-none"
                   src={goal.link}
                   data-gtm-yt-inspected-12="true"
-                  title={goal.player?.name}
+                  title={goal.buteur?.name}
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   referrerPolicy="strict-origin-when-cross-origin"
