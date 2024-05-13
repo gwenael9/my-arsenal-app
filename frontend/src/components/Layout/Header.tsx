@@ -24,12 +24,12 @@ export default function Header() {
   const navLink = [
     { name: "Buts", link: "/goals/1"},
     { name: "Statistique", link: "/statistique" },
-    {
-      name: "Github",
-      link: "https://github.com/gwenael9/my-arsenal-app",
-      target: "_blank",
-      rel: "noopener noreferrer",
-    },
+    // {
+    //   name: "Github",
+    //   link: "https://github.com/gwenael9/my-arsenal-app",
+    //   target: "_blank",
+    //   rel: "noopener noreferrer",
+    // },
   ];
 
   return (
@@ -42,15 +42,15 @@ export default function Header() {
           </Link>
         </div>
 
-        <nav className={`items-center space-x-8 hidden md:inline`}>
+        <nav className={`items-center space-x-8 hidden sm:inline`}>
           {navLink.map((n, index) => (
-            <Link className="font-bold uppercase hover:text-primary" key={index} href={n.link} target={n.target} rel={n.rel}>
+            <Link className="font-bold uppercase hover:text-primary" key={index} href={n.link}>
               {n.name}
             </Link>
           ))}
         </nav>
 
-        <div className="md:hidden">
+        <div className="sm:hidden">
           <button onClick={burgerMenu}>
             {!isOpen ? (
               <AlignJustify height={24} />
@@ -70,7 +70,7 @@ export default function Header() {
         <div className="h-full w-full p-5 flex flex-col gap-10">
           <div className="flex justify-center flex-col items-center gap-2">
             {navLink.map((n, index) => (
-              <Link key={index} href={n.link} target={n.target} rel={n.rel}>
+              <Link key={index} href={n.link}>
                 {n.name}
               </Link>
             ))}

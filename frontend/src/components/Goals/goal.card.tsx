@@ -29,7 +29,7 @@ const GoalCard: React.FC<GoalCardProps> = ({ goal }) => {
   }, [goal.where]);
 
   return (
-    <Card className="border relative overflow-hidden">
+    <Card className="border relative overflow-hidden border-tertiary/20">
       <div
         className={`absolute w-20 top-0 left-[230px] text-xs p-2 transform ${
           domicile ? "bg-primary" : "bg-secondary"
