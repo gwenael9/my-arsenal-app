@@ -82,11 +82,9 @@ export default function Home() {
     console.log(filter);
     if (filter === filters.Buteur) {
       setSelectedButeurId(value === filters.Buteur ? "" : value);
-    } 
-    else if (filter === filters.Passeur) {
+    } else if (filter === filters.Passeur) {
       setSelectedPasseurId(value === filters.Passeur ? "" : value);
-    } 
-    else if (filter === filters.Stade) {
+    } else if (filter === filters.Stade) {
       setSelectStade(value === "Tout" ? "" : value);
     }
   };
@@ -167,7 +165,7 @@ export default function Home() {
     return () => clearInterval(interval);
   }, [goalsFiltre.length, displayGoal]);
 
-  // la valeur du select 
+  // la valeur du select
   const handleChangeValue = (value: string) => {
     if (value === filters.Buteur) {
       return selectedButeurId;
@@ -176,7 +174,7 @@ export default function Home() {
     } else if (value === filters.Stade) {
       return selectStade;
     }
-  }
+  };
 
   return (
     <Layout title="Accueil">
