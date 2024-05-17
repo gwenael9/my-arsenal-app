@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
-import { toUpOne } from "@/lib/functions";
+import { formaterDate, toUpOne } from "@/lib/functions";
 import { useEffect, useState } from "react";
 
 interface GoalCardProps {
@@ -61,7 +61,7 @@ const GoalCard: React.FC<GoalCardProps> = ({ goal }) => {
       <CardFooter>
         <div className="flex gap-1 flex-col">
           <Badge variant="black">{toUpOne(goal.where) || stade}</Badge>
-          <Badge variant="black">{goal.date}</Badge>
+          <Badge variant="black">{goal.competition}</Badge>
         </div>
         <Link href={`/goals/${goal.ordre}`}>
           <Button variant="black">Voir le but</Button>
