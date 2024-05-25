@@ -52,7 +52,7 @@ export default function AdminPlayers() {
                 key={player.id}
                 className="flex justify-between p-2 bg-secondary/90 rounded"
               >
-                <p>{player.name}</p>
+                <p>{player.lastname}</p>
                 <Button onClick={() => handleDelete(player.id)}>
                   Supprimer
                 </Button>

@@ -30,7 +30,7 @@ export default function SelectPlayer({name, placeholder, label}: SelectProps) {
         <SelectGroup>
           {players.map((p) => (
             <SelectItem key={p.id} value={p.id}>
-              {p.name}
+              {p.lastname}
             </SelectItem>
           ))}
         </SelectGroup>
