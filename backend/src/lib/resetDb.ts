@@ -1,6 +1,5 @@
 import GoalService from "../services/goal.service";
 import PlayerService from "../services/player.service";
-import UserService from "../services/user.service";
 import db from "./datasource";
 
 export async function clearDB() {
@@ -28,114 +27,134 @@ async function main() {
   const goalService = new GoalService();
 
   await playerService.createPlayer({
-    name: "Bukayo Saka",
+    firstname: "bukayo",
+    lastname: "saka",
+    country: "angleterre",
+  });
+
+  await playerService.createPlayer({
+    firstname: "gabriel",
+    lastname: "jesus",
+    country: "brésil",
+  });
+
+  await playerService.createPlayer({
+    firstname: "leandro",
+    lastname: "trossard",
+    country: "belgique",
+  });
+
+  await playerService.createPlayer({
+    firstname: "eddie",
+    lastname: "nketiah",
+    country: "angleterre",
+  });
+
+  await playerService.createPlayer({
+    firstname: "martin",
+    lastname: "odegaard",
+    country: "norvège",
+  });
+
+  await playerService.createPlayer({
+    firstname: "kai",
+    lastname: "havertz",
+    country: "allemagne",
+  });
+
+  await playerService.createPlayer({
+    firstname: "gabriel",
+    lastname: "martinelli",
+    country: "brésil",
+  });
+
+  await playerService.createPlayer({
+    firstname: "reiss",
+    lastname: "nelson",
+    country: "angleterre",
+  });
+
+  await playerService.createPlayer({
+    firstname: "fabio",
+    lastname: "viera",
+    country: "portugal",
+  });
+
+  await playerService.createPlayer({
+    firstname: "emile",
+    lastname: "smith-rowe",
+    country: "angleterre",
+  });
+
+  await playerService.createPlayer({
+    firstname: "thomas",
+    lastname: "partey",
+    country: "ghana",
+  });
+
+  await playerService.createPlayer({
+    firstname: "declan",
+    lastname: "rice",
     country: "Angleterre",
   });
 
   await playerService.createPlayer({
-    name: "Gabriel Jesus",
-    country: "Brésil",
+    firstname: "",
+    lastname: "jorginho",
+    country: "italie",
   });
 
   await playerService.createPlayer({
-    name: "Leandro Trossard",
-    country: "Belgique",
+    firstname: "gabriel",
+    lastname: "magalhães",
+    country: "brésil",
   });
 
   await playerService.createPlayer({
-    name: "Eddie Nketiah",
-    country: "Angleterre",
+    firstname: "william",
+    lastname: "saliba",
+    country: "france",
   });
 
   await playerService.createPlayer({
-    name: "Martin Odegaard",
-    country: "Norvège",
+    firstname: "jakub",
+    lastname: "kiwior",
+    country: "pologne",
   });
 
   await playerService.createPlayer({
-    name: "Kai Havertz",
-    country: "Allemagne",
+    firstname: "takehiro",
+    lastname: "tomiyasu",
+    country: "japon",
   });
 
   await playerService.createPlayer({
-    name: "Gabriel Martinelli",
-    country: "Brésil",
+    firstname: "ben",
+    lastname: "white",
+    country: "angleterre",
   });
 
   await playerService.createPlayer({
-    name: "Reiss Nelson",
-    country: "Angleterre",
+    firstname: "oleksandr",
+    lastname: "zinchenko",
+    country: "ukraine",
   });
 
   await playerService.createPlayer({
-    name: "Fabio Viera",
-    country: "Portugal",
+    firstname: "mohamed",
+    lastname: "elneny",
+    country: "egypte",
   });
 
-  await playerService.createPlayer({
-    name: "Emile Smith Rowe",
-    country: "Angleterre",
-  });
-
-  await playerService.createPlayer({
-    name: "Thomas Partey",
-    country: "Ghana",
-  });
-
-  await playerService.createPlayer({
-    name: "Declan Rice",
-    country: "Angleterre",
-  });
-
-  await playerService.createPlayer({
-    name: "Jorginho",
-    country: "Italie",
-  });
-
-  await playerService.createPlayer({
-    name: "Gabriel",
-    country: "Brésil",
-  });
-
-  await playerService.createPlayer({
-    name: "William Saliba",
-    country: "France",
-  });
-
-  await playerService.createPlayer({
-    name: "Jakub Kiwior",
-    country: "Pologne",
-  });
-
-  await playerService.createPlayer({
-    name: "Takehiro Tomiyasu",
-    country: "Japon",
-  });
-
-  await playerService.createPlayer({
-    name: "Ben White",
-    country: "Angleterre",
-  });
-
-  await playerService.createPlayer({
-    name: "Oleksandr Zinchenko",
-    country: "Ukraine",
-  });
-
-  await playerService.createPlayer({
-    name: "Mohamed Elneny",
-    country: "Egypte",
-  });
-
-  const odegaard = await playerService.getPlayerByName("Martin Odegaard");
-  const saka = await playerService.getPlayerByName("Bukayo Saka");
-  const jesus = await playerService.getPlayerByName("Gabriel Jesus");
-  const rice = await playerService.getPlayerByName("Declan Rice");
-  const martinelli = await playerService.getPlayerByName("Gabriel Martinelli");
-  const trossard = await playerService.getPlayerByName("Leandro Trossard");
-  const havertz = await playerService.getPlayerByName("Kai Havertz");
-  const viera = await playerService.getPlayerByName("Fabio Viera");
-  const white = await playerService.getPlayerByName("Ben White");
+  const odegaard = await playerService.getPlayerByName("odegaard");
+  const saka = await playerService.getPlayerByName("saka");
+  const jesus = await playerService.getPlayerByName("jesus");
+  const rice = await playerService.getPlayerByName("rice");
+  const martinelli = await playerService.getPlayerByName("martinelli");
+  const trossard = await playerService.getPlayerByName("trossard");
+  const havertz = await playerService.getPlayerByName("havertz");
+  const viera = await playerService.getPlayerByName("viera");
+  const white = await playerService.getPlayerByName("white");
 
   if (
     odegaard?.id &&
@@ -288,5 +307,6 @@ async function main() {
     });
   }
 }
+
 
 main();

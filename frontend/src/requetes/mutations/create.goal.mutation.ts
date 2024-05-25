@@ -6,12 +6,14 @@ export const CREATE_GOAL = gql`
       id
       buteur {
         id
-        name
+        firstname
+        lastname
         country
       }
       passeur {
         id
-        name
+        firstname
+        lastname
         country
       }
       date

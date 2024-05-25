@@ -4,7 +4,8 @@ export const CREATE_PLAYER = gql`
   mutation createPlayer($infos: InputCreatePlayer!) {
   createPlayer(infos: $infos) {
     id
-    name
+    firstname
+    lastname
     country
     goals {
       id

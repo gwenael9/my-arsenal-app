@@ -1,4 +1,3 @@
-import { Goal } from "@/types/graphql";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -10,18 +9,14 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
-import { formaterDate, toUpOne } from "@/lib/functions";
+import { getName, toUpOne } from "@/lib/functions";
 import { useEffect, useState } from "react";
-
-interface GoalCardProps {
-  goal: Goal;
-}
+import { GoalCardProps } from "@/types/interface";
 
 const GoalCard: React.FC<GoalCardProps> = ({ goal }) => {
   const [domicile, setDomicile] = useState(true);
 
   const stade = "Emirates Stadium";
-  const bandeWidth = `${(goal.against.length + 2) * 10}px`;
 
   // si le stade est spécifié --> extérieur sinon domicile
   useEffect(() => {
@@ -37,20 +32,14 @@ const GoalCard: React.FC<GoalCardProps> = ({ goal }) => {
         style={{ transform: "rotate(45deg)" }}
       ></div>
       <CardHeader className="flex flex-col z-10">
-        <CardTitle>{goal.buteur?.name.toUpperCase()}</CardTitle>
+        <CardTitle>{getName(goal.buteur, "buteur").toUpperCase()}</CardTitle>
         {goal.passeur != null && (
-          <CardDescription>({goal.passeur?.name})</CardDescription>
+          <CardDescription>({getName(goal.passeur, "passeur")})</CardDescription>
         )}
         {goal.passeur == null && <div className="h-5"></div>}
         <p>But n°{goal.ordre}.</p>
       </CardHeader>
       <CardContent>
-        {/* <div
-          className={`absolute top-26 left-10 text-xs p-2 transform z-[-1] ${
-            domicile ? "bg-primary" : "bg-secondary"
-          }`}
-          style={{ width: bandeWidth }}
-        ></div> */}
         <p>
           vs{" "}
           <span className="text-lg font-bold">
