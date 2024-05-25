@@ -1,4 +1,4 @@
-import { usePlayersQuery } from "@/types/graphql";
+import { Player, usePlayersQuery } from "@/types/graphql";
 import {
   Table,
   TableBody,
@@ -7,26 +7,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { toUpOne } from "@/lib/functions";
+import { flagCountry, toUpOne } from "@/lib/functions";
+import { useRouter } from "next/router";
 
 export default function Ranking() {
-  const flags: { [key: string]: string } = {
-    Angleterre: "gb-eng",
-    France: "fr",
-    Norvège: "no",
-    Brésil: "br",
-    Belgique: "be",
-    Ukraine: "ua",
-    Allemagne: "de",
-    Egypte: "eg",
-    Ghana: "gh",
-    Italie: "it",
-    Japon: "jp",
-    Pologne: "pl",
-    Portugal: "pt",
-  };
-
-  const flagCountry = (country: string) => flags[country] || "";
+  const router = useRouter();
 
   const { data: playersData } = usePlayersQuery();
   const players = playersData?.players || [];
@@ -41,12 +26,16 @@ export default function Ranking() {
     }
   });
 
-  // on affiche pas les joueurs avec 0 b/p 
+  // on affiche pas les joueurs avec 0 b/p
   const playersFiltreAgain = playersFiltre.filter((player) => {
     const nbGoals = player.goals?.length || 0;
     const nbPasses = player.passes?.length || 0;
     return nbGoals > 0 || nbPasses > 0;
-  })
+  });
+
+  const getName = (item: Player | any) => {
+    return `${item.firstname} ${item.lastname}`;
+  };
 
   return (
     <Table className="bg-tertiary/90 text-white">
@@ -60,7 +49,11 @@ export default function Ranking() {
       </TableHeader>
       <TableBody>
         {playersFiltreAgain.map((player, index) => (
-          <TableRow key={index}>
+          <TableRow
+            key={index}
+            className="cursor-pointer"
+            onClick={() => router.push(`/players/${player.lastname}`)}
+          >
             <TableCell className="font-bold w-10">{index + 1}.</TableCell>
             <TableCell className="font-bold flex items-center gap-2 justify-center">
               {flagCountry(player.country) && (
@@ -70,7 +63,7 @@ export default function Ranking() {
                   className="w-4"
                 />
               )}
-              <div>{toUpOne(player.name)}</div>
+              <div>{toUpOne(getName(player))}</div>
             </TableCell>
             <TableCell>{player.goals?.length}</TableCell>
             <TableCell>{player.passes?.length}</TableCell>

@@ -6,12 +6,14 @@ export const LIST_GOALS = gql`
             id
             buteur {
                 id
-                name
+                firstname
+                lastname
                 country
             }
             passeur {
                 id
-                name
+                firstname
+                lastname
                 country
             }
             link

@@ -47,13 +47,18 @@ export default class PlayerResolver {
   async getPlayerById(@Arg("playerId") playerId: string) {
     return await new PlayerService().getPlayerById(playerId);
   }
+
+  @Query(() => Player)
+  async getPlayerByName(@Arg("playerName") playerName: string) {
+    return await new PlayerService().getPlayerByName(playerName);
+  }
   
   @Authorized(["ADMIN"])
   @Mutation(() => Message)
   async deletePlayer(@Arg("id") id: string) {
     const deletedPlayer = await new PlayerService().deletePlayer(id);
     const m = new Message();
-    m.message = `${deletedPlayer.name} a bien été supprimé.`;
+    m.message = `${deletedPlayer.lastname} a bien été supprimé.`;
     m.success = true;
 
     return m;

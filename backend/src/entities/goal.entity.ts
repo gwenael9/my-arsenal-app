@@ -43,7 +43,7 @@ export default class Goal extends BaseEntity {
     cascade: true,
     onDelete: "CASCADE",
   })
-  @Field(() => Player, { nullable: true })
+  @Field(() => Player)
   buteur: Player;
 
   @ManyToOne(() => Player, (player) => player.passes)

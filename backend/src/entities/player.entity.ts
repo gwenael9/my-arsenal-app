@@ -9,9 +9,13 @@ export default class Player  {
     @Field()
     id: string;
 
+    @Column({ nullable: true})
+    @Field()
+    firstname?: string;
+
     @Column({ length: 50 })
     @Field()
-    name: string;
+    lastname: string;
 
     @Column()
     @Field()
@@ -29,7 +33,10 @@ export default class Player  {
 @InputType()
 export class InputCreatePlayer {
     @Field()
-    name: string;
+    firstname?: string;
+
+    @Field()
+    lastname: string;
 
     @Field()
     country: string;

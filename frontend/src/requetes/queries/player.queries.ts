@@ -5,7 +5,8 @@ export const LIST_PLAYERS = gql`
         players {
             country
             id
-            name
+            firstname
+            lastname
             goals {
                 id
                 link

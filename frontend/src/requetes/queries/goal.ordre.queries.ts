@@ -14,12 +14,14 @@ export const GOAL_ORDRE = gql`
     buteur {
       id
       country
-      name
+      firstname
+      lastname
     }
     passeur {
       id
       country
-      name
+      firstname
+      lastname
     }
   }
 }

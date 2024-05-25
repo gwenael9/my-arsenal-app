@@ -29,7 +29,7 @@ export default function Layout({ children, title }: LayoutProps) {
       </Head>
       <Header />
       <main
-        className="p-0 overflow-y-auto"
+        className="overflow-y-auto"
         style={{ maxHeight: "calc(100vh - 80px" }}
       >
         {children}

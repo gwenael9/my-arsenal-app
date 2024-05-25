@@ -10,11 +10,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useGoalsQuery, usePlayersQuery } from "@/types/graphql";
+import { Player, useGoalsQuery, usePlayersQuery } from "@/types/graphql";
 import { PLAYER_BY_ID } from "@/requetes/queries/playerById.queries";
 import { SlidersHorizontal, Undo2, X } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import ReponseFiltres from "@/components/Filtres/Reponse";
+import { toUpOne } from "@/lib/functions";
 
 const stade = "Emirates Stadium";
 
@@ -51,16 +52,12 @@ export default function Home() {
 
   // query qui recup le joueur selon son id
   const {
-    loading: loadingButeur,
-    error: errorButeur,
     data: buteurData,
   } = useQuery(PLAYER_BY_ID, {
     variables: { playerId: selectedButeurId },
   });
 
   const {
-    loading: loadingPasseur,
-    error: errorPasseur,
     data: passeurData,
   } = useQuery(PLAYER_BY_ID, {
     variables: { playerId: selectPasseurId },
@@ -79,14 +76,18 @@ export default function Home() {
 
   // nous permet de changer de joueur/stade et l'afficher directement
   const handleSelectChange = (value: string, filter: string) => {
-    console.log(filter);
     if (filter === filters.Buteur) {
+      console.log(value, filters.Buteur);
       setSelectedButeurId(value === filters.Buteur ? "" : value);
     } else if (filter === filters.Passeur) {
       setSelectedPasseurId(value === filters.Passeur ? "" : value);
     } else if (filter === filters.Stade) {
       setSelectStade(value === "Tout" ? "" : value);
     }
+  };
+
+  const getName = (item: Player | any) => {
+    return `${item?.firstname} ${item?.lastname}`;
   };
 
   // contenu de nos selects
@@ -98,7 +99,7 @@ export default function Home() {
             <SelectItem value={filters.Buteur}>Tous les joueurs</SelectItem>
             {playersData?.players.map((p, index) => (
               <SelectItem key={index} value={p.id}>
-                {p.name}
+                {toUpOne(getName(p))}
               </SelectItem>
             ))}
           </>
@@ -109,7 +110,7 @@ export default function Home() {
             <SelectItem value={filters.Passeur}>Tous les joueurs</SelectItem>
             {playersData?.players.map((p, index) => (
               <SelectItem key={index} value={p.id}>
-                {p.name}
+                {toUpOne(getName(p))}
               </SelectItem>
             ))}
           </>
@@ -236,17 +237,13 @@ export default function Home() {
           <div className="flex gap-1">
             {selectedButeurId && (
               <ReponseFiltres
-                loading={loadingButeur}
-                error={errorButeur}
-                data={buteurData?.getPlayerById?.name}
+                data={toUpOne(getName(buteurData?.getPlayerById))}
                 onClick={() => setSelectedButeurId("")}
               />
             )}
             {selectPasseurId && (
               <ReponseFiltres
-                loading={loadingPasseur}
-                error={errorPasseur}
-                data={passeurData?.getPlayerById?.name}
+                data={toUpOne(getName(passeurData?.getPlayerById))}
                 onClick={() => setSelectedPasseurId("")}
               />
             )}

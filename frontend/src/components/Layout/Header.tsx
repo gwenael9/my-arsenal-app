@@ -1,3 +1,4 @@
+import { useGoalsQuery } from "@/types/graphql";
 import { AlignJustify, X } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -21,8 +22,17 @@ export default function Header() {
     };
   }, []);
 
+  // tout nos buts
+  const { data: allGoalData } = useGoalsQuery();
+  const allGoal = allGoalData?.goals;
+
+  // premier but en bdd
+  const firstGoal = allGoal
+    ?.map((g) => g.ordre)
+    ?.reduce((a, b) => Math.min(a, b), Infinity);
+
   const navLink = [
-    { name: "Buts", link: "/goals/1"},
+    { name: "Buts", link: `/goals/${firstGoal}` },
     { name: "Statistique", link: "/statistique" },
     // {
     //   name: "Github",
@@ -44,7 +54,11 @@ export default function Header() {
 
         <nav className={`items-center space-x-8 hidden sm:inline`}>
           {navLink.map((n, index) => (
-            <Link className="font-bold uppercase hover:text-primary" key={index} href={n.link}>
+            <Link
+              className="font-bold uppercase hover:text-primary"
+              key={index}
+              href={n.link}
+            >
               {n.name}
             </Link>
           ))}
@@ -52,11 +66,7 @@ export default function Header() {
 
         <div className="sm:hidden">
           <button onClick={burgerMenu}>
-            {!isOpen ? (
-              <AlignJustify height={24} />
-            ) : (
-              <X height={24} />
-            )}
+            {!isOpen ? <AlignJustify height={24} /> : <X height={24} />}
           </button>
         </div>
       </header>

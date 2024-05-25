@@ -23,7 +23,7 @@ const buttonVariants = cva(
         filtre: "bg-tertiary text-white hover:bg-tertiary/90",
         black: "bg-black text-white hover:bg-black/80",
         arrow: "",
-        carousel: "p-4 rounded-full h-fit bg-red-200 flex items-center"
+        carousel: "p-4 rounded-full h-fit flex items-center"
       },
       size: {
         default: "h-10 px-4 py-2",

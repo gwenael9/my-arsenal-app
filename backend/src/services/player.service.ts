@@ -12,12 +12,12 @@ export default class PlayerService {
     return this.db.find();
   }
 
-  async createPlayer({ name, country }: InputCreatePlayer) {
-    const existingPlayer = await this.db.findOne({ where: { name }});
+  async createPlayer({ firstname, lastname, country }: InputCreatePlayer) {
+    const existingPlayer = await this.db.findOne({ where: { lastname } });
     if (existingPlayer) {
-      throw new Error("Ce joueur existe déjà !");
+      throw new Error(`${lastname} existe déjà !`);
     }
-    const newPlayer = this.db.create({ name, country });
+    const newPlayer = this.db.create({ firstname, lastname, country });
     return await this.db.save(newPlayer);
   }
 
@@ -27,10 +27,10 @@ export default class PlayerService {
     };
     return await this.db.findOne(options);
   }
-  
-  async getPlayerByName(name: string) {
+
+  async getPlayerByName(lastname: string) {
     const options: FindOneOptions<Player> = {
-      where: { name },
+      where: { lastname },
     };
     return await this.db.findOne(options);
   }
