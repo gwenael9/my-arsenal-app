@@ -44,9 +44,9 @@ export default function CardCreatePlayer() {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData) as InputCreatePlayer;
-    if (data.name && data.country) {
+    if (data.firstname && data.lastname && data.country) {
       createPlayer({
-        variables: { infos: { name: data.name, country: data.country } },
+        variables: { infos: { firstname: data.firstname, lastname: data.lastname, country: data.country } },
       });
     } else {
       toast({
@@ -68,8 +68,12 @@ export default function CardCreatePlayer() {
         <form onSubmit={handleSubmit} className="grid gap-2">
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="name">Name</Label>
-              <Input name="name" id="name" placeholder="Bukayo Saka" />
+              <Label htmlFor="firstname">Firstname</Label>
+              <Input name="firstname" id="firstname" placeholder="Bukayo" />
+            </div>
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="lastname">Lastname</Label>
+              <Input name="lastname" id="lastname" placeholder="Saka" />
             </div>
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="country">Pays</Label>
