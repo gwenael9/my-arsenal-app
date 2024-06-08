@@ -2,9 +2,9 @@ import { useGetGoalByOrdreQuery, useGoalsQuery } from "@/types/graphql";
 import Layout from "@/components/Layout/Layout";
 import { useRouter } from "next/router";
 import { Button } from "@/components/ui/button";
-import GoalInfo from "@/components/Goals/goal.info";
 import Erreur from "@/components/Erreur";
 import { useEffect, useState } from "react";
+import ModalGoalInfo from "@/components/Goals/goal.modal.info";
 
 const GoalCarouselPage = () => {
   const router = useRouter();
@@ -69,10 +69,15 @@ const GoalCarouselPage = () => {
     <Layout title={`But n°${goalOrdre}`}>
       {goal ? (
         <>
-          <div className="flex items-center flex-col mt-5">
+          <div className="absolute right-5 top-24">
+            <ModalGoalInfo goal={goal} />
+          </div>
+
+          {/* style bidouillage, a revoir */}
+          <div className={`flex pt-24 sm:pt-0 sm:justify-center items-center flex-col`} style={{ height: 'calc(100vh - 100px)'}}>
             <div className="flex items-center gap-3">
               {typeof goalOrdre === "string" &&
-                firstGoal !== parseInt(goalOrdre) && (
+                firstGoal !== parseInt(goalOrdre) ? (
                   <Button
                     onClick={() => changeGoal("last")}
                     variant={"carousel"}
@@ -81,12 +86,14 @@ const GoalCarouselPage = () => {
                       chevron_left
                     </span>
                   </Button>
+                ) : (
+                  <div className="w-14"></div>
                 )}
 
               <h2 className="text-2xl font-bold">But n°{goalOrdre}</h2>
 
               {typeof goalOrdre === "string" &&
-                lastGoal !== parseInt(goalOrdre) && (
+                lastGoal !== parseInt(goalOrdre) ? (
                   <Button
                     onClick={() => changeGoal("next")}
                     variant={"carousel"}
@@ -95,13 +102,15 @@ const GoalCarouselPage = () => {
                       chevron_right
                     </span>
                   </Button>
+                ) : (
+                  <div className="w-14"></div>
                 )}
             </div>
 
             <div className="flex">
               <div className="my-5 mx-auto overflow-hidden rounded-xl">
                 <iframe
-                  className="h-[400px] w-[400px] sm:w-[500px] sm:h-[500px] lg:w-[800px] border-none"
+                  className="h-[400px] w-[400px] sm:w-[600px] sm:h-[500px] lg:h-[600px] lg:w-[800px] border-none"
                   src={goal?.link}
                   data-gtm-yt-inspected-12="true"
                   title={goal?.buteur.lastname}
@@ -112,10 +121,6 @@ const GoalCarouselPage = () => {
                 ></iframe>
               </div>
             </div>
-          </div>
-
-          <div className="mx-6">
-            <GoalInfo goal={goal} />
           </div>
         </>
       ) : (

@@ -38,8 +38,8 @@ export default function Ranking() {
   };
 
   return (
-    <Table className="bg-tertiary/90 text-white">
-      <TableHeader className="bg-tertiary">
+    <Table className="max-w-[1200px]">
+      <TableHeader className="border-b">
         <TableRow>
           <TableHead>Position</TableHead>
           <TableHead>Joueurs</TableHead>
