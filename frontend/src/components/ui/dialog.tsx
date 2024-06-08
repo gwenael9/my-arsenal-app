@@ -34,7 +34,7 @@ const DialogContent = React.forwardRef<
     <DialogPrimitive.Content
       ref={ref}
       className={cn(
-        "fixed left-[50%] top-[50%] z-50 grid w-full h-1/4 max-w-xl translate-x-[-50%] translate-y-[-50%] gap-4 border bg-white sm:rounded-lg",
+        "fixed left-[50%] top-[50%] z-50 grid w-full h-1/4 max-w-xl translate-x-[-50%] translate-y-[-50%] gap-4 border bg-white rounded-lg",
         className
       )}
       {...props}
@@ -84,7 +84,7 @@ const DialogTitle = React.forwardRef<
   <DialogPrimitive.Title
     ref={ref}
     className={cn(
-      "text-2xl font-semibold leading-none tracking-tight",
+      "text-2xl font-semibold leading-none tracking-tight text-start",
       className
     )}
     {...props}
