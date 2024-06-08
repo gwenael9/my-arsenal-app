@@ -31,7 +31,7 @@ export default function ModalGoalInfo({ goal }: GoalCardProps) {
       <DialogContent
         className={`border-2 overflow-hidden max-w-[450px] ${
           domicile ? "border-primary" : "border-secondary"
-        } p-2`}
+        }`}
       >
         <DialogHeader>
           <DialogTitle>
