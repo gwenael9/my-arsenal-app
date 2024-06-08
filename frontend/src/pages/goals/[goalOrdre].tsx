@@ -74,43 +74,42 @@ const GoalCarouselPage = () => {
           </div>
 
           {/* style bidouillage, a revoir */}
-          <div className={`flex pt-24 sm:pt-0 sm:justify-center items-center flex-col`} style={{ height: 'calc(100vh - 100px)'}}>
+          <div
+            className={`flex pt-24 sm:pt-0 sm:justify-center items-center flex-col`}
+            style={{ height: "calc(100vh - 100px)" }}
+          >
             <div className="flex items-center gap-3">
               {typeof goalOrdre === "string" &&
-                firstGoal !== parseInt(goalOrdre) ? (
-                  <Button
-                    onClick={() => changeGoal("last")}
-                    variant={"carousel"}
-                  >
-                    <span className="material-symbols-outlined">
-                      chevron_left
-                    </span>
-                  </Button>
-                ) : (
-                  <div className="w-14"></div>
-                )}
+              firstGoal !== parseInt(goalOrdre) ? (
+                <Button onClick={() => changeGoal("last")} variant={"carousel"}>
+                  <span className="material-symbols-outlined">
+                    chevron_left
+                  </span>
+                </Button>
+              ) : (
+                <div className="w-14"></div>
+              )}
 
               <h2 className="text-2xl font-bold">But n°{goalOrdre}</h2>
 
               {typeof goalOrdre === "string" &&
-                lastGoal !== parseInt(goalOrdre) ? (
-                  <Button
-                    onClick={() => changeGoal("next")}
-                    variant={"carousel"}
-                  >
-                    <span className="material-symbols-outlined">
-                      chevron_right
-                    </span>
-                  </Button>
-                ) : (
-                  <div className="w-14"></div>
-                )}
+              lastGoal !== parseInt(goalOrdre) ? (
+                <Button onClick={() => changeGoal("next")} variant={"carousel"}>
+                  <span className="material-symbols-outlined">
+                    chevron_right
+                  </span>
+                </Button>
+              ) : (
+                <div className="w-14"></div>
+              )}
             </div>
 
             <div className="flex">
-              <div className="my-5 mx-auto overflow-hidden rounded-xl">
+              <div
+                className="my-5 mx-auto overflow-hidden rounded-xl w-full"
+              >
                 <iframe
-                  className="h-[400px] w-[400px] sm:w-[600px] sm:h-[500px] lg:h-[600px] lg:w-[800px] border-none"
+                  className="w-full sm:w-[500px] h-[400px] sm:h-[500px] md:w-[600px] lg:w-[700px]"
                   src={goal?.link}
                   data-gtm-yt-inspected-12="true"
                   title={goal?.buteur.lastname}
