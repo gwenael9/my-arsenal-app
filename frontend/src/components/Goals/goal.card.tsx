@@ -12,6 +12,7 @@ import Link from "next/link";
 import { getName, toUpOne } from "@/lib/functions";
 import { useEffect, useState } from "react";
 import { GoalCardProps } from "@/types/interface";
+import { ArrowRight } from "lucide-react";
 
 const GoalCard: React.FC<GoalCardProps> = ({ goal }) => {
   const [domicile, setDomicile] = useState(true);
@@ -41,7 +42,7 @@ const GoalCard: React.FC<GoalCardProps> = ({ goal }) => {
       </CardHeader>
       <CardContent>
         <p>
-          vs{" "}
+          vs.{" "}
           <span className="text-lg font-bold">
             {goal.against.toUpperCase()}
           </span>
@@ -50,10 +51,10 @@ const GoalCard: React.FC<GoalCardProps> = ({ goal }) => {
       <CardFooter>
         <div className="flex gap-1 flex-col">
           <Badge variant="black">{toUpOne(goal.where) || stade}</Badge>
-          <Badge variant="black">{goal.competition}</Badge>
+          <Badge variant="test">{goal.competition}</Badge>
         </div>
         <Link href={`/goals/${goal.ordre}`}>
-          <Button variant="black">Voir le but</Button>
+          <Button variant="arrowCard"><ArrowRight /></Button>
         </Link>
       </CardFooter>
     </Card>
