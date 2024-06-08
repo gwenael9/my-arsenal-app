@@ -1,7 +1,6 @@
 import { Player } from "@/types/graphql";
 
 export function toUpOne(str: string) {
-  console.log(str);
   return str
     .split(" ")
     .map((word) => {

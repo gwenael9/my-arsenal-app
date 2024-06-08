@@ -28,12 +28,12 @@ const GoalCarouselPage = () => {
   // premier but en bdd
   const firstGoal = allGoal
     ?.map((g) => g.ordre)
-    ?.reduce((a, b) => Math.min(a, b), Infinity);
+    ?.reduce((a, b) => Math.min(a, b), 120);
 
   // dernier but en bdd
   const lastGoal = allGoal
     ?.map((g) => g.ordre)
-    ?.reduce((a, b) => Math.max(a, b), -Infinity);
+    ?.reduce((a, b) => Math.max(a, b), 0);
 
   const changeGoal = (direction: "next" | "last") => {
     if (typeof goalOrdre === "string") {
@@ -61,8 +61,6 @@ const GoalCarouselPage = () => {
       const timer = setTimeout(() => {
         setShowError(true);
       }, 500);
-
-      // Cleanup the timer when component unmounts or when goal changes
       return () => clearTimeout(timer);
     }
   }, [loading, goal]);

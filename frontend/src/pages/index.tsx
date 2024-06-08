@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/select";
 import { Player, useGoalsQuery, usePlayersQuery } from "@/types/graphql";
 import { PLAYER_BY_ID } from "@/requetes/queries/playerById.queries";
-import { SlidersHorizontal, Undo2, X } from "lucide-react";
+import { AlignJustify, SlidersHorizontal, Undo2, X } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import ReponseFiltres from "@/components/Filtres/Reponse";
 import { toUpOne } from "@/lib/functions";
@@ -51,15 +51,11 @@ export default function Home() {
   const [buttonFiltre, setButtonFiltre] = useState(true);
 
   // query qui recup le joueur selon son id
-  const {
-    data: buteurData,
-  } = useQuery(PLAYER_BY_ID, {
+  const { data: buteurData } = useQuery(PLAYER_BY_ID, {
     variables: { playerId: selectedButeurId },
   });
 
-  const {
-    data: passeurData,
-  } = useQuery(PLAYER_BY_ID, {
+  const { data: passeurData } = useQuery(PLAYER_BY_ID, {
     variables: { playerId: selectPasseurId },
   });
 
@@ -179,7 +175,7 @@ export default function Home() {
 
   return (
     <Layout title="Accueil">
-      <div className="bg-tertiary/20 px-4 flex flex-col">
+      <div className="px-4 flex flex-col">
         <div className="flex p-2 justify-between items-center">
           <h2 className="font-bold text-2xl">{displayGoal} BUTS</h2>
           {goalsFiltre.length > 1 && (

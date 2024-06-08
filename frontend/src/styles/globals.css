@@ -4,6 +4,8 @@
 
 body {
   font-family: "Nunito Sans", sans-serif;
+  overflow: hidden;
+  background-color: #F4F2F0;
 }
 
 @layer base {
@@ -73,8 +75,4 @@ body {
 * {
   margin: 0;
   padding: 0;
-}
-
-body {
-  overflow: hidden;
 }
