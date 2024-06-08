@@ -20,24 +20,26 @@ export default function MenuMobile({
 }: MenuMobileProps) {
   return (
     <div
-      className={`fixed w-full top-10 z-50 transition-transform duration-300 ease-in-out ${
+      className={`fixed w-full top-20 z-50 transition-transform duration-300 ease-in-out ${
         isOpen ? "transform translate-x-0" : "transform -translate-x-full"
       }`}
     >
       <div
-        className="bg-white p-5 rounded mx-10"
-        style={{ height: "calc(100vh - 80px)" }}
+        className="bg-white py-5 rounded mx-10"
+        style={{ height: "calc(100vh - 200px)" }}
       >
-        <div className="flex flex-col gap-10 h-full relative">
-          <div className="flex justify-center flex-col items-center gap-2">
+        <div className="flex flex-col h-full relative">
+          <div className="flex justify-center flex-col items-center mt-4">
             {navLink.map((n, index) => (
-              <Link
-                key={index}
-                href={n.link}
-                className="text-xl uppercase font-bold"
-              >
-                {n.name}
-              </Link>
+              <div className="hover:bg-tertiary/20 w-full text-center py-2">
+                <Link
+                  key={index}
+                  href={n.link}
+                  className="text-xl uppercase font-bold"
+                >
+                  {n.name}
+                </Link>
+              </div>
             ))}
           </div>
           <div className="absolute bottom-0 right-0 p-4">

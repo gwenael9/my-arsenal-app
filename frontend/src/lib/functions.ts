@@ -48,7 +48,7 @@ const flags: { [key: string]: string } = {
 
 export const flagCountry = (country: string) => flags[toUpOne(country)] || "";
 
-export const getName = (name: Player, item: string) => {
+export const getName = (name: Player, item?: string) => {
   const fullname = `${name.firstname} ${name.lastname}`;
   return item === "buteur" ? fullname.toUpperCase() : toUpOne(fullname);
 };

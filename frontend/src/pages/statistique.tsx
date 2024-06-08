@@ -4,8 +4,8 @@ import Ranking from "@/components/Players/player.ranking";
 export default function Statistique() {
   return (
     <Layout title="Statistique">
-      <h2 className="font-bold text-xl">Classement des meilleurs buteurs</h2>
-      <div className="p-2">
+      {/* <h2 className="font-bold text-xl mb-2">Classement des meilleurs buteurs</h2> */}
+      <div className="flex justify-center">
         <Ranking />
       </div>
     </Layout>

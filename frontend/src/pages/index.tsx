@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/select";
 import { Player, useGoalsQuery, usePlayersQuery } from "@/types/graphql";
 import { PLAYER_BY_ID } from "@/requetes/queries/playerById.queries";
-import { AlignJustify, SlidersHorizontal, Undo2, X } from "lucide-react";
+import { SlidersHorizontal, Undo2, X } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import ReponseFiltres from "@/components/Filtres/Reponse";
 import { toUpOne } from "@/lib/functions";
@@ -175,7 +175,7 @@ export default function Home() {
 
   return (
     <Layout title="Accueil">
-      <div className="px-4 flex flex-col">
+      <div className="px-4 flex flex-col border-b">
         <div className="flex p-2 justify-between items-center">
           <h2 className="font-bold text-2xl">{displayGoal} BUTS</h2>
           {goalsFiltre.length > 1 && (
