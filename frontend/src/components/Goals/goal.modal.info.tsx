@@ -29,7 +29,7 @@ export default function ModalGoalInfo({ goal }: GoalCardProps) {
         <Button variant={"filtre"}>Infos</Button>
       </DialogTrigger>
       <DialogContent
-        className={`border-2 overflow-hidden max-w-[450px] ${
+        className={`p-2 sm:p-4 border-2 overflow-hidden sm:max-w-[450px] w-full max-w-[90%] mx-auto ${
           domicile ? "border-primary" : "border-secondary"
         }`}
       >
@@ -44,11 +44,11 @@ export default function ModalGoalInfo({ goal }: GoalCardProps) {
             )}
           </DialogTitle>
         </DialogHeader>
-        <div className="flex justify-between p-4">
-          <div className="flex items-end ">
-            vs<span className="text-2xl sm:text-3xl ml-1">{modifNameTeam(goal.against)}</span>
+        <div className="flex justify-between">
+          <div className="flex items-end">
+            vs<span className="text-xl sm:text-3xl ml-1">{modifNameTeam(goal.against)}</span>
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col justify-end">
             <p className="flex items-center gap-1">
               <Calendar size={16} /> {formaterDate(goal.date)}
             </p>

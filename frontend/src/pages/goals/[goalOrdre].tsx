@@ -69,16 +69,15 @@ const GoalCarouselPage = () => {
     <Layout title={`But n°${goalOrdre}`}>
       {goal ? (
         <>
-          <div className="absolute right-5 top-24">
+          <div className="flex pt-4 pr-4 justify-end">
             <ModalGoalInfo goal={goal} />
           </div>
 
-          {/* style bidouillage, a revoir */}
           <div
-            className={`flex pt-24 sm:pt-0 sm:justify-center items-center flex-col`}
-            style={{ height: "calc(100vh - 100px)" }}
+            className="flex items-center flex-col gap-4"
+            // style={{ height: "calc(100vh - 152px)" }}
           >
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-4">
               {typeof goalOrdre === "string" &&
               firstGoal !== parseInt(goalOrdre) ? (
                 <Button onClick={() => changeGoal("last")} variant={"carousel"}>
@@ -104,20 +103,20 @@ const GoalCarouselPage = () => {
               )}
             </div>
 
-            <div className="flex">
-              <div
-                className="my-5 mx-auto overflow-hidden rounded-xl w-full"
-              >
-                <iframe
-                  className="w-full sm:w-[500px] h-[400px] sm:h-[500px] md:w-[600px] lg:w-[700px]"
-                  src={goal?.link}
-                  data-gtm-yt-inspected-12="true"
-                  title={goal?.buteur.lastname}
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  referrerPolicy="strict-origin-when-cross-origin"
-                  allowFullScreen
-                ></iframe>
+            <div className="flex justify-center w-full px-4">
+              <div className="overflow-hidden rounded-xl w-full max-w-4xl ">
+                <div className="relative pb-[56.25%] h-0">
+                  <iframe
+                    className="absolute top-0 left-0 w-full h-full"
+                    src={goal?.link}
+                    data-gtm-yt-inspected-12="true"
+                    title={goal?.buteur.lastname}
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allowFullScreen
+                  ></iframe>
+                </div>
               </div>
             </div>
           </div>
