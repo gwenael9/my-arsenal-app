@@ -69,13 +69,13 @@ const GoalCarouselPage = () => {
     <Layout title={`But n°${goalOrdre}`}>
       {goal ? (
         <>
-          <div className="flex pt-4 pr-4 justify-end">
+          <div className="absolute right-4 top-24">
             <ModalGoalInfo goal={goal} />
           </div>
 
           <div
-            className="flex items-center flex-col gap-4"
-            // style={{ height: "calc(100vh - 152px)" }}
+            className="flex justify-center items-center flex-col gap-12"
+            style={{ height: "calc(100vh - 80px)" }}
           >
             <div className="flex items-center gap-4">
               {typeof goalOrdre === "string" &&
@@ -89,7 +89,7 @@ const GoalCarouselPage = () => {
                 <div className="w-14"></div>
               )}
 
-              <h2 className="text-2xl font-bold">But n°{goalOrdre}</h2>
+              <h2 className="text-3xl font-bold">But n°{goalOrdre}</h2>
 
               {typeof goalOrdre === "string" &&
               lastGoal !== parseInt(goalOrdre) ? (
