@@ -9,7 +9,7 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import { formaterDate, getName } from "@/lib/functions";
-import { Calendar, MapPin, Trophy } from "lucide-react";
+import { Calendar, Info, MapPin, Trophy } from "lucide-react";
 
 export default function ModalGoalInfo({ goal }: GoalCardProps) {
   const domicile = goal.where == "" || goal.where == "Emirates Stadium";
@@ -26,7 +26,7 @@ export default function ModalGoalInfo({ goal }: GoalCardProps) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant={"filtre"}>Infos</Button>
+        <Button className="flex gap-1" variant={"filtre"}>Infos <Info size={20} /></Button>
       </DialogTrigger>
       <DialogContent
         className={`p-2 sm:p-4 border-2 overflow-hidden sm:max-w-[450px] w-full max-w-[90%] mx-auto ${

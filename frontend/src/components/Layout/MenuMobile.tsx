@@ -5,6 +5,7 @@ import { X } from "lucide-react";
 interface NavLink {
   name: string;
   link: string;
+  target?: string;
 }
 
 interface MenuMobileProps {
@@ -35,7 +36,9 @@ export default function MenuMobile({
                 <Link
                   key={index}
                   href={n.link}
-                  className="text-xl uppercase font-bold"
+                  onClick={closeMenu}
+                  target={n.target}
+                  className="text-xl uppercase font-bold w-full"
                 >
                   {n.name}
                 </Link>

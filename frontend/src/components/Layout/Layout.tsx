@@ -41,8 +41,10 @@ export default function Layout({ children, title }: LayoutProps) {
     ?.reduce((a, b) => Math.min(a, b), Infinity);
 
   const navLink = [
+    { name: "Accueil", link: "/" },
     { name: "Buts", link: `/goals/${firstGoal}` },
     { name: "Statistique", link: "/statistique" },
+    { name: "Don", link: "https://www.paypal.com/paypalme/ggueho", target: "_blank"},
   ];
 
   return (
@@ -77,13 +79,14 @@ export default function Layout({ children, title }: LayoutProps) {
             className="font-bold uppercase hover:text-primary"
             key={index}
             href={n.link}
+            target={n.target}
             >
               {n.name}
             </Link>
           ))}
         </nav>
 
-        <div className="sm:hidden">
+        <div className="sm:hidden flex items-center">
           <button onClick={toggleMenu}>
             {!isOpen ? <AlignJustify height={24} /> : <X height={24} />}
           </button>
