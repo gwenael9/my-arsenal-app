@@ -76,3 +76,9 @@ body {
   margin: 0;
   padding: 0;
 }
+
+.bg-quadrille {
+  background-image: repeating-linear-gradient(-45deg, #ccc 5px, transparent 26%, transparent 75%, #ccc 76%, #ccc), repeating-linear-gradient(45deg, #ccc 25px, transparent 26%, transparent 75%, #ccc 76%, #ccc);
+  background-size: 50px 25px;
+}
+

@@ -15,10 +15,10 @@ export default function ReponseFiltres({
   onClick,
 }: ReponseFiltresPros) {
   return (
-    <div className="py-1 px-3 border rounded flex items-center justify-between bg-background">
+    <div className="py-1 px-2 text-xs border rounded-md flex items-center justify-between bg-background">
       {loading ? "Chargement..." : error ? `Erreur: ${error.message}` : data}
       <Button size="arrow" variant="arrow" onClick={onClick}>
-        <X />
+        <X size={16} />
       </Button>
     </div>
   );

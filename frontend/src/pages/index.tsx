@@ -16,16 +16,20 @@ import { SlidersHorizontal, Undo2, X } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import ReponseFiltres from "@/components/Filtres/Reponse";
 import { toUpOne } from "@/lib/functions";
+import FormFilters from "@/components/Filtres/Form";
 
 const stade = "Emirates Stadium";
 
-const filters = {
+export const filters = {
   Buteur: "Buteur",
   Passeur: "Passeur",
   Stade: "Stade",
+  Competition: "Competition"
 };
 
 const lieuOptions = [stade, "Extérieur"];
+
+const Competition = ["Premier League", "Champions League", "FA Cup", "EFL Cup", "Community Shield"]
 
 export default function Home() {
   const { toast } = useToast();
@@ -46,6 +50,8 @@ export default function Home() {
   const [selectStade, setSelectStade] = useState("");
   // passeur sélectionné dans les filtres
   const [selectPasseurId, setSelectedPasseurId] = useState("");
+  // competition sélectionné dans les filtres
+  const [selectCompetition, setSelectedCompetition] = useState("");
 
   // button filtre
   const [buttonFiltre, setButtonFiltre] = useState(true);
@@ -64,6 +70,7 @@ export default function Home() {
     setSelectedButeurId("");
     setSelectStade("");
     setSelectedPasseurId("");
+    setSelectedCompetition("");
     setButtonFiltre(true);
     toast({
       title: "Filtre(s) supprimé(s).",
@@ -79,6 +86,8 @@ export default function Home() {
       setSelectedPasseurId(value === filters.Passeur ? "" : value);
     } else if (filter === filters.Stade) {
       setSelectStade(value === "Tout" ? "" : value);
+    } else if (filter === filters.Competition) {
+      setSelectedCompetition(value === "Tout" ? "" : value);
     }
   };
 
@@ -122,6 +131,17 @@ export default function Home() {
             ))}
           </>
         );
+      case filters.Competition:
+        return (
+          <>
+            <SelectItem value="Tout">Tout</SelectItem>
+            {Competition.map((option, index) => (
+              <SelectItem key={index} value={option}>
+                {option}
+              </SelectItem>
+            ))}
+          </>
+        );
       default:
         return null;
     }
@@ -141,7 +161,9 @@ export default function Home() {
         !selectStade ||
         (selectStade === stade && goal.where === stade) ||
         (selectStade === "Extérieur" && goal.where !== stade);
-      return buteurMatch && passeurMatch && stadeMatch;
+        // on filtre par la competition si une competition est sélectionnée
+      const competitionMatch = !selectCompetition || goal.competition == selectCompetition;
+      return buteurMatch && passeurMatch && stadeMatch && competitionMatch;
     }) || [];
 
   // trier dans l'ordre décroissant/croissant
@@ -170,14 +192,16 @@ export default function Home() {
       return selectPasseurId;
     } else if (value === filters.Stade) {
       return selectStade;
+    } else if (value === filters.Competition) {
+      return selectCompetition;
     }
   };
 
   return (
     <Layout title="Accueil">
-      <div className="px-4 flex flex-col border-b">
+      <div className="px-4 flex flex-col border-b bg-quadrille">
         <div className="flex p-2 justify-between items-center">
-          <h2 className="font-bold text-2xl">{displayGoal} BUTS</h2>
+          <h2 className="font-bold text-3xl"><span className="text-primary">{displayGoal}</span> BUTS</h2>
           {goalsFiltre.length > 1 && (
             <Button variant="filtre" onClick={() => setIsFirst(!isFirst)}>
               {isFirst ? (
@@ -191,7 +215,7 @@ export default function Home() {
           )}
         </div>
 
-        <div className="p-3 flex">
+        <div className="p-2 flex sm:hidden">
           {buttonFiltre ? (
             <div className="flex justify-start">
               <Button
@@ -204,33 +228,16 @@ export default function Home() {
               </Button>
             </div>
           ) : (
-            <form className="flex justify-between gap-4 flex-col md:flex-row">
-              {Object.values(filters).map((filter, index) => (
-                <Select
-                  key={index}
-                  name={filter}
-                  onValueChange={(value) => handleSelectChange(value, filter)}
-                  value={handleChangeValue(filter)}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder={filter} />
-                  </SelectTrigger>
-                  <SelectContent>{renderSelectOptions(filter)}</SelectContent>
-                </Select>
-              ))}
-              <div className="flex">
-                {!selectedButeurId && !selectPasseurId && !selectStade && (
-                  <Button variant="destructive" onClick={handleMaj}>
-                    <Undo2 />
-                  </Button>
-                )}
-              </div>
-            </form>
-          )}
+            <FormFilters handleSelectChange={handleSelectChange} handleChangeValue={handleChangeValue} renderSelectOptions={renderSelectOptions} selectCompetition={selectCompetition} selectPasseurId={selectPasseurId} selectStade={selectStade} selectedButeurId={selectedButeurId} handleMaj={handleMaj}/>
+            )}
+        </div>
+
+        <div className="p-2 hidden sm:flex">
+          <FormFilters handleSelectChange={handleSelectChange} handleChangeValue={handleChangeValue} renderSelectOptions={renderSelectOptions} selectCompetition={selectCompetition} selectPasseurId={selectPasseurId} selectStade={selectStade} selectedButeurId={selectedButeurId} handleMaj={handleMaj}/>
         </div>
 
         <div className="flex justify-between items-center p-2">
-          <div className="flex gap-1">
+          <div className="flex gap-1 flex-wrap sm:flex-row">
             {selectedButeurId && (
               <ReponseFiltres
                 data={toUpOne(getName(buteurData?.getPlayerById))}
@@ -249,8 +256,14 @@ export default function Home() {
                 onClick={() => setSelectStade("")}
               />
             )}
+            {selectCompetition && (
+              <ReponseFiltres
+                data={selectCompetition}
+                onClick={() => setSelectedCompetition("")}
+              />
+            )}
           </div>
-          {(selectStade || selectedButeurId || selectPasseurId) && (
+          {(selectStade || selectedButeurId || selectPasseurId || selectCompetition) && (
             <Button onClick={handleMaj}>
               <X />
             </Button>
