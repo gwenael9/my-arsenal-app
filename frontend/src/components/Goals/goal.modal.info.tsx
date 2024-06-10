@@ -29,7 +29,7 @@ export default function ModalGoalInfo({ goal }: GoalCardProps) {
         <Button className="flex gap-1" variant={"filtre"}>Infos <Info size={20} /></Button>
       </DialogTrigger>
       <DialogContent
-        className={`p-2 sm:p-4 border-2 overflow-hidden sm:max-w-[450px] w-full max-w-[90%] mx-auto ${
+        className={`p-2 sm:p-4 border-2 overflow-hidden sm:max-w-[450px] w-full max-w-[90%] mx-auto max-h-[180px] ${
           domicile ? "border-primary" : "border-secondary"
         }`}
       >

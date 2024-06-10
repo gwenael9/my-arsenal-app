@@ -41,7 +41,6 @@ export default function Layout({ children, title }: LayoutProps) {
     ?.reduce((a, b) => Math.min(a, b), Infinity);
 
   const navLink = [
-    { name: "Accueil", link: "/" },
     { name: "Buts", link: `/goals/${firstGoal}` },
     { name: "Statistique", link: "/statistique" },
     { name: "Don", link: "https://www.paypal.com/paypalme/ggueho", target: "_blank"},
