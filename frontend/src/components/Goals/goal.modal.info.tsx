@@ -12,7 +12,6 @@ import { flagCountry, formaterDate, getName } from "@/lib/functions";
 import { Calendar, Info, MapPin, Trophy } from "lucide-react";
 
 export default function ModalGoalInfo({ goal }: GoalCardProps) {
-  const domicile = goal.where == "" || goal.where == "Emirates Stadium";
 
   const modifNameTeam = (item: string) => {
     if (item.includes("Manchester United")) {
@@ -21,16 +20,6 @@ export default function ModalGoalInfo({ goal }: GoalCardProps) {
       return "Man. City";
     }
     return item;
-  };
-
-  // l'angle du fond de la modal
-  const [randomAngle, setRandomAngle] = useState<number>(
-    Math.floor(Math.random() * 360)
-  );
-
-  // a chaque click sur info, un nouvel angle est défini
-  const handleRandomAngle = () => {
-    setRandomAngle(Math.floor(Math.random() * 360));
   };
 
   const itemDescriptionTable = [
@@ -45,6 +34,7 @@ export default function ModalGoalInfo({ goal }: GoalCardProps) {
     {
       icon: <MapPin size={16} />,
       item: goal.where,
+      stade: goal.where
     },
   ];
 
@@ -52,24 +42,13 @@ export default function ModalGoalInfo({ goal }: GoalCardProps) {
     <Dialog>
       <DialogTrigger asChild>
         <Button
-          onClick={handleRandomAngle}
           className="flex gap-1"
           variant={"filtre"}
         >
           Infos <Info size={20} />
         </Button>
       </DialogTrigger>
-      <DialogContent className="fixed top-1/2 left-1/2 p-4 border-2 overflow-hidden sm:max-w-[450px] w-full max-w-[90%] h-[180px]">
-        <div className="absolute inset-0 z-[-1]">
-          <div className="absolute w-full h-full">
-            <div
-              className={`h-full w-[500px] bg-gradient-to-r ${
-                domicile ? "from-primary" : "from-secondary"
-              } to-transparent`}
-              style={{ transform: `rotate(${randomAngle}deg)`, opacity: 0.8 }}
-            ></div>
-          </div>
-        </div>
+      <DialogContent className="fixed border-tertiary top-1/2 left-1/2 p-4 border overflow-hidden sm:max-w-[450px] w-full max-w-[90%] h-[180px]">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <img

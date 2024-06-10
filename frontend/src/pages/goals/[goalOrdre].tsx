@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import Erreur from "@/components/Erreur";
 import { useEffect, useState } from "react";
 import ModalGoalInfo from "@/components/Goals/goal.modal.info";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const GoalCarouselPage = () => {
   const router = useRouter();
@@ -81,9 +82,7 @@ const GoalCarouselPage = () => {
               {typeof goalOrdre === "string" &&
               firstGoal !== parseInt(goalOrdre) ? (
                 <Button onClick={() => changeGoal("last")} variant={"carousel"}>
-                  <span className="material-symbols-outlined">
-                    chevron_left
-                  </span>
+                  <ChevronLeft />
                 </Button>
               ) : (
                 <div className="w-14"></div>
@@ -94,9 +93,7 @@ const GoalCarouselPage = () => {
               {typeof goalOrdre === "string" &&
               lastGoal !== parseInt(goalOrdre) ? (
                 <Button onClick={() => changeGoal("next")} variant={"carousel"}>
-                  <span className="material-symbols-outlined">
-                    chevron_right
-                  </span>
+                  <ChevronRight />
                 </Button>
               ) : (
                 <div className="w-14"></div>
