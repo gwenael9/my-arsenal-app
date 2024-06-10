@@ -297,7 +297,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="my-6 mx-12">
+      <div className="my-6 sm:mx-12">
         {goalsFiltre.length > 0 ? (
           <div className="flex flex-wrap gap-4 justify-center">
             {goalsFiltre.map((goal) => (

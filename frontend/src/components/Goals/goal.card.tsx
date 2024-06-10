@@ -39,7 +39,7 @@ export default function GoalCard({ goal }: GoalCardProps) {
   return (
     <Card className="border relative overflow-hidden border-tertiary/20">
       <div
-        className={`absolute flex justify-center w-[95px] top-0 left-[280px] text-xs p-2 transform font-bold  ${
+        className={`absolute flex justify-center w-[100px] top-0 -right-7 text-xs p-2 transform font-bold  ${
           domicile ? "bg-primary" : "bg-secondary"
         }`}
         style={{ transform: "rotate(45deg)" }}
