@@ -75,6 +75,7 @@ export default function Home() {
     if (item == "toast") {
       toast({
         title: "Filtre(s) supprimé(s).",
+        variant: "delete"
       });
     }
   };
@@ -305,7 +306,7 @@ export default function Home() {
             ))}
           </div>
         ) : (
-          <div>Aucun but pour le moment...</div>
+          <div className="text-center">Aucun but pour le moment...</div>
         )}
       </div>
     </Layout>

@@ -108,9 +108,9 @@ const GoalCarouselPage = () => {
                 <div className="relative pb-[56.25%] ">
                   <iframe
                     className="absolute top-0 left-0 w-full h-full"
-                    src={goal?.link}
+                    src={`${goal?.link}&amp;autoplay=1`}
                     data-gtm-yt-inspected-12="true"
-                    title={goal?.buteur.lastname}
+                    title={goal.buteur.lastname}
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     referrerPolicy="strict-origin-when-cross-origin"

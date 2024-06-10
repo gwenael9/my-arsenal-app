@@ -30,7 +30,7 @@ export default function FormFilters({
   handleMaj,
 }: FormProps) {
   return (
-    <form className="grid grid-cols-2 gap-2 sm:gap-4 sm:flex sm:justify-between sm:flex-row w-full max-w-[900px]">
+    <form className="grid grid-cols-2 gap-2 sm:gap-4 sm:flex sm:flex-row w-full max-w-[900px]">
       {Object.values(filters).map((filter, index) => (
           <Select
             key={index}

@@ -8,7 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
-import { formaterDate, getName } from "@/lib/functions";
+import { flagCountry, formaterDate, getName } from "@/lib/functions";
 import { Calendar, Info, MapPin, Trophy } from "lucide-react";
 
 export default function ModalGoalInfo({ goal }: GoalCardProps) {
@@ -24,7 +24,9 @@ export default function ModalGoalInfo({ goal }: GoalCardProps) {
   };
 
   // l'angle du fond de la modal
-  const [randomAngle, setRandomAngle] = useState<number>(Math.floor(Math.random() * 360));
+  const [randomAngle, setRandomAngle] = useState<number>(
+    Math.floor(Math.random() * 360)
+  );
 
   // a chaque click sur info, un nouvel angle est défini
   const handleRandomAngle = () => {
@@ -49,7 +51,11 @@ export default function ModalGoalInfo({ goal }: GoalCardProps) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button onClick={handleRandomAngle} className="flex gap-1" variant={"filtre"}>
+        <Button
+          onClick={handleRandomAngle}
+          className="flex gap-1"
+          variant={"filtre"}
+        >
           Infos <Info size={20} />
         </Button>
       </DialogTrigger>
@@ -57,7 +63,7 @@ export default function ModalGoalInfo({ goal }: GoalCardProps) {
         <div className="absolute inset-0 z-[-1]">
           <div className="absolute w-full h-full">
             <div
-              className={`h-full w-full bg-gradient-to-r ${
+              className={`h-full w-[500px] bg-gradient-to-r ${
                 domicile ? "from-primary" : "from-secondary"
               } to-transparent`}
               style={{ transform: `rotate(${randomAngle}deg)`, opacity: 0.8 }}
@@ -65,7 +71,12 @@ export default function ModalGoalInfo({ goal }: GoalCardProps) {
           </div>
         </div>
         <DialogHeader>
-          <DialogTitle>
+          <DialogTitle className="flex items-center gap-2">
+            <img
+              src={`https://flagcdn.com/${flagCountry(goal.buteur.country)}.svg`}
+              alt={goal.buteur.country}
+              className="w-5"
+            />
             {getName(goal.buteur, "buteur")}
             {goal.passeur && (
               <span className="text-sm text-muted-foreground">
