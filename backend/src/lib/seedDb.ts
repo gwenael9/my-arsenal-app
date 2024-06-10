@@ -14,8 +14,8 @@ async function seedDb() {
 
   if (!user) {
     const newUser = await userService.createUser({
-      email:"test@mail.com",
-      password: "test",
+      email: process.env.email || "test@mail.com",
+      password: process.env.password,
       role: "ADMIN",
     });
 
