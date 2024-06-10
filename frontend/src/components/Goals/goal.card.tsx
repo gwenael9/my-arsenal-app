@@ -8,14 +8,19 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import Link from "next/link";
 import { getName, toUpOne } from "@/lib/functions";
 import { useEffect, useState } from "react";
 import { GoalCardProps } from "@/types/interface";
 import { ArrowRight } from "lucide-react";
+import { useRouter } from "next/router";
 
-const GoalCard: React.FC<GoalCardProps> = ({ goal }) => {
+export default function GoalCard({ goal }: GoalCardProps) {
+  const router = useRouter();
   const [domicile, setDomicile] = useState(true);
+  // effet quand on click sur la fleche
+  const [arrowAnimated, setArrowAnimated] = useState(false);
+  // effet quand on survole la fleche
+  const [arrowHovered, setArrowHovered] = useState(false); 
 
   const stade = "Emirates Stadium";
 
@@ -24,26 +29,37 @@ const GoalCard: React.FC<GoalCardProps> = ({ goal }) => {
     setDomicile(goal.where == "" || goal.where == stade);
   }, [goal.where]);
 
+  const handleArrowClick = () => {
+    setArrowAnimated(true); 
+    setTimeout(() => {
+      router.push(`/goals/${goal.ordre}`); 
+    }, 200); 
+  };
+
   return (
     <Card className="border relative overflow-hidden border-tertiary/20">
       <div
-        className={`absolute w-20 top-0 left-[230px] text-xs p-2 transform ${
+        className={`absolute flex justify-center w-[95px] top-0 left-[280px] text-xs p-2 transform font-bold  ${
           domicile ? "bg-primary" : "bg-secondary"
         }`}
         style={{ transform: "rotate(45deg)" }}
-      ></div>
-      <CardHeader className="flex flex-col z-10">
+      >
+        n°{goal.ordre}
+      </div>
+      <CardHeader className="flex flex-col">
         <CardTitle>{getName(goal.buteur, "buteur").toUpperCase()}</CardTitle>
-        {goal.passeur != null && (
-          <CardDescription>({getName(goal.passeur, "passeur")})</CardDescription>
-        )}
-        {goal.passeur == null && <div className="h-5"></div>}
-        <p>But n°{goal.ordre}.</p>
+        <CardDescription>
+          {goal.passeur != null ? (
+            getName(goal.passeur, "passeur")
+          ) : (
+            <div className="h-5"></div>
+          )}
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <p>
           vs.{" "}
-          <span className="text-lg font-bold">
+          <span className="text-xl font-bold">
             {goal.against.toUpperCase()}
           </span>
         </p>
@@ -53,12 +69,15 @@ const GoalCard: React.FC<GoalCardProps> = ({ goal }) => {
           <Badge variant="black">{toUpOne(goal.where) || stade}</Badge>
           <Badge variant="test">{goal.competition}</Badge>
         </div>
-        <Link href={`/goals/${goal.ordre}`}>
-          <Button variant="arrowCard"><ArrowRight /></Button>
-        </Link>
+        <Button
+          variant="arrowCard"
+          onClick={handleArrowClick}
+          onMouseEnter={() => setArrowHovered(true)} 
+          onMouseLeave={() => setArrowHovered(false)} 
+        >
+          <ArrowRight className={`${arrowAnimated ? "translate-x-1/2" : ""} ${arrowHovered ? "-translate-x-1/2 " : "translate-x-0"} duration-500`} />
+        </Button>
       </CardFooter>
     </Card>
   );
 };
-
-export default GoalCard;

@@ -49,7 +49,7 @@ export default function FormFilters({
           !selectPasseurId &&
           !selectStade &&
           !selectCompetition && (
-            <Button variant="destructive" onClick={handleMaj}>
+            <Button onClick={handleMaj}>
               <Undo2 />
             </Button>
           )}

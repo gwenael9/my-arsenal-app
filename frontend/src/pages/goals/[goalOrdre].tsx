@@ -68,7 +68,7 @@ const GoalCarouselPage = () => {
   return (
     <Layout title={`But n°${goalOrdre}`}>
       {goal ? (
-        <>
+        <div>
           <div className="flex justify-end pt-4 pr-4">
             <ModalGoalInfo goal={goal} />
           </div>
@@ -105,7 +105,7 @@ const GoalCarouselPage = () => {
 
             <div className="flex justify-center w-full px-4">
               <div className="overflow-hidden rounded-xl w-full max-w-4xl ">
-                <div className="relative pb-[56.25%] h-0">
+                <div className="relative pb-[56.25%] ">
                   <iframe
                     className="absolute top-0 left-0 w-full h-full"
                     src={goal?.link}
@@ -120,7 +120,7 @@ const GoalCarouselPage = () => {
               </div>
             </div>
           </div>
-        </>
+        </div>
       ) : (
         showError && <Erreur item={`But n°${goalOrdre} inconnu.`} />
       )}

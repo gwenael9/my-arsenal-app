@@ -53,7 +53,7 @@ export default function Ranking() {
   };
 
   const requestSort = (key: SortKey) => {
-    let direction: SortDirection  = "descending";
+    let direction: SortDirection = "descending";
     if (sortConfig.key === key && sortConfig.direction === "descending") {
       direction = "ascending";
     }
@@ -69,8 +69,11 @@ export default function Ranking() {
           <TableHead>Position</TableHead>
           <TableHead>Joueurs</TableHead>
           {tableHeaderStats.map((stat, index) => (
-            <TableHead key={index} >
-              <div onClick={() => requestSort(stat)} className="flex justify-center items-center cursor-pointer">
+            <TableHead key={index}>
+              <div
+                onClick={() => requestSort(stat)}
+                className="flex justify-center items-center cursor-pointer"
+              >
                 {toUpOne(stat == "goals" ? "buts" : "passes")}{" "}
                 {sortConfig.key === stat ? (
                   sortConfig.direction === "ascending" ? (
@@ -88,11 +91,7 @@ export default function Ranking() {
       </TableHeader>
       <TableBody>
         {playersFiltered.map((player, index) => (
-          <TableRow
-            key={index}
-            className="cursor-pointer"
-            onClick={() => router.push(`/players/${player.lastname}`)}
-          >
+          <TableRow key={index}>
             <TableCell className="font-bold w-10">{index + 1}.</TableCell>
             <TableCell className="font-bold flex items-center gap-2 justify-center">
               {flagCountry(player.country) && (

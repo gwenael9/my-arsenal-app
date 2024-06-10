@@ -3,13 +3,7 @@ import { useQuery } from "@apollo/client";
 import Layout from "@/components/Layout/Layout";
 import GoalCard from "@/components/Goals/goal.card";
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { SelectItem } from "@/components/ui/select";
 import { Player, useGoalsQuery, usePlayersQuery } from "@/types/graphql";
 import { PLAYER_BY_ID } from "@/requetes/queries/playerById.queries";
 import { SlidersHorizontal, Undo2, X } from "lucide-react";
@@ -24,12 +18,18 @@ export const filters = {
   Buteur: "Buteur",
   Passeur: "Passeur",
   Stade: "Stade",
-  Competition: "Competition"
+  Competition: "Competition",
 };
 
 const lieuOptions = [stade, "Extérieur"];
 
-const Competition = ["Premier League", "Champions League", "FA Cup", "EFL Cup", "Community Shield"]
+const Competition = [
+  "Premier League",
+  "Champions League",
+  "FA Cup",
+  "EFL Cup",
+  "Community Shield",
+];
 
 export default function Home() {
   const { toast } = useToast();
@@ -66,21 +66,23 @@ export default function Home() {
   });
 
   // reset les filtres
-  const handleMaj = () => {
+  const handleMaj = (item?: string) => {
     setSelectedButeurId("");
     setSelectStade("");
     setSelectedPasseurId("");
     setSelectedCompetition("");
     setButtonFiltre(true);
-    toast({
-      title: "Filtre(s) supprimé(s).",
-    });
+    if (item == "toast") {
+      toast({
+        title: "Filtre(s) supprimé(s).",
+      });
+    }
   };
 
   // nous permet de changer de joueur/stade et l'afficher directement
   const handleSelectChange = (value: string, filter: string) => {
+    setDisplayGoal(0);
     if (filter === filters.Buteur) {
-      console.log(value, filters.Buteur);
       setSelectedButeurId(value === filters.Buteur ? "" : value);
     } else if (filter === filters.Passeur) {
       setSelectedPasseurId(value === filters.Passeur ? "" : value);
@@ -161,8 +163,9 @@ export default function Home() {
         !selectStade ||
         (selectStade === stade && goal.where === stade) ||
         (selectStade === "Extérieur" && goal.where !== stade);
-        // on filtre par la competition si une competition est sélectionnée
-      const competitionMatch = !selectCompetition || goal.competition == selectCompetition;
+      // on filtre par la competition si une competition est sélectionnée
+      const competitionMatch =
+        !selectCompetition || goal.competition == selectCompetition;
       return buteurMatch && passeurMatch && stadeMatch && competitionMatch;
     }) || [];
 
@@ -175,14 +178,14 @@ export default function Home() {
   useEffect(() => {
     const interval = setInterval(() => {
       if (displayGoal < goalsFiltre.length) {
-        setDisplayGoal(displayGoal + 1);
+        setDisplayGoal((prev) => prev + 1);
       } else {
         clearInterval(interval);
       }
     }, 100);
 
     return () => clearInterval(interval);
-  }, [goalsFiltre.length, displayGoal]);
+  }, [goalsFiltre]);
 
   // la valeur du select
   const handleChangeValue = (value: string) => {
@@ -201,7 +204,9 @@ export default function Home() {
     <Layout title="Accueil">
       <div className="px-4 flex flex-col border-b bg-quadrille">
         <div className="flex p-2 justify-between items-center">
-          <h2 className="font-bold text-3xl"><span className="text-primary">{displayGoal}</span> BUTS</h2>
+          <h2 className="font-bold text-3xl">
+            <span className="text-primary">{displayGoal}</span> BUTS
+          </h2>
           {goalsFiltre.length > 1 && (
             <Button variant="filtre" onClick={() => setIsFirst(!isFirst)}>
               {isFirst ? (
@@ -228,12 +233,30 @@ export default function Home() {
               </Button>
             </div>
           ) : (
-            <FormFilters handleSelectChange={handleSelectChange} handleChangeValue={handleChangeValue} renderSelectOptions={renderSelectOptions} selectCompetition={selectCompetition} selectPasseurId={selectPasseurId} selectStade={selectStade} selectedButeurId={selectedButeurId} handleMaj={handleMaj}/>
-            )}
+            <FormFilters
+              handleSelectChange={handleSelectChange}
+              handleChangeValue={handleChangeValue}
+              renderSelectOptions={renderSelectOptions}
+              selectCompetition={selectCompetition}
+              selectPasseurId={selectPasseurId}
+              selectStade={selectStade}
+              selectedButeurId={selectedButeurId}
+              handleMaj={handleMaj}
+            />
+          )}
         </div>
 
         <div className="p-2 hidden sm:flex">
-          <FormFilters handleSelectChange={handleSelectChange} handleChangeValue={handleChangeValue} renderSelectOptions={renderSelectOptions} selectCompetition={selectCompetition} selectPasseurId={selectPasseurId} selectStade={selectStade} selectedButeurId={selectedButeurId} handleMaj={handleMaj}/>
+          <FormFilters
+            handleSelectChange={handleSelectChange}
+            handleChangeValue={handleChangeValue}
+            renderSelectOptions={renderSelectOptions}
+            selectCompetition={selectCompetition}
+            selectPasseurId={selectPasseurId}
+            selectStade={selectStade}
+            selectedButeurId={selectedButeurId}
+            handleMaj={handleMaj}
+          />
         </div>
 
         <div className="flex justify-between items-center p-2">
@@ -263,17 +286,20 @@ export default function Home() {
               />
             )}
           </div>
-          {(selectStade || selectedButeurId || selectPasseurId || selectCompetition) && (
-            <Button onClick={handleMaj}>
+          {(selectStade ||
+            selectedButeurId ||
+            selectPasseurId ||
+            selectCompetition) && (
+            <Button onClick={() => handleMaj("toast")}>
               <X />
             </Button>
           )}
         </div>
       </div>
 
-      <div className="flex justify-center my-6">
+      <div className="m-6">
         {goalsFiltre.length > 0 ? (
-          <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="flex flex-wrap gap-4 justify-center">
             {goalsFiltre.map((goal) => (
               <GoalCard key={goal.id} goal={goal} />
             ))}
