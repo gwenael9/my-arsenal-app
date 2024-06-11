@@ -13,7 +13,6 @@ export default function Layout({ children, title }: LayoutProps) {
     <>
       <Head>
         <title>{title}</title>
-        <meta name="viewport" content="width=device-width, initial-scale-1" />
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
@@ -27,7 +26,7 @@ export default function Layout({ children, title }: LayoutProps) {
       </Head>
       <Header />
       <main
-        className="py-2 px-4 overflow-y-auto"
+        className="py-2 px-12 overflow-y-auto"
         style={{ maxHeight: "calc(100vh - 80px" }}
       >
         {children}

@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -46,7 +45,13 @@ export default function CardCreatePlayer() {
     const data = Object.fromEntries(formData) as InputCreatePlayer;
     if (data.firstname && data.lastname && data.country) {
       createPlayer({
-        variables: { infos: { firstname: data.firstname, lastname: data.lastname, country: data.country } },
+        variables: {
+          infos: {
+            firstname: data.firstname,
+            lastname: data.lastname,
+            country: data.country,
+          },
+        },
       });
     } else {
       toast({
@@ -57,12 +62,9 @@ export default function CardCreatePlayer() {
   };
 
   return (
-    <Card className="w-full">
+    <Card className="w-[300px] border border-tertiary/20">
       <CardHeader>
         <CardTitle>Ajouter un joueur</CardTitle>
-        <CardDescription>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-        </CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="grid gap-2">

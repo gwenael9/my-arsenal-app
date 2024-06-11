@@ -67,7 +67,7 @@ export default function CardCreateGoal() {
             where: data.where,
             buteurId: data.buteurId,
             passeurId: passeurId,
-            competition: data.competition
+            competition: data.competition,
           },
         },
       });
@@ -80,48 +80,65 @@ export default function CardCreateGoal() {
   };
 
   return (
-    <Card className="w-[350px]">
+    <Card className="w-full border rounded border-tertiary/20">
       <CardHeader>
         <CardTitle>Ajouter un but</CardTitle>
-        <CardDescription>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-        </CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="grid gap-2">
-          <div className="grid w-full items-center gap-4">
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="ordre">But n°</Label>
-              <Input type="number" name="ordre" id="ordre" placeholder="1" />
+        <form onSubmit={handleSubmit} className="">
+          <div className="sm:flex sm:gap-10">
+            <div className="w-[150px]">
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="ordre">But n°</Label>
+                <Input type="number" name="ordre" id="ordre" placeholder="1" />
+              </div>
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="date">Date</Label>
+                <Input name="date" id="date" placeholder="12/08/2023" />
+              </div>
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="competition">Compétition</Label>
+                <Input
+                  name="competition"
+                  id="competition"
+                  placeholder="Premier League"
+                />
+              </div>
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="against">Contre</Label>
+                <Input
+                  name="against"
+                  id="against"
+                  placeholder="Nottingham Forest"
+                />
+              </div>
             </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="date">Date</Label>
-              <Input name="date" id="date" placeholder="12/08/2023" />
-            </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="competition">Compétition</Label>
-              <Input name="competition" id="competition" placeholder="Premier League" />
-            </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="against">Contre</Label>
-              <Input
-                name="against"
-                id="against"
-                placeholder="Nottingham Forest"
+            <div>
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="where">Stade</Label>
+                <Input name="where" id="where" placeholder="Emirates Stadium" />
+              </div>
+              <SelectPlayer
+                name="buteurId"
+                placeholder="Select a buteur"
+                label="Buteur"
               />
-            </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="where">Stade</Label>
-              <Input name="where" id="where" placeholder="Emirates Stadium" />
-            </div>
-            <SelectPlayer name="buteurId" placeholder="Select a buteur" label="Buteur" />
-            <SelectPlayer name="passeurId" placeholder="Select a passeur" label="Passeur" />
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="link">Lien</Label>
-              <Input name="link" id="link" placeholder="https://youtube.com" />
+              <SelectPlayer
+                name="passeurId"
+                placeholder="Select a passeur"
+                label="Passeur"
+              />
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="link">Lien</Label>
+                <Input
+                  name="link"
+                  id="link"
+                  placeholder="https://youtube.com"
+                />
+              </div>
             </div>
           </div>
-          <div className="flex justify-end">
+          <div className="flex justify-end mt-2">
             <Button variant="success" className="" type="submit">
               Confirmer
             </Button>
