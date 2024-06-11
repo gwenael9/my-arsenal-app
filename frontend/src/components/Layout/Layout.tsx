@@ -43,7 +43,7 @@ export default function Layout({ children, title }: LayoutProps) {
   const navLink = [
     { name: "Buts", link: `/goals/${firstGoal}` },
     { name: "Statistique", link: "/statistique" },
-    { name: "Don", link: "https://www.paypal.com/paypalme/ggueho", target: "_blank"},
+    { name: "Me soutenir", link: "https://www.paypal.com/paypalme/ggueho", target: "_blank"},
   ];
 
   return (

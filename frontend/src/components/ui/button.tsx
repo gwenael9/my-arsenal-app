@@ -22,7 +22,7 @@ const buttonVariants = cva(
         success: "bg-green-500 text-white hover:bg-green-500/90",
         filtre: "bg-tertiary text-white hover:bg-tertiary/90",
         black: "bg-black text-white hover:bg-black/80",
-        carousel: "border bg-white rounded-full",
+        carousel: "border rounded-full",
         arrowCard: "rounded-full border-black border",
         arrow: ""
       },
