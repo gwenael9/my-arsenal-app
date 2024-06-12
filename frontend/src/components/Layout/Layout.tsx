@@ -50,7 +50,7 @@ export default function Layout({ children, title }: LayoutProps) {
     <>
       <Head>
         <title>{title}</title>
-        <meta name="description" content="Tout les buts d'Arsenal cette saison" />
+        <meta name="description" content="Tout les buts d'Arsenal pour la saison 2023/2024" />
         <meta name="viewport" content="width=device-width, initial-scale-1" />
         <meta name="keywords" content="arsenal buts goals" />
         <link rel="icon" href="arsenal.ico" />
