@@ -27,8 +27,8 @@ export default function Ranking() {
   });
 
   const sortedPlayers = players.slice().sort((a, b) => {
-    if (a.lastname === "CSC") return 1;
-    if (b.lastname === "CSC") return -1;
+    if (a.lastname === "csc") return 1;
+    if (b.lastname === "csc") return -1;
     const aValue = a[sortConfig.key]?.length || 0;
     const bValue = b[sortConfig.key]?.length || 0;
     if (aValue < bValue) {
@@ -107,7 +107,7 @@ export default function Ranking() {
               <div className="flex justify-center">
                 <p
                   className={
-                    index < 3 || player.lastname === "CSC"
+                    index < 3 || player.lastname === "csc"
                       ? `border px-1 rounded-sm ${getBgPosition(index + 1)}`
                       : ""
                   }
@@ -128,7 +128,7 @@ export default function Ranking() {
             </TableCell>
             <TableCell>{player.goals?.length}</TableCell>
             <TableCell>
-              {player.lastname !== "CSC" && player.passes?.length}
+              {player.lastname !== "csc" && player.passes?.length}
             </TableCell>
           </TableRow>
         ))}
