@@ -49,7 +49,7 @@ async function main() {
           try {
             const verify = await jwtVerify<Payload>(
               token,
-              new TextEncoder().encode(process.env.SECRET_KEY)
+              new TextEncoder().encode(process.env.JWT_PRIVATE_KEY)
             );
             user = await new UserService().findUserByEmail(
               verify.payload.email

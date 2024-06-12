@@ -7,7 +7,7 @@ interface Payload {
   role: string;
 }
 
-const SECRET_KEY = process.env.SECRET_KEY || "";
+const JWT_PRIVATE_KEY = process.env.JWT_PRIVATE_KEY || "";
 
 // fonction utilisé à chaque appel du middleware (qd on va sur une page)
 export default async function middleware(request: NextRequest) {
@@ -19,7 +19,7 @@ export default async function middleware(request: NextRequest) {
 export async function verify(token: string): Promise<Payload> {
   const { payload } = await jwtVerify<Payload>(
     token,
-    new TextEncoder().encode(SECRET_KEY)
+    new TextEncoder().encode(JWT_PRIVATE_KEY)
   );
   return payload;
 }
