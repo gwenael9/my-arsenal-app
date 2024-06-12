@@ -99,6 +99,11 @@ export default function Home() {
     return `${item?.firstname} ${item?.lastname}`;
   };
 
+  // tout nos joueurs sans csc
+  const playersWithoutCsc = playersData?.players.filter((player) => {
+    return player.lastname !== "csc";
+  })
+
   // contenu de nos selects
   const renderSelectOptions = (filter: string) => {
     switch (filter) {
@@ -117,7 +122,7 @@ export default function Home() {
         return (
           <>
             <SelectItem value={filters.Passeur}>Tous les joueurs</SelectItem>
-            {playersData?.players.map((p, index) => (
+            {playersWithoutCsc?.map((p, index) => (
               <SelectItem key={index} value={p.id}>
                 {toUpOne(getName(p))}
               </SelectItem>

@@ -124,7 +124,11 @@ export default function Ranking() {
                   className="w-4"
                 />
               )}
-              <div>{toUpOne(getName(player))}</div>
+              <div>
+                {player.lastname !== "csc"
+                  ? toUpOne(getName(player))
+                  : player.lastname.toUpperCase()}
+              </div>
             </TableCell>
             <TableCell>{player.goals?.length}</TableCell>
             <TableCell>
