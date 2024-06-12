@@ -7,6 +7,6 @@ import { customAuthChecker } from "./lib/authChecker";
 
 export default buildSchema({
   resolvers: [PlayerResolver, GoalResolver, UserResolver],
-  validate: false,
+  validate: true,
   authChecker: customAuthChecker,
 });

@@ -6,6 +6,7 @@ import { MyContext } from "..";
 import User, {
   InputLogin,
   InputRegister,
+  UserProfile,
 } from "../entities/user.entity";
 import UserService from "../services/user.service";
 import { ContextType } from "../types";
@@ -48,7 +49,7 @@ export default class UserResolver {
   async logout(@Ctx() ctx: MyContext) {
     if (ctx.user) {
       const cookies = await new Cookies(ctx.req, ctx.res);
-      cookies.set("token"); //sans valeur, le cookie token sera supprimé
+      cookies.set("token");
     }
     const m = new Message();
     m.message = "Vous avez été déconnecté.";
@@ -63,8 +64,19 @@ export default class UserResolver {
     if (user) {
       throw new Error("Cet email est déjà pris!");
     }
-    console.log(infos);
     const newUser = await new UserService().createUser(infos);
     return newUser;
+  }
+
+  @Authorized(["USER", "ADMIN"])
+  @Query(() => UserProfile)
+  async getUserProfile(@Ctx() ctx: MyContext) {
+    if (ctx.user) {
+      const connectedUser = await new UserService().findUserByEmail(
+        ctx.user.email
+      );
+      return connectedUser;
+    }
+    throw new Error("Utilisateur inconnu");
   }
 }

@@ -55,7 +55,7 @@ async function main() {
               verify.payload.email
             );
           } catch (err) {
-            console.error(err);
+            cookies.set("token");
           }
         }
         return { req, res, user };

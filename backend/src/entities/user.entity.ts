@@ -42,6 +42,12 @@ export default class User extends BaseEntity {
   role: ROLE;
 }
 
+@ObjectType()
+export class UserProfile {
+  @Field()
+  email: string;
+}
+
 /**----------------------
  **      Input Types
  *------------------------**/
