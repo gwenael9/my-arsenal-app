@@ -58,6 +58,8 @@ export const modifNameTeam = (item: string) => {
     return "Man. United";
   } else if (item.includes("Manchester City")) {
     return "Man. City";
+  } else if (item.includes("Nottingham Forest")) {
+    return "Nottingham";
   }
   return item;
 };
