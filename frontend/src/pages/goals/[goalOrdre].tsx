@@ -6,6 +6,8 @@ import Erreur from "@/components/Erreur";
 import { useEffect, useState } from "react";
 import ModalGoalInfo from "@/components/Goals/goal.modal.info";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import Link from "next/link";
+import Image from "next/image";
 
 const GoalCarouselPage = () => {
   const router = useRouter();
@@ -66,6 +68,15 @@ const GoalCarouselPage = () => {
     }
   }, [loading, goal]);
 
+  const getCopyright = (item: number) => {
+    if (item == 8 || item == 9 || item == 51 || item == 25 || item == 23 || item == 39) {
+      return ["https://www.youtube.com/@gunnerzcomps", "GunnerzComps"];
+    } else if (item == 20 || item == 21 || item == 108) {
+      return ["https://www.youtube.com/@AFCBournemouth", "AFC Bournemouth"];
+    } 
+    return ["https://www.youtube.com/@arsenal", "Arsenal"];
+  }
+
   return (
     <Layout title={`But n°${goalOrdre}`}>
       {goal ? (
@@ -75,8 +86,8 @@ const GoalCarouselPage = () => {
           </div>
 
           <div
-            className="flex pt-10 sm:pt-6 lg:pt-4 items-center flex-col gap-8"
-            style={{ height: 'calc(100vh - 136px)'}}
+            className="flex pt-4 sm:pt-0 items-center flex-col gap-4"
+            style={{ height: "calc(100vh - 136px)" }}
           >
             <div className="flex items-center gap-4">
               {typeof goalOrdre === "string" &&
@@ -99,6 +110,14 @@ const GoalCarouselPage = () => {
                 <div className="w-14"></div>
               )}
             </div>
+            <Link
+              className="text-xs flex gap-2 border rounded-sm p-2"
+              href={getCopyright(goal.ordre)[0]}
+              target="_blank"
+            >
+              <span>© {getCopyright(goal.ordre)[1]}</span>
+              <Image src={"/youtube.svg"} width={24} height={0} alt="youtube" />
+            </Link>
 
             <div className="flex justify-center w-full px-4">
               <div className="overflow-hidden rounded-xl w-full max-w-4xl ">
@@ -116,6 +135,7 @@ const GoalCarouselPage = () => {
                 </div>
               </div>
             </div>
+
           </div>
         </div>
       ) : (
