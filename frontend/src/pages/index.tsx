@@ -141,8 +141,14 @@ export default function Home() {
             <SelectItem value="Tout">Tout</SelectItem>
             {Competition.map((option, index) => (
               <SelectItem key={index} value={option}>
-                <div className={`flex gap-2 ${option == "FA Cup" && "-ml-1"}`}>
-                  <Image src={`${option}.svg`} height={0} width={option == "FA Cup" ? 20 : 12} alt={option} />
+                <div className="flex gap-2">
+                  <Image
+                    src={`${option}.svg`}
+                    height={0}
+                    width={option == "FA Cup" ? 20 : 12}
+                    alt={option}
+                    className={option == "FA Cup" ? "-m-1" : ""}
+                  />
                   {option}
                 </div>
               </SelectItem>
