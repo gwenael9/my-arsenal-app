@@ -9,14 +9,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { flagCountry, toUpOne } from "@/lib/functions";
-import { useRouter } from "next/router";
 import { MoveDown, MoveUp } from "lucide-react";
 
 type SortKey = "goals" | "passes";
 type SortDirection = "ascending" | "descending";
 
 export default function Ranking() {
-  const router = useRouter();
 
   const { data: playersData } = usePlayersQuery();
   const players = playersData?.players || [];
@@ -62,6 +60,18 @@ export default function Ranking() {
 
   const tableHeaderStats: SortKey[] = ["goals", "passes"];
 
+  const getBgPosition = (item: number) => {
+    if (item == 1) {
+      return "bg-or";
+    } else if (item == 2) {
+      return "bg-argent";
+    } else if (item == 3) {
+      return "bg-bronze";
+    }
+
+    return "";
+  };
+
   return (
     <Table className="max-w-[1200px]">
       <TableHeader className="border-b">
@@ -92,7 +102,19 @@ export default function Ranking() {
       <TableBody>
         {playersFiltered.map((player, index) => (
           <TableRow key={index}>
-            <TableCell className="font-bold w-10">{index + 1}.</TableCell>
+            <TableCell className="font-bold w-10">
+              <div className="flex justify-center">
+                <p
+                  className={
+                    index < 3
+                      ? `border px-1 rounded-sm ${getBgPosition(index + 1)}`
+                      : ""
+                  }
+                >
+                  {index + 1}.
+                </p>
+              </div>
+            </TableCell>
             <TableCell className="font-bold flex items-center gap-2 justify-center">
               {flagCountry(player.country) && (
                 <img

@@ -11,6 +11,7 @@ import { useToast } from "@/components/ui/use-toast";
 import ReponseFiltres from "@/components/Filtres/Reponse";
 import { toUpOne } from "@/lib/functions";
 import FormFilters from "@/components/Filtres/Form";
+import Image from "next/image";
 
 const stade = "Emirates Stadium";
 
@@ -75,7 +76,7 @@ export default function Home() {
     if (item == "toast") {
       toast({
         title: "Filtre(s) supprimé(s).",
-        variant: "delete"
+        variant: "delete",
       });
     }
   };
@@ -140,7 +141,10 @@ export default function Home() {
             <SelectItem value="Tout">Tout</SelectItem>
             {Competition.map((option, index) => (
               <SelectItem key={index} value={option}>
-                {option}
+                <div className={`flex gap-2 ${option == "FA Cup" && "-ml-1"}`}>
+                  <Image src={`${option}.svg`} height={0} width={option == "FA Cup" ? 20 : 12} alt={option} />
+                  {option}
+                </div>
               </SelectItem>
             ))}
           </>
@@ -183,7 +187,7 @@ export default function Home() {
       } else {
         clearInterval(interval);
       }
-    }, 100);
+    }, 30);
 
     return () => clearInterval(interval);
   }, [goalsFiltre]);

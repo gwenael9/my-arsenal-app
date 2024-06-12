@@ -40,19 +40,21 @@ export default function GoalCard({ goal }: GoalCardProps) {
   // nous renvoie le svg et la taille adéquat
   const logo = (item: typeof goal) => {
     if (item.competition == "Premier League") {
-      return ["pl", 30];
+      return 30;
     } else if (item.competition == "Champions League") {
-      return ["cl", 30];
+      return 30;
     } else if (item.competition == "FA Cup") {
-      return ["fa", 45];
+      return 45;
     } else if (item.competition == "EFL Cup") {
-      return ["efl", 20];
+      return 20;
     } else if (item.competition == "Community Shield") {
-      return ["cs", 36];
+      return 36
     }
 
-    return ["", 0];
+    return 0;
   };
+
+  console.log(goal.competition);
 
   return (
     <Card className="border relative overflow-hidden border-tertiary/20 h-[220px]">
@@ -82,10 +84,10 @@ export default function GoalCard({ goal }: GoalCardProps) {
           </span>
         </p>
         <Image
-          src={`${logo(goal)[0]}.svg`}
+          src={`${goal.competition}.svg`}
           height={0}
-          width={Number(logo(goal)[1])}
-          alt={`${logo(goal)[0]}`}
+          width={Number(logo(goal))}
+          alt={goal.competition}
         />
       </CardContent>
       <CardFooter>

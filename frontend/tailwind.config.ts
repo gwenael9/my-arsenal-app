@@ -26,7 +26,9 @@ const config = {
         secondary: "#E8F861",
         tertiary: "#191919",
         blue: "#0392E6",
-        or: "#E2C299",
+        or: "#f4d75f",
+        argent: "#ebeae8",
+        bronze: "#b7836d",
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
