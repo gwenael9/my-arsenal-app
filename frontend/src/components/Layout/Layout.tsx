@@ -53,7 +53,7 @@ export default function Layout({ children, title }: LayoutProps) {
         <meta name="description" content="Tout les buts d'Arsenal cette saison" />
         <meta name="viewport" content="width=device-width, initial-scale-1" />
         <meta name="keywords" content="arsenal buts goals" />
-        <link rel="icon" href="favicon.ico" />
+        <link rel="icon" href="arsenal.ico" />
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
