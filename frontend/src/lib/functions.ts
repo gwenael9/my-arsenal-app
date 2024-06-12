@@ -52,3 +52,12 @@ export const getName = (name: Player, item?: string) => {
   const fullname = `${name.firstname} ${name.lastname}`;
   return item === "buteur" ? fullname.toUpperCase() : toUpOne(fullname);
 };
+
+export const modifNameTeam = (item: string) => {
+  if (item.includes("Manchester United")) {
+    return "Man. United";
+  } else if (item.includes("Manchester City")) {
+    return "Man. City";
+  }
+  return item;
+};

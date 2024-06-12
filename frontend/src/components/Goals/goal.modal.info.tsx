@@ -7,18 +7,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
-import { flagCountry, formaterDate, getName } from "@/lib/functions";
+import { flagCountry, formaterDate, getName, modifNameTeam } from "@/lib/functions";
 import { Calendar, Info, MapPin, Trophy } from "lucide-react";
 
 export default function ModalGoalInfo({ goal }: GoalCardProps) {
-  const modifNameTeam = (item: string) => {
-    if (item.includes("Manchester United")) {
-      return "Man. United";
-    } else if (item.includes("Manchester City")) {
-      return "Man. City";
-    }
-    return item;
-  };
 
   const itemDescriptionTable = [
     {
