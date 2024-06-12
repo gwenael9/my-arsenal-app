@@ -36,7 +36,7 @@ async function main() {
   app.use(
     "/",
     cors<cors.CorsRequest>({
-      origin: ["http://localhost:3000", "https://studio.apollographql.com"],
+      origin: ["http://localhost:3000", "https://studio.apollographql.com", "https://arsenalgoal.fr/"],
       credentials: true,
     }),
     express.json(),
