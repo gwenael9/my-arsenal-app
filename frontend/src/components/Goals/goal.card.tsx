@@ -37,13 +37,9 @@ export default function GoalCard({ goal }: GoalCardProps) {
     }, 200);
   };
 
-  // nous renvoie le svg et la taille adéquat
+  // nous renvoie la taille du logo
   const logo = (item: typeof goal) => {
-    if (item.competition == "Premier League") {
-      return 30;
-    } else if (item.competition == "Champions League") {
-      return 30;
-    } else if (item.competition == "FA Cup") {
+    if (item.competition == "FA Cup") {
       return 45;
     } else if (item.competition == "EFL Cup") {
       return 20;
@@ -51,10 +47,8 @@ export default function GoalCard({ goal }: GoalCardProps) {
       return 36
     }
 
-    return 0;
+    return 30;
   };
-
-  console.log(goal.competition);
 
   return (
     <Card className="border relative overflow-hidden border-tertiary/20 h-[220px]">

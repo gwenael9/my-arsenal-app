@@ -43,7 +43,7 @@ export default function CardCreatePlayer() {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData) as InputCreatePlayer;
-    if (data.firstname && data.lastname && data.country) {
+    if (data.lastname) {
       createPlayer({
         variables: {
           infos: {

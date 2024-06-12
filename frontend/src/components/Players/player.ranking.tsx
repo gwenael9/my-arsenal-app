@@ -15,7 +15,6 @@ type SortKey = "goals" | "passes";
 type SortDirection = "ascending" | "descending";
 
 export default function Ranking() {
-
   const { data: playersData } = usePlayersQuery();
   const players = playersData?.players || [];
 
@@ -28,6 +27,8 @@ export default function Ranking() {
   });
 
   const sortedPlayers = players.slice().sort((a, b) => {
+    if (a.lastname === "CSC") return 1;
+    if (b.lastname === "CSC") return -1;
     const aValue = a[sortConfig.key]?.length || 0;
     const bValue = b[sortConfig.key]?.length || 0;
     if (aValue < bValue) {
@@ -69,7 +70,7 @@ export default function Ranking() {
       return "bg-bronze";
     }
 
-    return "";
+    return "bg-primary";
   };
 
   return (
@@ -106,7 +107,7 @@ export default function Ranking() {
               <div className="flex justify-center">
                 <p
                   className={
-                    index < 3
+                    index < 3 || player.lastname === "CSC"
                       ? `border px-1 rounded-sm ${getBgPosition(index + 1)}`
                       : ""
                   }
@@ -126,7 +127,9 @@ export default function Ranking() {
               <div>{toUpOne(getName(player))}</div>
             </TableCell>
             <TableCell>{player.goals?.length}</TableCell>
-            <TableCell>{player.passes?.length}</TableCell>
+            <TableCell>
+              {player.lastname !== "CSC" && player.passes?.length}
+            </TableCell>
           </TableRow>
         ))}
       </TableBody>

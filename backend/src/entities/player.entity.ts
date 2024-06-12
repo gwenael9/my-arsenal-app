@@ -19,7 +19,7 @@ export default class Player  {
 
     @Column()
     @Field()
-    country: string;
+    country?: string;
 
     @OneToMany(() => Goal, (goal) => goal.buteur)
     @Field(() => [Goal], { nullable: true})
