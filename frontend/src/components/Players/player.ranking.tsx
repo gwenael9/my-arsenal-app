@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { flagCountry, toUpOne } from "@/lib/functions";
+import { flagCountry, getName, toUpOne } from "@/lib/functions";
 import { MoveDown, MoveUp } from "lucide-react";
 
 type SortKey = "goals" | "passes";
@@ -46,10 +46,6 @@ export default function Ranking() {
     const nbPasses = player.passes?.length || 0;
     return nbGoals > 0 || nbPasses > 0;
   });
-
-  const getName = (item: Player | any) => {
-    return `${item.firstname} ${item.lastname}`;
-  };
 
   const requestSort = (key: SortKey) => {
     let direction: SortDirection = "descending";
