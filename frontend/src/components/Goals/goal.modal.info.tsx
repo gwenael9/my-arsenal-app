@@ -7,11 +7,15 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
-import { flagCountry, formaterDate, getName, modifNameTeam } from "@/lib/functions";
+import {
+  flagCountry,
+  formaterDate,
+  getName,
+  modifNameTeam,
+} from "@/lib/functions";
 import { Calendar, Info, MapPin, Trophy } from "lucide-react";
 
 export default function ModalGoalInfo({ goal }: GoalCardProps) {
-
   const itemDescriptionTable = [
     {
       icon: <Calendar size={16} />,
@@ -38,24 +42,24 @@ export default function ModalGoalInfo({ goal }: GoalCardProps) {
       <DialogContent className="fixed border-tertiary top-1/2 left-1/2 p-4 border overflow-hidden sm:max-w-[450px] w-full max-w-[90%] h-[180px]">
         <DialogHeader>
           <DialogTitle>
-              <p className="flex items-center gap-2">
-                {getName(goal.buteur, "buteur")}
-                <img
-                  src={`https://flagcdn.com/${flagCountry(
-                    goal.buteur.country
-                  )}.svg`}
-                  alt={goal.buteur.country}
-                  className="w-5"
-                />
-              </p>
-              <p>
-                {goal.passeur && (
-                  <span className="text-sm text-muted-foreground">
-                    {" "}
-                    ({getName(goal.passeur)})
-                  </span>
-                )}
-              </p>
+            <p className="flex items-center gap-2">
+              {getName(goal.buteur, "buteur")}
+              <img
+                src={`https://flagcdn.com/${flagCountry(
+                  goal.buteur.country
+                )}.svg`}
+                alt={goal.buteur.country}
+                className="w-5"
+              />
+            </p>
+            <p>
+              {goal.passeur && (
+                <span className="text-sm text-muted-foreground">
+                  {" "}
+                  ({getName(goal.passeur)})
+                </span>
+              )}
+            </p>
           </DialogTitle>
         </DialogHeader>
         <div className="flex justify-between">

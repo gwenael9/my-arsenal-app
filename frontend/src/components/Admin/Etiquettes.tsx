@@ -1,11 +1,12 @@
-import { Goal, Player, useGoalsQuery, usePlayersQuery } from "@/types/graphql";
+import { Goal, Player } from "@/types/graphql";
 import { Button } from "../ui/button";
 import { X } from "lucide-react";
 
 interface EtiquettesProps {
   handleDelete: (item: string) => void;
+  // a revoir 
   player?: Player | any;
-  goal?: Goal | any;
+  goal?: Goal;
 }
 
 export default function Etiquettes({
@@ -22,7 +23,7 @@ export default function Etiquettes({
       <Button
         size={"arrow"}
         variant={"arrow"}
-        onClick={() => handleDelete(player ? player.id : goal ? goal?.id : "")}
+        onClick={() => handleDelete(player ? player.id : goal ? goal.id : "")}
       >
         <X size={16} />
       </Button>

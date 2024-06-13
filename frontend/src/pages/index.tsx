@@ -102,7 +102,7 @@ export default function Home() {
   // tout nos joueurs sans csc
   const playersWithoutCsc = playersData?.players.filter((player) => {
     return player.lastname !== "csc";
-  })
+  });
 
   // contenu de nos selects
   const renderSelectOptions = (filter: string) => {
@@ -135,7 +135,15 @@ export default function Home() {
             <SelectItem value="Tout">Tout</SelectItem>
             {lieuOptions.map((option, index) => (
               <SelectItem key={index} value={option}>
-                {option}
+                <div className="flex gap-2">
+                  {/* <Image
+                    src={option == stade ? "home.svg" : "out.svg"}
+                    height={0}
+                    width={12}
+                    alt={option}
+                  /> */}
+                  {option}
+                </div>
               </SelectItem>
             ))}
           </>

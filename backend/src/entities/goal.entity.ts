@@ -27,7 +27,7 @@ export default class Goal extends BaseEntity {
   @Field()
   against: string;
 
-  @Column({ default: "Emirates Stadium" })
+  @Column({ default: "Emirates Stadium", nullable: true })
   @Field()
   where: string;
 
@@ -35,7 +35,15 @@ export default class Goal extends BaseEntity {
   @Field()
   ordre: number;
 
-  @Column()
+  @Column({
+    enum: [
+      "Premier League",
+      "FA Cup",
+      "EFL Cup",
+      "Champions League",
+      "Community Shield",
+    ],
+  })
   @Field()
   competition: string;
 

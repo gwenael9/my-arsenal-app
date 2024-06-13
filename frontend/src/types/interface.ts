@@ -5,5 +5,5 @@ export interface GoalCardProps {
 }
 
 export interface PlayerCardProps {
-    player: Player;
+  player: Player;
 }

@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { CREATE_PLAYER } from "@/requetes/mutations/create.player.mutation";
+import { LIST_PLAYERS } from "@/requetes/queries/player.queries";
 import {
   CreatePlayerMutation,
   CreatePlayerMutationVariables,
@@ -19,23 +20,20 @@ import { useRouter } from "next/router";
 
 export default function CardCreatePlayer() {
   const { toast } = useToast();
-  const router = useRouter();
   const [createPlayer] = useMutation<
     CreatePlayerMutation,
     CreatePlayerMutationVariables
   >(CREATE_PLAYER, {
+    refetchQueries: [{ query: LIST_PLAYERS}],
     onCompleted: () => {
       toast({
         title: "Joueur créé avec succès !",
       });
-      router.reload();
     },
     onError(error) {
       toast({
         title: error.message,
       });
-
-      console.error(error);
     },
   });
 

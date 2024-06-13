@@ -24,8 +24,13 @@ export default class GoalResolver {
   }
 
   // ajouter un goal
+  @Authorized(["ADMIN"])
   @Mutation(() => Goal)
   async createGoal(@Arg("infos") infos: InputCreateGoal) {
+    const goal = await new GoalService().getGoalByOrdre(infos.ordre);
+    if (goal) {
+      throw new Error("Ce but a déjà été ajouté!");
+    }
     return await new GoalService().createGoal(infos);
   }
 
