@@ -61,9 +61,9 @@ export default function AdminGoals() {
   };
 
   return (
-    <Layout title="test">
-      <div className="flex justify-between items-center p-4">
-        <h2 className="font-bold text-xl sm:text-2xl">
+    <Layout title="Configuration">
+      <div className="flex justify-end sm:justify-between items-center py-4">
+        <h2 className="font-bold text-xl sm:text-2xl hidden sm:block">
           Nombres de {isGoalOrPlayer ? `buts : ${goals.length}` : `joueurs : ${players.length-1}`} 
         </h2>
         <Button variant={"filtre"} onClick={handleSwith}>

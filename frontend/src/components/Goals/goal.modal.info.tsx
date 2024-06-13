@@ -55,7 +55,6 @@ export default function ModalGoalInfo({ goal }: GoalCardProps) {
             <p>
               {goal.passeur && (
                 <span className="text-sm text-muted-foreground">
-                  {" "}
                   ({getName(goal.passeur)})
                 </span>
               )}
