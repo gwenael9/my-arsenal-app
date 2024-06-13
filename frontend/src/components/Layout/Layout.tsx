@@ -1,7 +1,6 @@
 import Head from "next/head";
 import { ReactNode, useEffect, useState } from "react";
 import { Toaster } from "../ui/toaster";
-import { useGoalsQuery } from "@/types/graphql";
 import Link from "next/link";
 import { AlignJustify, X } from "lucide-react";
 import MenuMobile from "./MenuMobile";
@@ -32,17 +31,8 @@ export default function Layout({ children, title }: LayoutProps) {
     };
   }, [closeMenu]);
 
-  // tout nos buts
-  const { data: allGoalData } = useGoalsQuery();
-  const allGoal = allGoalData?.goals;
-
-  // premier but en bdd
-  const firstGoal = allGoal
-    ?.map((g) => g.ordre)
-    ?.reduce((a, b) => Math.min(a, b), Infinity);
-
   const navLink = [
-    { name: "Buts", link: `/goals/${firstGoal}` },
+    { name: "Buts", link: "/goals" },
     { name: "Statistiques", link: "/statistique" },
     {
       name: "Me soutenir",

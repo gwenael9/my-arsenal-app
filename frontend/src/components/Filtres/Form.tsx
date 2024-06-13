@@ -6,7 +6,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { filters } from "@/pages";
+import { filters } from "@/pages/goals/index";
 
 interface FormProps {
   handleSelectChange: (value: string, filter: string) => void;
