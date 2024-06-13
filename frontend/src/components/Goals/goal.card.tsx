@@ -94,6 +94,7 @@ export default function GoalCard({ goal }: GoalCardProps) {
           onClick={handleArrowClick}
           onMouseEnter={() => setArrowHovered(true)}
           onMouseLeave={() => setArrowHovered(false)}
+          aria-label={`View details of goal number ${goal.ordre}`}
         >
           <ArrowRight
             className={`${arrowAnimated ? "translate-x-1/2" : ""} ${

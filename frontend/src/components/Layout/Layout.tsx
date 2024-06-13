@@ -5,6 +5,7 @@ import { useGoalsQuery } from "@/types/graphql";
 import Link from "next/link";
 import { AlignJustify, X } from "lucide-react";
 import MenuMobile from "./MenuMobile";
+import { useRouter } from "next/router";
 
 interface LayoutProps {
   children: ReactNode;
@@ -12,8 +13,8 @@ interface LayoutProps {
 }
 
 export default function Layout({ children, title }: LayoutProps) {
-
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -43,29 +44,47 @@ export default function Layout({ children, title }: LayoutProps) {
   const navLink = [
     { name: "Buts", link: `/goals/${firstGoal}` },
     { name: "Statistiques", link: "/statistique" },
-    { name: "Me soutenir", link: "https://www.paypal.com/paypalme/ggueho", target: "_blank"},
+    {
+      name: "Me soutenir",
+      link: "https://www.paypal.com/paypalme/ggueho",
+      target: "_blank",
+    },
   ];
 
   return (
     <>
       <Head>
         <title>{title}</title>
-        <meta name="description" content="Tout les buts d'Arsenal pour la saison 2023/2024" />
-        <meta name="viewport" content="width=device-width, initial-scale-1" />
-        <meta name="keywords" content="arsenal buts goals" />
+        {router.pathname == "/" && (
+          <>
+            <meta
+              name="description"
+              content="Tout les buts d'Arsenal pour la saison 2023/2024"
+            />
+            <meta
+              name="viewport"
+              content="width=device-width, initial-scale-1"
+            />
+            <meta name="keywords" content="arsenal buts goals" />
+          </>
+        )}
         <link rel="icon" href="arsenal.ico" />
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
-          />
+        />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link
           href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap"
           rel="stylesheet"
-          ></link>
+        ></link>
       </Head>
-      <header className={`p-6 flex justify-between items-center h-20 border-b ${isOpen && "blur"}`}>
+      <header
+        className={`p-6 flex justify-between items-center h-20 border-b ${
+          isOpen && "blur"
+        }`}
+      >
         <div className="flex justify-between items-center gap-2.5">
           <Link href="/" className="font-bold">
             <span className="text-lg">ARSENAL</span>
@@ -75,10 +94,10 @@ export default function Layout({ children, title }: LayoutProps) {
         <nav className={`items-center space-x-8 hidden sm:inline`}>
           {navLink.map((n, index) => (
             <Link
-            className="font-bold uppercase hover:text-primary"
-            key={index}
-            href={n.link}
-            target={n.target}
+              className="font-bold uppercase hover:text-primary"
+              key={index}
+              href={n.link}
+              target={n.target}
             >
               {n.name}
             </Link>
@@ -95,7 +114,7 @@ export default function Layout({ children, title }: LayoutProps) {
       <main
         className={`overflow-y-auto ${isOpen && "blur"}`}
         style={{ maxHeight: "calc(100vh - 80px" }}
-        >
+      >
         {children}
       </main>
       <Toaster />
