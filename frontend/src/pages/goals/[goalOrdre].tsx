@@ -81,13 +81,13 @@ const GoalCarouselPage = () => {
     <Layout title={`But n°${goalOrdre}`}>
       {goal ? (
         <div>
-          <div className="flex justify-end pt-4 pr-4">
+          <div className="absolute right-4 top-24">
             <ModalGoalInfo goal={goal} />
           </div>
 
           <div
-            className="flex pt-4 sm:pt-0 items-center flex-col gap-4"
-            style={{ height: "calc(100vh - 136px)" }}
+            className="flex pt-24 md:pt-12 items-center flex-col gap-4"
+            style={{ height: "calc(100vh - 80px)" }}
           >
             <div className="flex items-center gap-4">
               {typeof goalOrdre === "string" &&
