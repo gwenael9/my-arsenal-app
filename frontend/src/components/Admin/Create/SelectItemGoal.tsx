@@ -7,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { toUpOne } from "@/lib/functions";
+import { getName, toUpOne } from "@/lib/functions";
 import { usePlayersQuery } from "@/types/graphql";
 
 interface SelectProps {
@@ -16,6 +16,7 @@ interface SelectProps {
   label: string;
   setSelectedId?: (id: string) => void;
   excludeId?: string;
+  selectedValue?: string;
 }
 
 export default function SelectItemGoal({
@@ -24,6 +25,7 @@ export default function SelectItemGoal({
   label,
   setSelectedId,
   excludeId,
+  selectedValue
 }: SelectProps) {
   const { data: playersData } = usePlayersQuery();
   const players = playersData?.players || [];
@@ -47,7 +49,7 @@ export default function SelectItemGoal({
   return (
     <div className="flex flex-col space-y-1.5">
       <Label htmlFor={name}>{toUpOne(label)}</Label>
-      <Select name={name} onValueChange={handleChange}>
+      <Select name={name} onValueChange={handleChange} value={selectedValue}>
         <SelectTrigger>
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
@@ -61,7 +63,7 @@ export default function SelectItemGoal({
                 ))
               : filteredPlayers.map((p) => (
                   <SelectItem key={p.id} value={p.id}>
-                    {toUpOne(p.lastname)}
+                    {getName(p)}
                   </SelectItem>
                 ))}
           </SelectGroup>

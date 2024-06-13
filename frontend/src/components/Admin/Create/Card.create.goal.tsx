@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -19,10 +19,13 @@ import { LIST_GOALS } from "@/requetes/queries/goal.queries";
 
 export default function CardCreateGoal() {
   const { toast } = useToast();
-  const [selectedDate, setSelectedDate] = useState<string>("");
 
+  const formRef = useRef<HTMLFormElement>(null);
   const router = useRouter();
 
+  const [selectedDate, setSelectedDate] = useState<string>("");
+  const [resetDate, setResetDate] = useState<boolean>(false);
+  const [competition, setCompetition] = useState<string>("");
   const [buteurId, setButeurId] = useState<string>("");
   const [passeurId, setPasseurId] = useState<string>("");
 
@@ -40,11 +43,21 @@ export default function CardCreateGoal() {
       const { dismiss } = toast({
         title: "But crée avec succès !",
         action: (
-          <Button variant="success" onClick={() => handleClick(data.createGoal.ordre, dismiss)}>
+          <Button
+            variant="success"
+            onClick={() => handleClick(data.createGoal.ordre, dismiss)}
+          >
             Voir
           </Button>
         ),
       });
+      formRef.current?.reset();
+      setSelectedDate("");
+      setCompetition("");
+      setResetDate(true);
+      setButeurId("");
+      setPasseurId("");
+      setTimeout(() => setResetDate(false), 0);
     },
     onError(error) {
       toast({
@@ -98,7 +111,6 @@ export default function CardCreateGoal() {
   };
 
   const handleDateChange = (date: Date) => {
-    console.log(date);
     setSelectedDate(format(date, "dd/MM/yyyy"));
   };
 
@@ -108,7 +120,7 @@ export default function CardCreateGoal() {
         <CardTitle>Ajouter un but</CardTitle>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit}>
+        <form ref={formRef} onSubmit={handleSubmit}>
           <div className="sm:flex sm:gap-10">
             <div className="w-[200px] flex gap-2 flex-col">
               <div className="flex flex-col space-y-1.5">
@@ -117,13 +129,15 @@ export default function CardCreateGoal() {
               </div>
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="date">Date</Label>
-                <DatePicker onDateChange={handleDateChange} />
+                <DatePicker onDateChange={handleDateChange} resetDate={resetDate} />
                 <Input type="hidden" name="date" value={selectedDate} />
               </div>
               <SelectItemGoal
                 name="competition"
                 placeholder="Choisi la compétition"
                 label="competition"
+                selectedValue={competition}
+                setSelectedId={setCompetition}
               />
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="against">Adversaire</Label>
@@ -143,6 +157,7 @@ export default function CardCreateGoal() {
                 name="buteurId"
                 placeholder="Choisi un buteur"
                 label="Buteur"
+                selectedValue={buteurId}
                 setSelectedId={setButeurId}
                 excludeId={passeurId}
               />
@@ -150,6 +165,7 @@ export default function CardCreateGoal() {
                 name="passeurId"
                 placeholder="Choisi un passeur"
                 label="Passeur"
+                selectedValue={passeurId}
                 setSelectedId={setPasseurId}
                 excludeId={buteurId}
               />

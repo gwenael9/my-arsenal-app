@@ -15,20 +15,29 @@ import { CalendarIcon } from "lucide-react";
 
 interface DateProps {
   onDateChange: (item: Date) => void;
+  resetDate: boolean;
 }
 
-export function DatePicker({ onDateChange }: DateProps) {
+export function DatePicker({ onDateChange, resetDate }: DateProps) {
   const [date, setDate] = React.useState<Date>();
+  const [open, setOpen] = React.useState(false);
 
   const handleDateSelect = (selectedDate: Date | undefined) => {
     if (selectedDate) {
       setDate(selectedDate);
       onDateChange(selectedDate);
+      setOpen(false);
     }
   };
 
+  React.useEffect(() => {
+    if (resetDate) {
+      setDate(undefined);
+    }
+  }, [resetDate])
+
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
           variant={"outline"}
