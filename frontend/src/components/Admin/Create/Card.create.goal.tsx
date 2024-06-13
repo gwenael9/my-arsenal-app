@@ -9,25 +9,36 @@ import {
   CreateGoalMutation,
   CreateGoalMutationVariables,
   InputCreateGoal,
+  usePlayersQuery,
 } from "@/types/graphql";
 import { useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
-import SelectItemGoal from "./SelectItemGoal";
 import { DatePicker } from "./SelectDate";
 import { format } from "date-fns";
 import { LIST_GOALS } from "@/requetes/queries/goal.queries";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { getName } from "@/lib/functions";
 
 export default function CardCreateGoal() {
   const { toast } = useToast();
+
+  const { data: playersData } = usePlayersQuery();
+  const players = playersData?.players || [];
 
   const formRef = useRef<HTMLFormElement>(null);
   const router = useRouter();
 
   const [selectedDate, setSelectedDate] = useState<string>("");
-  const [resetDate, setResetDate] = useState<boolean>(false);
-  const [competition, setCompetition] = useState<string>("");
-  const [buteurId, setButeurId] = useState<string>("");
-  const [passeurId, setPasseurId] = useState<string>("");
+  const [selectedCompetition, setSelectedCompetition] = useState<string>("");
+  const [selectedButeur, setSelectedButeur] = useState<string>("");
+  const [selectedPasseur, setSelectedPasseur] = useState<string>("");
 
   const handleClick = (item: number, dismiss: () => void) => {
     dismiss();
@@ -52,12 +63,10 @@ export default function CardCreateGoal() {
         ),
       });
       formRef.current?.reset();
+      setSelectedCompetition("");
+      setSelectedButeur("");
+      setSelectedPasseur("");
       setSelectedDate("");
-      setCompetition("");
-      setResetDate(true);
-      setButeurId("");
-      setPasseurId("");
-      setTimeout(() => setResetDate(false), 0);
     },
     onError(error) {
       toast({
@@ -83,11 +92,12 @@ export default function CardCreateGoal() {
       selectedDate &&
       data.link &&
       data.ordre &&
-      data.buteurId &&
-      data.competition
+      selectedButeur &&
+      selectedCompetition
     ) {
-      const passeurId = data.passeurId !== "" ? data.passeurId : null;
+      const passeurId = selectedPasseur !== "" ? selectedPasseur : null;
       const whereDefault = data.where !== "" ? data.where : "Emirates Stadium";
+      console.log(passeurId);
       createGoal({
         variables: {
           infos: {
@@ -96,9 +106,9 @@ export default function CardCreateGoal() {
             link: data.link,
             ordre: parseFloat(data.ordre as unknown as string),
             where: whereDefault,
-            buteurId: data.buteurId,
+            buteurId: selectedButeur,
             passeurId: passeurId,
-            competition: data.competition,
+            competition: selectedCompetition,
           },
         },
       });
@@ -113,6 +123,14 @@ export default function CardCreateGoal() {
   const handleDateChange = (date: Date) => {
     setSelectedDate(format(date, "dd/MM/yyyy"));
   };
+
+  const competitionTable = [
+    "Premier League",
+    "FA Cup",
+    "EFL Cup",
+    "Champions League",
+    "Community Shield",
+  ];
 
   return (
     <Card className="w-full border rounded border-tertiary/20">
@@ -129,16 +147,30 @@ export default function CardCreateGoal() {
               </div>
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="date">Date</Label>
-                <DatePicker onDateChange={handleDateChange} resetDate={resetDate} />
+                <DatePicker selectedDate={selectedDate} onDateChange={handleDateChange} />
                 <Input type="hidden" name="date" value={selectedDate} />
               </div>
-              <SelectItemGoal
-                name="competition"
-                placeholder="Choisi la compétition"
-                label="competition"
-                selectedValue={competition}
-                setSelectedId={setCompetition}
-              />
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="competition">Competition</Label>
+                <Select
+                  name="competition"
+                  value={selectedCompetition}
+                  onValueChange={setSelectedCompetition}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Choisi une competition" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      {competitionTable.map((compet, index) => (
+                        <SelectItem key={index} value={compet}>
+                          {compet}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="against">Adversaire</Label>
                 <Input
@@ -153,22 +185,48 @@ export default function CardCreateGoal() {
                 <Label htmlFor="where">Stade</Label>
                 <Input name="where" id="where" placeholder="Emirates Stadium" />
               </div>
-              <SelectItemGoal
-                name="buteurId"
-                placeholder="Choisi un buteur"
-                label="Buteur"
-                selectedValue={buteurId}
-                setSelectedId={setButeurId}
-                excludeId={passeurId}
-              />
-              <SelectItemGoal
-                name="passeurId"
-                placeholder="Choisi un passeur"
-                label="Passeur"
-                selectedValue={passeurId}
-                setSelectedId={setPasseurId}
-                excludeId={buteurId}
-              />
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="buteurId">Buteur</Label>
+                <Select
+                  name="buteurId"
+                  value={selectedButeur}
+                  onValueChange={setSelectedButeur}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Choisi un buteur" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      {players.map((p) => (
+                        <SelectItem key={p.id} value={p.id}>
+                          {getName(p)}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="passeurId">Passeur</Label>
+                <Select
+                  name="passeurId"
+                  value={selectedPasseur}
+                  onValueChange={setSelectedPasseur}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Choisi un passeur" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      {players.map((p) => (
+                        <SelectItem key={p.id} value={p.id}>
+                          {getName(p)}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="link">Lien</Label>
                 <Input
@@ -180,7 +238,7 @@ export default function CardCreateGoal() {
             </div>
           </div>
           <div className="flex justify-end mt-2">
-            <Button variant="success" className="" type="submit">
+            <Button variant="success" type="submit">
               Confirmer
             </Button>
           </div>

@@ -15,11 +15,13 @@ import { CalendarIcon } from "lucide-react";
 
 interface DateProps {
   onDateChange: (item: Date) => void;
-  resetDate: boolean;
+  selectedDate: string;
 }
 
-export function DatePicker({ onDateChange, resetDate }: DateProps) {
-  const [date, setDate] = React.useState<Date>();
+export function DatePicker({ onDateChange, selectedDate }: DateProps) {
+  const [date, setDate] = React.useState<Date | undefined>(
+    selectedDate ? new Date(selectedDate) : undefined
+  );
   const [open, setOpen] = React.useState(false);
 
   const handleDateSelect = (selectedDate: Date | undefined) => {
@@ -31,10 +33,10 @@ export function DatePicker({ onDateChange, resetDate }: DateProps) {
   };
 
   React.useEffect(() => {
-    if (resetDate) {
+    if (!selectedDate) {
       setDate(undefined);
     }
-  }, [resetDate])
+  }, [selectedDate]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

@@ -9,7 +9,7 @@ import { PLAYER_BY_ID } from "@/requetes/queries/playerById.queries";
 import { SlidersHorizontal, Undo2, X } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import ReponseFiltres from "@/components/Filtres/Reponse";
-import { toUpOne } from "@/lib/functions";
+import { getName, toUpOne } from "@/lib/functions";
 import FormFilters from "@/components/Filtres/Form";
 import Image from "next/image";
 
@@ -39,6 +39,7 @@ export default function Home() {
   const { data: goalsData } = useGoalsQuery();
   // tout nos joueurs
   const { data: playersData } = usePlayersQuery();
+  const players = playersData?.players;
 
   // effet sur le nbr de buts
   const [displayGoal, setDisplayGoal] = useState(0);
@@ -95,12 +96,8 @@ export default function Home() {
     }
   };
 
-  const getName = (item: Player | any) => {
-    return `${item?.firstname} ${item?.lastname}`;
-  };
-
   // tout nos joueurs sans csc
-  const playersWithoutCsc = playersData?.players.filter((player) => {
+  const playersWithoutCsc = players?.filter((player) => {
     return player.lastname !== "csc";
   });
 
@@ -111,9 +108,9 @@ export default function Home() {
         return (
           <>
             <SelectItem value={filters.Buteur}>Tous les joueurs</SelectItem>
-            {playersData?.players.map((p, index) => (
+            {players?.map((p, index) => (
               <SelectItem key={index} value={p.id}>
-                {toUpOne(getName(p))}
+                { getName(p)}
               </SelectItem>
             ))}
           </>
@@ -124,7 +121,7 @@ export default function Home() {
             <SelectItem value={filters.Passeur}>Tous les joueurs</SelectItem>
             {playersWithoutCsc?.map((p, index) => (
               <SelectItem key={index} value={p.id}>
-                {toUpOne(getName(p))}
+                {getName(p)}
               </SelectItem>
             ))}
           </>

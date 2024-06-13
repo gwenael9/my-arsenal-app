@@ -50,13 +50,16 @@ export const flagCountry = (country: string) => flags[toUpOne(country)] || "";
 
 export const getName = (name: Player | any, item?: string) => {
   let fullname;
-  if (name.lastname == "smith-rowe") {
-    fullname = `${name.firstname} Smith-Rowe`;
-  } else {
-
-   fullname = `${name.firstname} ${name.lastname}`;
+  if (name) {
+    if (name.lastname == "smith-rowe") {
+      fullname = `${name.firstname} Smith-Rowe`;
+    } else {
+     fullname = `${name.firstname} ${name.lastname}`;
+    }
+    return item === "buteur" ? fullname.toUpperCase() : toUpOne(fullname);
   }
-  return item === "buteur" ? fullname.toUpperCase() : toUpOne(fullname);
+
+  return "";
 };
 
 export const modifNameTeam = (item: string) => {

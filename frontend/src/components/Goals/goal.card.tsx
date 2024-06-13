@@ -61,7 +61,7 @@ export default function GoalCard({ goal }: GoalCardProps) {
         n°{goal.ordre}
       </div>
       <CardHeader className="flex flex-col">
-        <CardTitle>{getName(goal.buteur, "buteur").toUpperCase()}</CardTitle>
+        <CardTitle>{getName(goal.buteur, "buteur")}</CardTitle>
         <CardDescription>
           {goal.passeur != null ? (
             getName(goal.passeur, "passeur")
@@ -71,12 +71,12 @@ export default function GoalCard({ goal }: GoalCardProps) {
         </CardDescription>
       </CardHeader>
       <CardContent className="flex items-center justify-between gap-2 pb-5">
-        <p>
+        <div>
           vs.{" "}
           <span className="text-xl font-bold">
-            {modifNameTeam(goal.against).toUpperCase()}
+            {goal.against.toUpperCase()}
           </span>
-        </p>
+        </div>
         <Image
           src={`${goal.competition}.svg`}
           height={0}

@@ -32,9 +32,8 @@ export default function MenuMobile({
         <div className="flex flex-col h-full relative">
           <div className="flex justify-center flex-col items-center mt-4">
             {navLink.map((n, index) => (
-              <div className="hover:bg-tertiary/20 w-full text-center py-2">
+              <div key={index} className="hover:bg-tertiary/20 w-full text-center py-2">
                 <Link
-                  key={index}
                   href={n.link}
                   onClick={closeMenu}
                   target={n.target}

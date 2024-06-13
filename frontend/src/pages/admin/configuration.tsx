@@ -79,12 +79,12 @@ export default function AdminGoals() {
         <div>
           <div className="flex flex-wrap gap-2 mb-8 sm:mb-0">
             {isGoalOrPlayer ? (
-              goals.map((goal) => (
-                <Etiquettes handleDelete={handleDeleteGoal} goal={goal} />
+              goals.map((goal, index) => (
+                <Etiquettes key={index} handleDelete={handleDeleteGoal} goal={goal} />
               ))
             ) : (
-              players.map((player) => (
-                <Etiquettes handleDelete={handleDeletePlayer} player={player} />
+              players.map((player, index) => (
+                <Etiquettes key={index} handleDelete={handleDeletePlayer} player={player} />
               ))
             )}
           </div>
