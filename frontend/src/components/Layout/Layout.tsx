@@ -86,8 +86,9 @@ export default function Layout({ children, title }: LayoutProps) {
         }`}
       >
         <div className="flex justify-between items-center gap-2.5">
-          <Link href="/" className="font-bold">
-            <span className="text-lg">ARSENAL</span>
+          <Link href="/" className="font-bold uppercase">
+            <h1 className="hidden md:block">tous les buts d'arsenal 23/24</h1>
+            <h1 className="md:hidden">arsenal</h1>
           </Link>
         </div>
 

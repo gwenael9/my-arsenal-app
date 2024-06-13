@@ -69,13 +69,20 @@ const GoalCarouselPage = () => {
   }, [loading, goal]);
 
   const getCopyright = (item: number) => {
-    if (item == 8 || item == 9 || item == 51 || item == 25 || item == 23 || item == 39) {
+    if (
+      item == 8 ||
+      item == 9 ||
+      item == 51 ||
+      item == 25 ||
+      item == 23 ||
+      item == 39
+    ) {
       return ["https://www.youtube.com/@gunnerzcomps", "GunnerzComps"];
     } else if (item == 20 || item == 21 || item == 108) {
       return ["https://www.youtube.com/@AFCBournemouth", "AFC Bournemouth"];
-    } 
+    }
     return ["https://www.youtube.com/@arsenal", "Arsenal"];
-  }
+  };
 
   return (
     <Layout title={`But n°${goalOrdre}`}>
@@ -92,7 +99,11 @@ const GoalCarouselPage = () => {
             <div className="flex items-center gap-4">
               {typeof goalOrdre === "string" &&
               firstGoal !== parseInt(goalOrdre) ? (
-                <Button onClick={() => changeGoal("last")} variant={"carousel"}>
+                <Button
+                  onClick={() => changeGoal("last")}
+                  variant={"carousel"}
+                  aria-label={`Voir la vidéo du but n°${goal.ordre - 1}`}
+                >
                   <ChevronLeft />
                 </Button>
               ) : (
@@ -103,7 +114,11 @@ const GoalCarouselPage = () => {
 
               {typeof goalOrdre === "string" &&
               lastGoal !== parseInt(goalOrdre) ? (
-                <Button onClick={() => changeGoal("next")} variant={"carousel"}>
+                <Button
+                  onClick={() => changeGoal("next")}
+                  variant={"carousel"}
+                  aria-label={`Voir la vidéo du but n°${goal.ordre + 1}`}
+                >
                   <ChevronRight />
                 </Button>
               ) : (
@@ -135,7 +150,6 @@ const GoalCarouselPage = () => {
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       ) : (
