@@ -4,9 +4,9 @@ import Layout from "@/components/Layout/Layout";
 import GoalCard from "@/components/Goals/goal.card";
 import { Button } from "@/components/ui/button";
 import { SelectItem } from "@/components/ui/select";
-import { Player, useGoalsQuery, usePlayersQuery } from "@/types/graphql";
+import { useGoalsQuery, usePlayersQuery } from "@/types/graphql";
 import { PLAYER_BY_ID } from "@/requetes/queries/playerById.queries";
-import { SlidersHorizontal, Undo2, X } from "lucide-react";
+import { ArrowDown, ArrowUp, SlidersHorizontal, Undo2, X } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import ReponseFiltres from "@/components/Filtres/Reponse";
 import { getName, toUpOne } from "@/lib/functions";
@@ -110,7 +110,7 @@ export default function Home() {
             <SelectItem value={filters.Buteur}>Tous les joueurs</SelectItem>
             {players?.map((p, index) => (
               <SelectItem key={index} value={p.id}>
-                { getName(p)}
+                {getName(p)}
               </SelectItem>
             ))}
           </>
@@ -223,37 +223,47 @@ export default function Home() {
 
   return (
     <Layout title="Accueil">
-      <div className="px-4 flex flex-col border-b bg-quadrille">
-        <div className="flex p-2 justify-between items-center">
-          <h2 className="font-bold text-3xl">
-            <span className="text-primary">{displayGoal}</span> BUTS
-          </h2>
-          {goalsFiltre.length > 1 && (
-            <Button variant="filtre" onClick={() => setIsFirst(!isFirst)}>
-              {isFirst ? (
-                <span className="material-symbols-outlined">arrow_upward</span>
-              ) : (
-                <span className="material-symbols-outlined">
-                  arrow_downward
-                </span>
-              )}
-            </Button>
-          )}
-        </div>
-
-        <div className="p-2 flex sm:hidden">
-          {buttonFiltre ? (
-            <div className="flex justify-start">
-              <Button
-                className="flex gap-1"
-                variant="filtre"
-                onClick={() => setButtonFiltre(false)}
-              >
-                <SlidersHorizontal width={16} />
-                Filtres
+      <div className="px-6 sm:px-8 py-8 sm:py-12 flex flex-col border-b bg-quadrille">
+        <div className="flex flex-col gap-3 sm:gap-4">
+          <div className="flex justify-between items-center">
+            <h2 className="font-bold text-4xl sm:text-5xl uppercase italic">
+              <span className="sm:hidden">{`${displayGoal} ${goalsFiltre.length < 2 ? "but" : "buts"}`}</span>
+              <span className="hidden sm:block">{`${displayGoal} ${goalsFiltre.length < 2 ? "but" : "buts"} cette saison`}</span>
+            </h2>
+            {goalsFiltre.length > 1 && (
+              <Button variant="filtre" onClick={() => setIsFirst(!isFirst)}>
+                {isFirst ? <ArrowUp /> : <ArrowDown />}
               </Button>
-            </div>
-          ) : (
+            )}
+          </div>
+
+          <div className="flex sm:hidden">
+            {buttonFiltre ? (
+              <div className="flex justify-start">
+                <Button
+                  className="flex gap-1"
+                  variant="filtre"
+                  onClick={() => setButtonFiltre(false)}
+                >
+                  <SlidersHorizontal width={16} />
+                  Filtres
+                </Button>
+              </div>
+            ) : (
+              <FormFilters
+                handleSelectChange={handleSelectChange}
+                handleChangeValue={handleChangeValue}
+                renderSelectOptions={renderSelectOptions}
+                selectCompetition={selectCompetition}
+                selectPasseurId={selectPasseurId}
+                selectStade={selectStade}
+                selectedButeurId={selectedButeurId}
+                handleMaj={handleMaj}
+              />
+            )}
+          </div>
+
+          <div className="hidden sm:flex">
             <FormFilters
               handleSelectChange={handleSelectChange}
               handleChangeValue={handleChangeValue}
@@ -264,23 +274,10 @@ export default function Home() {
               selectedButeurId={selectedButeurId}
               handleMaj={handleMaj}
             />
-          )}
+          </div>
         </div>
 
-        <div className="p-2 hidden sm:flex">
-          <FormFilters
-            handleSelectChange={handleSelectChange}
-            handleChangeValue={handleChangeValue}
-            renderSelectOptions={renderSelectOptions}
-            selectCompetition={selectCompetition}
-            selectPasseurId={selectPasseurId}
-            selectStade={selectStade}
-            selectedButeurId={selectedButeurId}
-            handleMaj={handleMaj}
-          />
-        </div>
-
-        <div className="flex justify-between items-center p-2">
+        <div className="flex justify-between items-center pt-2">
           <div className="flex gap-1 flex-wrap sm:flex-row">
             {selectedButeurId && (
               <ReponseFiltres
@@ -318,7 +315,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="my-6 sm:mx-12">
+      <div className="my-4 mx-3 sm:mx-12">
         {goalsFiltre.length > 0 ? (
           <div className="flex flex-wrap gap-4 justify-center">
             {goalsFiltre.map((goal) => (

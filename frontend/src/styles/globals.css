@@ -5,7 +5,7 @@
 body {
   font-family: "Nunito Sans", sans-serif;
   overflow: hidden;
-  background-color: #F4F2F0;
+  /* background-color: #F4F2F0; */
 }
 
 @layer base {
@@ -78,6 +78,7 @@ body {
 }
 
 .bg-quadrille {
-  background-image: repeating-linear-gradient(-45deg, #ccc 5px, transparent 26%, transparent 75%, #ccc 76%, #ccc), repeating-linear-gradient(45deg, #ccc 25px, transparent 26%, transparent 75%, #ccc 76%, #ccc);
-  background-size: 50px 25px;
+  background-color: transparent;
+  background-image: radial-gradient(circle, #f00000 0.5px, #f3f3f3 1px);
+  background-size: 35px 35px;
 }
