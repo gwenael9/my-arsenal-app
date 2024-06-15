@@ -25,6 +25,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { getName } from "@/lib/functions";
+import { competitions, saisons } from "@/utils/teams";
 
 export default function CardCreateGoal() {
   const { toast } = useToast();
@@ -37,6 +38,7 @@ export default function CardCreateGoal() {
 
   const [selectedDate, setSelectedDate] = useState<string>("");
   const [selectedCompetition, setSelectedCompetition] = useState<string>("");
+  const [selectedSaison, setSelectedSaison] = useState<string>("");
   const [selectedButeur, setSelectedButeur] = useState<string>("");
   const [selectedPasseur, setSelectedPasseur] = useState<string>("");
 
@@ -67,6 +69,7 @@ export default function CardCreateGoal() {
       setSelectedButeur("");
       setSelectedPasseur("");
       setSelectedDate("");
+      setSelectedSaison("");
     },
     onError(error) {
       toast({
@@ -97,7 +100,7 @@ export default function CardCreateGoal() {
     ) {
       const passeurId = selectedPasseur !== "" ? selectedPasseur : null;
       const whereDefault = data.where !== "" ? data.where : "Emirates Stadium";
-      console.log(passeurId);
+      const saisonDefault = data.saison !== "" ? data.saison : "2023/2024";
       createGoal({
         variables: {
           infos: {
@@ -109,7 +112,7 @@ export default function CardCreateGoal() {
             buteurId: selectedButeur,
             passeurId: passeurId,
             competition: selectedCompetition,
-            saison: data.saison
+            saison: saisonDefault
           },
         },
       });
@@ -124,14 +127,6 @@ export default function CardCreateGoal() {
   const handleDateChange = (date: Date) => {
     setSelectedDate(format(date, "dd/MM/yyyy"));
   };
-
-  const competitionTable = [
-    "Premier League",
-    "FA Cup",
-    "EFL Cup",
-    "Champions League",
-    "Community Shield",
-  ];
 
   return (
     <Card className="w-full border rounded border-tertiary/20">
@@ -163,7 +158,7 @@ export default function CardCreateGoal() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      {competitionTable.map((compet, index) => (
+                      {competitions.map((compet, index) => (
                         <SelectItem key={index} value={compet}>
                           {compet}
                         </SelectItem>
@@ -180,11 +175,32 @@ export default function CardCreateGoal() {
                   placeholder="Nottingham Forest"
                 />
               </div>
-            </div>
-            <div className="w-[200px] flex gap-2 flex-col">
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="where">Stade</Label>
                 <Input name="where" id="where" placeholder="Emirates Stadium" />
+              </div>
+            </div>
+            <div className="w-[200px] flex gap-2 flex-col">
+            <div className="flex flex-col space-y-1.5">
+                <Label htmlFor="saison">Saison</Label>
+                <Select
+                  name="saison"
+                  value={selectedSaison}
+                  onValueChange={setSelectedSaison}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Choisi une saison" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      {saisons.map((saison, index) => (
+                        <SelectItem key={index} value={saison}>
+                          {saison}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
               </div>
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="buteurId">Buteur</Label>
