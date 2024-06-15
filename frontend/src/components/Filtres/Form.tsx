@@ -16,6 +16,7 @@ interface FormProps {
   selectPasseurId: string;
   selectStade: string;
   selectCompetition: string;
+  selectTeam: string;
   handleMaj: () => void;
 }
 
@@ -27,6 +28,7 @@ export default function FormFilters({
   selectedButeurId,
   selectPasseurId,
   selectStade,
+  selectTeam,
   handleMaj,
 }: FormProps) {
   return (
@@ -50,7 +52,8 @@ export default function FormFilters({
         {!selectedButeurId &&
           !selectPasseurId &&
           !selectStade &&
-          !selectCompetition && (
+          !selectCompetition &&
+          !selectTeam && (
             <Button onClick={handleMaj}>
               <Undo2 />
             </Button>

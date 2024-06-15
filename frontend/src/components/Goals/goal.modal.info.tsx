@@ -14,6 +14,8 @@ import {
   modifNameTeam,
 } from "@/lib/functions";
 import { Calendar, Info, MapPin, Trophy } from "lucide-react";
+import Image from "next/image";
+import { teams } from "@/utils/teams";
 
 export default function ModalGoalInfo({ goal }: GoalCardProps) {
   const itemDescriptionTable = [
@@ -31,6 +33,12 @@ export default function ModalGoalInfo({ goal }: GoalCardProps) {
       stade: goal.where,
     },
   ];
+
+  // Recherche du code de l'équipe dans la liste `teams`
+  const team = teams.find((team) => team.name === goal.against);
+  const teamCode = team ? team.code : "";
+
+  console.log(teamCode);
 
   return (
     <Dialog>
@@ -52,23 +60,21 @@ export default function ModalGoalInfo({ goal }: GoalCardProps) {
                 className="w-5"
               />
             </p>
-            <p>
-              {goal.passeur && (
-                <span className="text-sm text-muted-foreground">
-                  ({getName(goal.passeur)})
-                </span>
-              )}
-            </p>
+            {goal.passeur && (
+              <p className="text-sm text-muted-foreground mt-1">
+                ({getName(goal.passeur)})
+              </p>
+            )}
           </DialogTitle>
         </DialogHeader>
-        <div className="flex justify-between">
-          <div className="flex items-end">
-            vs
-            <span className="text-xl sm:text-3xl ml-1">
+        <div className="flex items-end justify-between">
+          <div className="flex gap-1">
+            <span className="flex items-end">vs. </span>
+            <span className="text-xl sm:text-3xl">
               {modifNameTeam(goal.against)}
             </span>
           </div>
-          <div className="flex flex-col justify-end">
+          <div className="flex flex-col">
             {itemDescriptionTable.map((item, index) => (
               <p key={index} className="flex items-center gap-1">
                 {item.icon} {item.item}

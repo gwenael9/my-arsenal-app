@@ -7,7 +7,7 @@ export const teams = [
   { name: "Chelsea", code: "cfc" },
   { name: "Newcastle", code: "nfc" },
   { name: "West Ham", code: "whfc" },
-  { name: "Crystal Palace", code: "cpfc" },
+  { name: "Crystal Palace", code: "cry" },
   { name: "Brighton", code: "bri" },
   { name: "Bournemouth", code: "bou" },
   { name: "Fulham", code: "ful" },

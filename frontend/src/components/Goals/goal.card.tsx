@@ -44,7 +44,7 @@ export default function GoalCard({ goal }: GoalCardProps) {
     } else if (item.competition == "EFL Cup") {
       return 20;
     } else if (item.competition == "Community Shield") {
-      return 36
+      return 36;
     }
 
     return 30;
@@ -71,7 +71,7 @@ export default function GoalCard({ goal }: GoalCardProps) {
         </CardDescription>
       </CardHeader>
       <CardContent className="flex items-center justify-between gap-2 pb-5">
-        <div>
+        <div className="flex items-center gap-1">
           vs.{" "}
           <span className="text-xl font-bold">
             {goal.against.toUpperCase()}

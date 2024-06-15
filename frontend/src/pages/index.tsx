@@ -107,22 +107,32 @@ export default function Home() {
         return (
           <>
             <SelectItem value={filters.Buteur}>Tous les joueurs</SelectItem>
-            {players?.map((p, index) => (
-              <SelectItem key={index} value={p.id}>
-                {getName(p)}
-              </SelectItem>
-            ))}
+            {players?.map((p, index) => {
+              if (selectPasseurId && p.id == selectPasseurId) {
+                return null;
+              }
+              return (
+                <SelectItem key={index} value={p.id}>
+                  {getName(p)}
+                </SelectItem>
+              );
+            })}
           </>
         );
       case filters.Passeur:
         return (
           <>
             <SelectItem value={filters.Passeur}>Tous les joueurs</SelectItem>
-            {playersWithoutCsc?.map((p, index) => (
-              <SelectItem key={index} value={p.id}>
-                {getName(p)}
-              </SelectItem>
-            ))}
+            {playersWithoutCsc?.map((p, index) => {
+              if (selectedButeurId && p.id == selectedButeurId) {
+                return null;
+              }
+              return (
+                <SelectItem key={index} value={p.id}>
+                  {getName(p)}
+                </SelectItem>
+              );
+            })}
           </>
         );
       case filters.Stade:
@@ -146,7 +156,7 @@ export default function Home() {
                   <Image
                     src={`${option}.svg`}
                     height={0}
-                    width={option == "FA Cup" ? 20 : 12}
+                    width={option == "FA Cup" ? 24 : 16}
                     alt={option}
                     className={option == "FA Cup" ? "-m-1" : ""}
                   />
@@ -162,7 +172,13 @@ export default function Home() {
             <SelectItem value="Tout">Tout</SelectItem>
             {teams.map((option, index) => (
               <SelectItem key={index} value={option.name}>
-                <div className="flex gap-2">
+                <div className="flex gap-2 items-center">
+                <Image
+                    src={`club/${option.code}.svg`}
+                    height={16}
+                    width={16}
+                    alt={option.name}
+                  />
                   {option.name}
                 </div>
               </SelectItem>
@@ -277,6 +293,7 @@ export default function Home() {
                 selectStade={selectStade}
                 selectedButeurId={selectedButeurId}
                 handleMaj={handleMaj}
+                selectTeam={selectTeam}
               />
             )}
           </div>
@@ -290,6 +307,7 @@ export default function Home() {
               selectPasseurId={selectPasseurId}
               selectStade={selectStade}
               selectedButeurId={selectedButeurId}
+              selectTeam={selectTeam}
               handleMaj={handleMaj}
             />
           </div>
