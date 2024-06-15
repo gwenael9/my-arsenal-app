@@ -1,4 +1,4 @@
-import { Player } from "@/types/graphql";
+import { Goal, Player } from "@/types/graphql";
 
 export function toUpOne(str: string) {
   return str

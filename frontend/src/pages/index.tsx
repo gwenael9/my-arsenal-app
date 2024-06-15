@@ -35,6 +35,9 @@ export default function Home() {
   const { data: playersData } = usePlayersQuery();
   const players = playersData?.players;
 
+  // tri les joueurs dans l'ordre chronologiqu
+  const triPlayers = players ? [...players].sort((a, b) => a.lastname.localeCompare(b.lastname)) : [];
+
   // effet sur le nbr de buts
   const [displayGoal, setDisplayGoal] = useState(0);
   // ordre des buts, décroissant par défaut
@@ -96,7 +99,7 @@ export default function Home() {
   };
 
   // tout nos joueurs sans csc
-  const playersWithoutCsc = players?.filter((player) => {
+  const playersWithoutCsc = triPlayers?.filter((player) => {
     return player.lastname !== "csc";
   });
 
@@ -107,7 +110,7 @@ export default function Home() {
         return (
           <>
             <SelectItem value={filters.Buteur}>Tous les joueurs</SelectItem>
-            {players?.map((p, index) => {
+            {playersWithoutCsc.map((p, index) => {
               if (selectPasseurId && p.id == selectPasseurId) {
                 return null;
               }
@@ -123,7 +126,7 @@ export default function Home() {
         return (
           <>
             <SelectItem value={filters.Passeur}>Tous les joueurs</SelectItem>
-            {playersWithoutCsc?.map((p, index) => {
+            {playersWithoutCsc.map((p, index) => {
               if (selectedButeurId && p.id == selectedButeurId) {
                 return null;
               }
@@ -170,7 +173,7 @@ export default function Home() {
         return (
           <>
             <SelectItem value="Tout">Tout</SelectItem>
-            {teams.map((option, index) => (
+            {teams.sort((a, b) => a.name.localeCompare(b.name)).map((option, index) => (
               <SelectItem key={index} value={option.name}>
                 <div className="flex gap-2 items-center">
                 <Image

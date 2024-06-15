@@ -28,6 +28,8 @@ export default function AdminGoals() {
   const goals = goalsData?.goals || [];
   const [deleteGoal] = useDeleteGoalMutation();
 
+  const triGoals = goals.slice().sort((a, b) => (b.ordre - a.ordre));
+
   const handleDeleteGoal = (id: string) => {
     deleteGoal({
       variables: {
@@ -79,7 +81,7 @@ export default function AdminGoals() {
         <div>
           <div className="flex flex-wrap gap-2 mb-8 sm:mb-0">
             {isGoalOrPlayer ? (
-              goals.map((goal, index) => (
+              triGoals.map((goal, index) => (
                 <Etiquettes key={index} handleDelete={handleDeleteGoal} goal={goal} />
               ))
             ) : (
