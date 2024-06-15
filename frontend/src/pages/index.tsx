@@ -35,8 +35,8 @@ export default function Home() {
   const { data: playersData } = usePlayersQuery();
   const players = playersData?.players;
 
-  // tri les joueurs dans l'ordre chronologiqu
-  const triPlayers = players ? [...players].sort((a, b) => a.lastname.localeCompare(b.lastname)) : [];
+  // tri les joueurs selon leurs nombres de buts
+  const triPlayers = players?.slice().sort((a, b) => (b.goals?.length ?? 0) - (a.goals?.length ?? 0));
 
   // effet sur le nbr de buts
   const [displayGoal, setDisplayGoal] = useState(0);
@@ -110,7 +110,7 @@ export default function Home() {
         return (
           <>
             <SelectItem value={filters.Buteur}>Tous les joueurs</SelectItem>
-            {playersWithoutCsc.map((p, index) => {
+            {playersWithoutCsc?.map((p, index) => {
               if (selectPasseurId && p.id == selectPasseurId) {
                 return null;
               }
@@ -126,7 +126,7 @@ export default function Home() {
         return (
           <>
             <SelectItem value={filters.Passeur}>Tous les joueurs</SelectItem>
-            {playersWithoutCsc.map((p, index) => {
+            {playersWithoutCsc?.map((p, index) => {
               if (selectedButeurId && p.id == selectedButeurId) {
                 return null;
               }
