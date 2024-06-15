@@ -34,9 +34,20 @@ export default function Home() {
   // tout nos joueurs
   const { data: playersData } = usePlayersQuery();
   const players = playersData?.players;
+  
+  // tout nos joueurs sans csc
+  const playersWithoutCsc = players?.filter((player) => {
+    return player.lastname !== "csc";
+  });
 
-  // tri les joueurs selon leurs nombres de buts
-  const triPlayers = players?.slice().sort((a, b) => (b.goals?.length ?? 0) - (a.goals?.length ?? 0));
+  // function qui va trier nos joueurs selon leurs buts ou passes
+  const triPlayer = (item: "goal" | "passe") => {
+    return playersWithoutCsc?.slice().sort((a, b) => {
+      const aLength = item === "goal" ? a.goals?.length ?? 0 : a.passes?.length ?? 0;
+      const bLength = item === "goal" ? b.goals?.length ?? 0 : b.passes?.length ?? 0;
+      return bLength - aLength;
+    });
+  }
 
   // effet sur le nbr de buts
   const [displayGoal, setDisplayGoal] = useState(0);
@@ -98,11 +109,6 @@ export default function Home() {
     }
   };
 
-  // tout nos joueurs sans csc
-  const playersWithoutCsc = triPlayers?.filter((player) => {
-    return player.lastname !== "csc";
-  });
-
   // contenu de nos selects
   const renderSelectOptions = (filter: string) => {
     switch (filter) {
@@ -110,7 +116,7 @@ export default function Home() {
         return (
           <>
             <SelectItem value={filters.Buteur}>Tous les joueurs</SelectItem>
-            {playersWithoutCsc?.map((p, index) => {
+            {triPlayer("goal")?.map((p, index) => {
               if (selectPasseurId && p.id == selectPasseurId) {
                 return null;
               }
@@ -126,7 +132,7 @@ export default function Home() {
         return (
           <>
             <SelectItem value={filters.Passeur}>Tous les joueurs</SelectItem>
-            {playersWithoutCsc?.map((p, index) => {
+            {triPlayer("passe")?.map((p, index) => {
               if (selectedButeurId && p.id == selectedButeurId) {
                 return null;
               }

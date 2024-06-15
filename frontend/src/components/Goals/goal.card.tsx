@@ -63,11 +63,7 @@ export default function GoalCard({ goal }: GoalCardProps) {
       <CardHeader className="flex flex-col">
         <CardTitle>{getName(goal.buteur, "buteur")}</CardTitle>
         <CardDescription>
-          {goal.passeur != null ? (
-            getName(goal.passeur, "passeur")
-          ) : (
-            <div className="h-5"></div>
-          )}
+          {goal.passeur != null ? getName(goal.passeur, "passeur") : "-"}
         </CardDescription>
       </CardHeader>
       <CardContent className="flex items-center justify-between gap-2 pb-5">
