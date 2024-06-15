@@ -109,6 +109,7 @@ export default function CardCreateGoal() {
             buteurId: selectedButeur,
             passeurId: passeurId,
             competition: selectedCompetition,
+            saison: data.saison
           },
         },
       });
