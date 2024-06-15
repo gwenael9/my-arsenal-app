@@ -63,6 +63,10 @@ export default class Goal extends BaseEntity {
 
   @Column({ nullable: true })
   passeurId?: string;
+
+  @Column({ default: "2023/2024", nullable: true })
+  @Field()
+  saison?: string;
 }
 
 @InputType()
@@ -90,4 +94,7 @@ export class InputCreateGoal {
 
   @Field()
   competition?: string;
+
+  @Field()
+  saison?: string;
 }

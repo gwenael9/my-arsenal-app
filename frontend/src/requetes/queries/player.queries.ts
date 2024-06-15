@@ -15,6 +15,7 @@ export const LIST_PLAYERS = gql`
                 against
                 ordre
                 competition
+                saison
             }
             passes {
                 id
@@ -24,6 +25,7 @@ export const LIST_PLAYERS = gql`
                 against
                 ordre
                 competition
+                saison
             }
         }
     }

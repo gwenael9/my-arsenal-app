@@ -5,14 +5,12 @@ import {
   Resolver,
   FieldResolver,
   Root,
-  Int,
   Authorized,
 } from "type-graphql";
 import Goal, { InputCreateGoal } from "../entities/goal.entity";
 import GoalService from "../services/goal.service";
 import PlayerService from "../services/player.service";
 import Player from "../entities/player.entity";
-import { GraphQLError } from "graphql";
 import { Message } from "../entities/message.entity";
 
 @Resolver((of) => Goal)

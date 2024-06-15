@@ -30,8 +30,9 @@ export default function FormFilters({
   handleMaj,
 }: FormProps) {
   return (
-    <form className="grid grid-cols-2 gap-2 sm:gap-4 sm:flex sm:flex-row w-full max-w-[900px]">
-      {Object.values(filters).map((filter, index) => (
+    <form className="w-full max-w-[900px]">
+      <div className="grid grid-cols-3 gap-2 sm:gap-4 sm:flex sm:flex-row">
+        {Object.values(filters).map((filter, index) => (
           <Select
             key={index}
             name={filter}
@@ -43,8 +44,9 @@ export default function FormFilters({
             </SelectTrigger>
             <SelectContent>{renderSelectOptions(filter)}</SelectContent>
           </Select>
-      ))}
-      <div className="flex sm:hidden">
+        ))}
+      </div>
+      <div className="flex sm:hidden justify-end">
         {!selectedButeurId &&
           !selectPasseurId &&
           !selectStade &&

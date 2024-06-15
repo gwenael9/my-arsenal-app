@@ -22,6 +22,7 @@ export const LIST_GOALS = gql`
             against
             ordre
             competition
+            saison
         }
     }
 `

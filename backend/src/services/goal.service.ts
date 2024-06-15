@@ -23,6 +23,7 @@ export default class GoalService {
     where,
     ordre,
     competition,
+    saison,
   }: InputCreateGoal) {
     const playerService = new PlayerService();
     const buteur = await playerService.getPlayerById(buteurId);
@@ -43,11 +44,12 @@ export default class GoalService {
       date,
       link,
       buteurId,
-      passeurId: passeurIdToSave as string, 
+      passeurId: passeurIdToSave as string,
       against,
       where,
       ordre,
       competition,
+      saison,
     });
 
     return await this.db.save(newGoal);

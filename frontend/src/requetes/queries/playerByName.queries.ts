@@ -15,6 +15,7 @@ export const PLAYER_NAME = gql`
         where
         ordre
         competition
+        saison
         buteur {
           id
           firstname
@@ -36,6 +37,7 @@ export const PLAYER_NAME = gql`
         where
         ordre
         competition
+        saison
       }
     }
   }

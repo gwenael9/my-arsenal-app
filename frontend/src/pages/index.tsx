@@ -12,6 +12,7 @@ import ReponseFiltres from "@/components/Filtres/Reponse";
 import { getName, toUpOne } from "@/lib/functions";
 import FormFilters from "@/components/Filtres/Form";
 import Image from "next/image";
+import { competitions, teams } from "@/utils/teams";
 
 const stade = "Emirates Stadium";
 
@@ -20,17 +21,10 @@ export const filters = {
   Passeur: "Passeur",
   Stade: "Stade",
   Competition: "Competition",
+  Adversaire: "Adversaire",
 };
 
 const lieuOptions = [stade, "Extérieur"];
-
-const Competition = [
-  "Premier League",
-  "Champions League",
-  "FA Cup",
-  "EFL Cup",
-  "Community Shield",
-];
 
 export default function Home() {
   const { toast } = useToast();
@@ -54,6 +48,8 @@ export default function Home() {
   const [selectPasseurId, setSelectedPasseurId] = useState("");
   // competition sélectionné dans les filtres
   const [selectCompetition, setSelectedCompetition] = useState("");
+  // equipe sélectionné dans les filtres
+  const [selectTeam, setSelectTeam] = useState("");
 
   // button filtre
   const [buttonFiltre, setButtonFiltre] = useState(true);
@@ -73,6 +69,7 @@ export default function Home() {
     setSelectStade("");
     setSelectedPasseurId("");
     setSelectedCompetition("");
+    setSelectTeam("");
     setButtonFiltre(true);
     if (item == "toast") {
       toast({
@@ -93,6 +90,8 @@ export default function Home() {
       setSelectStade(value === "Tout" ? "" : value);
     } else if (filter === filters.Competition) {
       setSelectedCompetition(value === "Tout" ? "" : value);
+    } else if (filter === filters.Adversaire) {
+      setSelectTeam(value === "Tout" ? "" : value);
     }
   };
 
@@ -132,15 +131,7 @@ export default function Home() {
             <SelectItem value="Tout">Tout</SelectItem>
             {lieuOptions.map((option, index) => (
               <SelectItem key={index} value={option}>
-                <div className="flex gap-2">
-                  {/* <Image
-                    src={option == stade ? "home.svg" : "out.svg"}
-                    height={0}
-                    width={12}
-                    alt={option}
-                  /> */}
-                  {option}
-                </div>
+                <div className="flex gap-2">{option}</div>
               </SelectItem>
             ))}
           </>
@@ -149,7 +140,7 @@ export default function Home() {
         return (
           <>
             <SelectItem value="Tout">Tout</SelectItem>
-            {Competition.map((option, index) => (
+            {competitions.map((option, index) => (
               <SelectItem key={index} value={option}>
                 <div className="flex gap-2">
                   <Image
@@ -160,6 +151,19 @@ export default function Home() {
                     className={option == "FA Cup" ? "-m-1" : ""}
                   />
                   {option}
+                </div>
+              </SelectItem>
+            ))}
+          </>
+        );
+      case filters.Adversaire:
+        return (
+          <>
+            <SelectItem value="Tout">Tout</SelectItem>
+            {teams.map((option, index) => (
+              <SelectItem key={index} value={option.name}>
+                <div className="flex gap-2">
+                  {option.name}
                 </div>
               </SelectItem>
             ))}
@@ -187,7 +191,15 @@ export default function Home() {
       // on filtre par la competition si une competition est sélectionnée
       const competitionMatch =
         !selectCompetition || goal.competition == selectCompetition;
-      return buteurMatch && passeurMatch && stadeMatch && competitionMatch;
+      // on filtre par l'adversaire si un adversaire est sélectionnée
+      const adversaireMatch = !selectTeam || goal.against == selectTeam;
+      return (
+        buteurMatch &&
+        passeurMatch &&
+        stadeMatch &&
+        competitionMatch &&
+        adversaireMatch
+      );
     }) || [];
 
   // trier dans l'ordre décroissant/croissant
@@ -218,6 +230,8 @@ export default function Home() {
       return selectStade;
     } else if (value === filters.Competition) {
       return selectCompetition;
+    } else if (value === filters.Adversaire) {
+      return selectTeam;
     }
   };
 
@@ -227,8 +241,12 @@ export default function Home() {
         <div className="flex flex-col gap-3 sm:gap-4">
           <div className="flex justify-between items-center">
             <h2 className="font-bold text-4xl sm:text-5xl uppercase italic">
-              <span className="sm:hidden">{`${displayGoal} ${goalsFiltre.length < 2 ? "but" : "buts"}`}</span>
-              <span className="hidden sm:block">{`${displayGoal} ${goalsFiltre.length < 2 ? "but" : "buts"} cette saison`}</span>
+              <span className="sm:hidden">{`${displayGoal} ${
+                goalsFiltre.length < 2 ? "but" : "buts"
+              }`}</span>
+              <span className="hidden sm:block">{`${displayGoal} ${
+                goalsFiltre.length < 2 ? "but" : "buts"
+              } cette saison`}</span>
             </h2>
             {goalsFiltre.length > 1 && (
               <Button variant="filtre" onClick={() => setIsFirst(!isFirst)}>
@@ -303,11 +321,18 @@ export default function Home() {
                 onClick={() => setSelectedCompetition("")}
               />
             )}
+            {selectTeam && (
+              <ReponseFiltres
+                data={selectTeam}
+                onClick={() => setSelectTeam("")}
+              />
+            )}
           </div>
           {(selectStade ||
             selectedButeurId ||
             selectPasseurId ||
-            selectCompetition) && (
+            selectCompetition ||
+            selectTeam) && (
             <Button onClick={() => handleMaj("toast")}>
               <X />
             </Button>

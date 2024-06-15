@@ -11,6 +11,7 @@ export const GOAL_ORDRE = gql`
     ordre
     where
     competition
+    saison
     buteur {
       id
       country
