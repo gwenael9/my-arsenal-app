@@ -34,20 +34,15 @@ export default function Home() {
   // tout nos joueurs
   const { data: playersData } = usePlayersQuery();
   const players = playersData?.players;
-  
-  // tout nos joueurs sans csc
-  const playersWithoutCsc = players?.filter((player) => {
-    return player.lastname !== "csc";
-  });
 
   // function qui va trier nos joueurs selon leurs buts ou passes
   const triPlayer = (item: "goal" | "passe") => {
-    return playersWithoutCsc?.slice().sort((a, b) => {
+    return players?.slice().sort((a, b) => {
       const aLength = item === "goal" ? a.goals?.length ?? 0 : a.passes?.length ?? 0;
       const bLength = item === "goal" ? b.goals?.length ?? 0 : b.passes?.length ?? 0;
       return bLength - aLength;
     });
-  }
+  };
 
   // effet sur le nbr de buts
   const [displayGoal, setDisplayGoal] = useState(0);
@@ -133,7 +128,7 @@ export default function Home() {
           <>
             <SelectItem value={filters.Passeur}>Tous les joueurs</SelectItem>
             {triPlayer("passe")?.map((p, index) => {
-              if (selectedButeurId && p.id == selectedButeurId) {
+              if ((selectedButeurId && p.id == selectedButeurId) ||p.lastname == "csc") {
                 return null;
               }
               return (

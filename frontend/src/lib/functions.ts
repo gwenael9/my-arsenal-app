@@ -53,7 +53,10 @@ export const getName = (name: Player | any, item?: string) => {
   if (name) {
     if (name.lastname == "smith-rowe") {
       fullname = `${name.firstname} Smith-Rowe`;
-    } else {
+    } else if (name.lastname == "csc") {
+      fullname = name.lastname.toUpperCase();
+    }
+    else {
      fullname = `${name.firstname} ${name.lastname}`;
     }
     return item === "buteur" ? fullname.toUpperCase() : toUpOne(fullname);
