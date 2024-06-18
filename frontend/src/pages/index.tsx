@@ -235,7 +235,7 @@ export default function Home() {
       } else {
         clearInterval(interval);
       }
-    }, 30);
+    }, 10);
 
     return () => clearInterval(interval);
   }, [goalsFiltre]);

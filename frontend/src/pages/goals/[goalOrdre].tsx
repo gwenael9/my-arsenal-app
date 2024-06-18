@@ -80,6 +80,8 @@ const GoalCarouselPage = () => {
       return ["https://www.youtube.com/@gunnerzcomps", "GunnerzComps"];
     } else if (item == 20 || item == 21 || item == 108) {
       return ["https://www.youtube.com/@AFCBournemouth", "AFC Bournemouth"];
+    } else if (item == 46 || item == 47) {
+      return ["https://www.youtube.com/@GoalsCinematic", "GoalsCinematic"];
     }
     return ["https://www.youtube.com/@arsenal", "Arsenal"];
   };
