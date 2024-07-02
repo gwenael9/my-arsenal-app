@@ -15,7 +15,6 @@ import {
   SelectValue,
 } from "../ui/select";
 import { useLangue } from "./LangueContext";
-import "flag-icons/css/flag-icons.min.css";
 
 interface LayoutProps {
   children: ReactNode;
