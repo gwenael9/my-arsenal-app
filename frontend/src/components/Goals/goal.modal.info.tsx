@@ -14,7 +14,6 @@ import {
   modifNameTeam,
 } from "@/lib/functions";
 import { Calendar, Info, MapPin, Trophy } from "lucide-react";
-import Image from "next/image";
 import { teams } from "@/utils/teams";
 
 export default function ModalGoalInfo({ goal }: GoalCardProps) {
@@ -38,8 +37,6 @@ export default function ModalGoalInfo({ goal }: GoalCardProps) {
   const team = teams.find((team) => team.name === goal.against);
   const teamCode = team ? team.code : "";
 
-  console.log(teamCode);
-
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -62,7 +59,7 @@ export default function ModalGoalInfo({ goal }: GoalCardProps) {
             </p>
             {goal.passeur && (
               <p className="text-sm text-muted-foreground mt-1">
-                ({getName(goal.passeur)})
+                {getName(goal.passeur)}
               </p>
             )}
           </DialogTitle>

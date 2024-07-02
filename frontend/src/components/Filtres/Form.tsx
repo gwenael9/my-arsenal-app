@@ -6,7 +6,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { filters } from "@/pages";
+import { useLangue } from "../Layout/LangueContext";
 
 interface FormProps {
   handleSelectChange: (value: string, filter: string) => void;
@@ -31,6 +31,17 @@ export default function FormFilters({
   selectTeam,
   handleMaj,
 }: FormProps) {
+
+  const { langue } = useLangue();
+  
+  const filters = {
+    Buteur: langue ? "Buteur" : "Striker",
+    Passeur: langue ? "Passeur" : "Assist",
+    Stade: langue ? "Stade" : "Stadium",
+    Competition: langue ? "Compétition" : "Competition",
+    Adversaire: langue ? "Adversaire" : "Against",
+  };
+
   return (
     <form className="w-full max-w-[900px]">
       <div className="grid grid-cols-3 gap-2 sm:gap-4 sm:flex sm:flex-row">

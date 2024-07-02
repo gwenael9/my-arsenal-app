@@ -13,21 +13,24 @@ import { getName, toUpOne } from "@/lib/functions";
 import FormFilters from "@/components/Filtres/Form";
 import Image from "next/image";
 import { competitions, teams } from "@/utils/teams";
+import { useLangue } from "@/components/Layout/LangueContext";
 
 const stade = "Emirates Stadium";
 
-export const filters = {
-  Buteur: "Buteur",
-  Passeur: "Passeur",
-  Stade: "Stade",
-  Competition: "Competition",
-  Adversaire: "Adversaire",
-};
-
-const lieuOptions = [stade, "Extérieur"];
-
 export default function Home() {
   const { toast } = useToast();
+  
+  const { langue } = useLangue();
+  
+  const filters = {
+    Buteur: langue ? "Buteur" : "Striker",
+    Passeur: langue ? "Passeur" : "Assist",
+    Stade: langue ? "Stade" : "Stadium",
+    Competition: langue ? "Compétition" : "Competition",
+    Adversaire: langue ? "Adversaire" : "Against",
+  };
+
+  const lieuOptions = [stade, `${langue ? "Extérieur" : "Others"}`];
 
   // tout nos buts
   const { data: goalsData } = useGoalsQuery();
@@ -38,8 +41,10 @@ export default function Home() {
   // function qui va trier nos joueurs selon leurs buts ou passes
   const triPlayer = (item: "goal" | "passe") => {
     return players?.slice().sort((a, b) => {
-      const aLength = item === "goal" ? a.goals?.length ?? 0 : a.passes?.length ?? 0;
-      const bLength = item === "goal" ? b.goals?.length ?? 0 : b.passes?.length ?? 0;
+      const aLength =
+        item === "goal" ? a.goals?.length ?? 0 : a.passes?.length ?? 0;
+      const bLength =
+        item === "goal" ? b.goals?.length ?? 0 : b.passes?.length ?? 0;
       return bLength - aLength;
     });
   };
@@ -110,7 +115,7 @@ export default function Home() {
       case filters.Buteur:
         return (
           <>
-            <SelectItem value={filters.Buteur}>Tous les joueurs</SelectItem>
+            <SelectItem value={filters.Buteur}>{langue ? "Tous les joueurs" : "All players"}</SelectItem>
             {triPlayer("goal")?.map((p, index) => {
               if (selectPasseurId && p.id == selectPasseurId) {
                 return null;
@@ -126,9 +131,12 @@ export default function Home() {
       case filters.Passeur:
         return (
           <>
-            <SelectItem value={filters.Passeur}>Tous les joueurs</SelectItem>
+            <SelectItem value={filters.Passeur}>{langue ? "Tous les joueurs" : "All players"}</SelectItem>
             {triPlayer("passe")?.map((p, index) => {
-              if ((selectedButeurId && p.id == selectedButeurId) ||p.lastname == "csc") {
+              if (
+                (selectedButeurId && p.id == selectedButeurId) ||
+                p.lastname == "csc"
+              ) {
                 return null;
               }
               return (
@@ -142,7 +150,7 @@ export default function Home() {
       case filters.Stade:
         return (
           <>
-            <SelectItem value="Tout">Tout</SelectItem>
+            <SelectItem value="Tout">{langue ? "Tout" : "All"}</SelectItem>
             {lieuOptions.map((option, index) => (
               <SelectItem key={index} value={option}>
                 <div className="flex gap-2">{option}</div>
@@ -153,7 +161,7 @@ export default function Home() {
       case filters.Competition:
         return (
           <>
-            <SelectItem value="Tout">Tout</SelectItem>
+            <SelectItem value="Tout">{langue ? "Tout" : "All"}</SelectItem>
             {competitions.map((option, index) => (
               <SelectItem key={index} value={option}>
                 <div className="flex gap-2">
@@ -173,20 +181,22 @@ export default function Home() {
       case filters.Adversaire:
         return (
           <>
-            <SelectItem value="Tout">Tout</SelectItem>
-            {teams.sort((a, b) => a.name.localeCompare(b.name)).map((option, index) => (
-              <SelectItem key={index} value={option.name}>
-                <div className="flex gap-2 items-center">
-                <Image
-                    src={`club/${option.code}.svg`}
-                    height={16}
-                    width={16}
-                    alt={option.name}
-                  />
-                  {option.name}
-                </div>
-              </SelectItem>
-            ))}
+            <SelectItem value="Tout">{langue ? "Tout" : "All"}</SelectItem>
+            {teams
+              .sort((a, b) => a.name.localeCompare(b.name))
+              .map((option, index) => (
+                <SelectItem key={index} value={option.name}>
+                  <div className="flex gap-2 items-center">
+                    <Image
+                      src={`club/${option.code}.svg`}
+                      height={16}
+                      width={16}
+                      alt={option.name}
+                    />
+                    {option.name}
+                  </div>
+                </SelectItem>
+              ))}
           </>
         );
       default:
@@ -261,12 +271,25 @@ export default function Home() {
         <div className="flex flex-col gap-3 sm:gap-4">
           <div className="flex justify-between items-center">
             <h2 className="font-bold text-4xl sm:text-5xl uppercase italic">
-              <span className="sm:hidden">{`${displayGoal} ${
-                goalsFiltre.length < 2 ? "but" : "buts"
-              }`}</span>
-              <span className="hidden sm:block">{`${displayGoal} ${
-                goalsFiltre.length < 2 ? "but" : "buts"
-              } cette saison`}</span>
+              {langue ? (
+                <>
+                  <span className="sm:hidden">{`${displayGoal} ${
+                    goalsFiltre.length < 2 ? "but" : "buts"
+                  }`}</span>
+                  <span className="hidden sm:block">{`${displayGoal} ${
+                    goalsFiltre.length < 2 ? "but" : "buts"
+                  } cette saison`}</span>
+                </>
+              ) : (
+                <>
+                  <span className="sm:hidden">{`${displayGoal} ${
+                    goalsFiltre.length < 2 ? "goal" : "goals"
+                  }`}</span>
+                  <span className="hidden sm:block">{`${displayGoal} ${
+                    goalsFiltre.length < 2 ? "goal" : "goals"
+                  } this season`}</span>
+                </>
+              )}
             </h2>
             {goalsFiltre.length > 1 && (
               <Button variant="filtre" onClick={() => setIsFirst(!isFirst)}>
@@ -284,7 +307,7 @@ export default function Home() {
                   onClick={() => setButtonFiltre(false)}
                 >
                   <SlidersHorizontal width={16} />
-                  Filtres
+                  {langue ? "Filtres" : "Filters"}
                 </Button>
               </div>
             ) : (
@@ -370,7 +393,7 @@ export default function Home() {
             ))}
           </div>
         ) : (
-          <div className="text-center">Aucun but pour le moment...</div>
+          <div className="text-center">{langue ? "Aucun but pour le moment..." : "No goal yet..."}</div>
         )}
       </div>
     </Layout>

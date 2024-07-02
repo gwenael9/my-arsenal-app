@@ -8,9 +8,11 @@ import ModalGoalInfo from "@/components/Goals/goal.modal.info";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { useLangue } from "@/components/Layout/LangueContext";
 
 const GoalCarouselPage = () => {
   const router = useRouter();
+  const { langue } = useLangue();
   const { goalOrdre } = router.query;
   const [showError, setShowError] = useState(false);
 
@@ -53,8 +55,6 @@ const GoalCarouselPage = () => {
 
       if (nextOrPrevGoal !== undefined) {
         router.push(`/goals/${nextOrPrevGoal}`);
-      } else {
-        console.log("Aucun but trouvé");
       }
     }
   };
@@ -89,11 +89,10 @@ const GoalCarouselPage = () => {
   return (
     <Layout title={`But n°${goalOrdre}`}>
       {goal ? (
-        <div>
+        <>
           <div className="absolute right-4 top-24">
             <ModalGoalInfo goal={goal} />
           </div>
-
           <div
             className="flex pt-24 md:pt-12 items-center flex-col gap-4"
             style={{ height: "calc(100vh - 80px)" }}
@@ -112,7 +111,9 @@ const GoalCarouselPage = () => {
                 <div className="w-14"></div>
               )}
 
-              <h2 className="text-3xl font-bold">But n°{goalOrdre}</h2>
+              <h2 className="text-3xl font-bold">
+                {langue ? "But" : "Goal"} n°{goalOrdre}
+              </h2>
 
               {typeof goalOrdre === "string" &&
               lastGoal !== parseInt(goalOrdre) ? (
@@ -153,7 +154,7 @@ const GoalCarouselPage = () => {
               </div>
             </div>
           </div>
-        </div>
+        </>
       ) : (
         showError && <Erreur item={`But n°${goalOrdre} inconnu.`} />
       )}

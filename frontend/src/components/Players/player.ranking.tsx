@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/table";
 import { flagCountry, getName, toUpOne } from "@/lib/functions";
 import { MoveDown, MoveUp } from "lucide-react";
+import { useLangue } from "../Layout/LangueContext";
 
 type SortKey = "goals" | "passes";
 type SortDirection = "ascending" | "descending";
@@ -17,6 +18,8 @@ type SortDirection = "ascending" | "descending";
 export default function Ranking() {
   const { data: playersData } = usePlayersQuery();
   const players = playersData?.players || [];
+
+  const { langue } = useLangue();
 
   const [sortConfig, setSortConfig] = useState<{
     key: SortKey;
@@ -74,7 +77,7 @@ export default function Ranking() {
       <TableHeader className="border-b">
         <TableRow>
           <TableHead>Position</TableHead>
-          <TableHead>Joueurs</TableHead>
+          <TableHead>{langue ? "Joueurs" : "Players"}</TableHead>
           {tableHeaderStats.map((stat, index) => (
             <TableHead key={index}>
               <div

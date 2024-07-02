@@ -6,6 +6,16 @@ import Link from "next/link";
 import { AlignJustify, X } from "lucide-react";
 import MenuMobile from "./MenuMobile";
 import { useRouter } from "next/router";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { useLangue } from "./LangueContext";
+import "flag-icons/css/flag-icons.min.css";
 
 interface LayoutProps {
   children: ReactNode;
@@ -15,6 +25,8 @@ interface LayoutProps {
 export default function Layout({ children, title }: LayoutProps) {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
+
+  const { langue, toggleLangue } = useLangue();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -42,14 +54,26 @@ export default function Layout({ children, title }: LayoutProps) {
     ?.reduce((a, b) => Math.min(a, b), Infinity);
 
   const navLink = [
-    { name: "Buts", link: `/goals/${firstGoal}` },
-    { name: "Statistiques", link: "/statistique" },
+    { name: `${langue ? "Buts" : "Goals"}`, link: `/goals/${firstGoal}` },
+    { name: `${langue ? "Statistiques" : "Statistics"}`, link: "/statistique" },
     {
-      name: "Me soutenir",
+      name: `${langue ? "Me soutenir" : "Support me"}`,
       link: "https://www.paypal.com/paypalme/ggueho",
       target: "_blank",
     },
   ];
+
+  const langueTable = ["fr", "gb"];
+
+  const renderLangueValue = (langue: boolean) => {
+    const langCode = langue ? "fr" : "gb";
+    return (
+      <span
+        className={`fi fi-${langCode}`}
+        style={{ width: "1rem", height: "1rem" }}
+      ></span>
+    );
+  };
 
   return (
     <>
@@ -59,7 +83,7 @@ export default function Layout({ children, title }: LayoutProps) {
           <>
             <meta
               name="description"
-              content="Tout les buts d'Arsenal pour la saison 2023/2024"
+              content="Tout les buts d'Arsenal pour la l 2023/2024"
             />
             <meta
               name="viewport"
@@ -81,7 +105,7 @@ export default function Layout({ children, title }: LayoutProps) {
         ></link>
       </Head>
       <header
-        className={`p-6 flex justify-between items-center h-20 border-b ${
+        className={`p-6 relative flex justify-between items-center h-20 border-b ${
           isOpen && "blur"
         }`}
       >
@@ -89,14 +113,16 @@ export default function Layout({ children, title }: LayoutProps) {
           <Link href="/" className="font-bold uppercase">
             <h1>
               <span className="hidden md:block">
-                tous les buts d'arsenal 23/24
+                {langue
+                  ? "tous les buts d'arsenal 23/24"
+                  : "all goals for arsenal 23/24"}
               </span>
-              <span className="md:hidden">arsenal </span>
+              <span className="md:hidden">arsenal</span>
             </h1>
           </Link>
         </div>
 
-        <nav className={`items-center space-x-8 hidden sm:inline`}>
+        <nav className={`items-center space-x-6 hidden sm:flex`}>
           {navLink.map((n, index) => (
             <Link
               className="font-bold uppercase hover:text-primary"
@@ -107,6 +133,29 @@ export default function Layout({ children, title }: LayoutProps) {
               {n.name}
             </Link>
           ))}
+          <div className="w-12">
+            <Select
+              name="langue"
+              value={langue ? "Français" : "Anglais"}
+              onValueChange={toggleLangue}
+            >
+              <SelectTrigger className="flex items-center gap-2 border-none p-1">
+                <SelectValue asChild>{renderLangueValue(langue)}</SelectValue>
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  {langueTable.map((l, index) => (
+                    <SelectItem key={index} value={l} className="pl-2 flex justify-center">
+                      <p
+                        className={`fi fi-${l}`}
+                        style={{ width: "1rem", height: "1rem" }}
+                      ></p>
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
         </nav>
 
         <div className="sm:hidden flex items-center">
