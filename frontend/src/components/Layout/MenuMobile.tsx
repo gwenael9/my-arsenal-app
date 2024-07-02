@@ -32,7 +32,7 @@ export default function MenuMobile({
     >
       <div
         className="bg-white py-5 rounded mx-10"
-        style={{ height: "calc(100vh - 200px)" }}
+        style={{ height: "calc(100vh - 160px)" }}
       >
         <div className="flex flex-col h-full relative">
           <div className="flex justify-center flex-col items-center mt-4">

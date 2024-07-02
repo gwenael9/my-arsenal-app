@@ -98,7 +98,7 @@ export default function Ranking() {
             <TableCell className="font-bold w-10">
               <div className="flex justify-center">
                 <p
-                  className={`border px-1 rounded-sm ${
+                  className={`px-1 rounded-sm ${
                     index < 3 || player.lastname === "csc"
                       ? getBgPosition(index + 1)
                       : ""
