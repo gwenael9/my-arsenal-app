@@ -20,7 +20,7 @@ export default function MenuMobile({
   closeMenu,
   navLink,
 }: MenuMobileProps) {
-  const { langue, toggleLangue } = useLangue();
+  const { langue, setLangue } = useLangue();
 
   const getBgColor = (lang: string) => (langue ? "fr" : "gb") === lang ? "border-b-2 border-primary rounded-none" : "";
 
@@ -61,7 +61,7 @@ export default function MenuMobile({
                   key={index}
                   className={`${getBgColor(lang)}`}
                   variant="langue"
-                  onClick={toggleLangue}
+                  onClick={() => setLangue(lang === "fr")}
                 >
                   <span
                     className={`fi fi-${lang}`}

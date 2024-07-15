@@ -14,9 +14,9 @@ import {
   modifNameTeam,
 } from "@/lib/functions";
 import { Calendar, Info, MapPin, Trophy } from "lucide-react";
-import { teams } from "@/utils/teams";
 
 export default function ModalGoalInfo({ goal }: GoalCardProps) {
+  
   const itemDescriptionTable = [
     {
       icon: <Calendar size={16} />,
@@ -29,13 +29,8 @@ export default function ModalGoalInfo({ goal }: GoalCardProps) {
     {
       icon: <MapPin size={16} />,
       item: goal.where,
-      stade: goal.where,
     },
   ];
-
-  // Recherche du code de l'équipe dans la liste `teams`
-  const team = teams.find((team) => team.name === goal.against);
-  const teamCode = team ? team.code : "";
 
   return (
     <Dialog>
@@ -44,18 +39,17 @@ export default function ModalGoalInfo({ goal }: GoalCardProps) {
           Infos <Info size={20} />
         </Button>
       </DialogTrigger>
-      <DialogContent className="fixed border-tertiary top-1/2 left-1/2 p-4 border overflow-hidden sm:max-w-[450px] w-full max-w-[90%] h-[180px]">
+      <DialogContent className="border-tertiary p-4 border overflow-hidden sm:max-w-[450px] w-full max-w-[90%] h-[200px]">
         <DialogHeader>
           <DialogTitle>
             <p className="flex items-center gap-2">
               {getName(goal.buteur, "buteur")}
-              <img
-                src={`https://flagcdn.com/${flagCountry(
-                  goal.buteur.country
-                )}.svg`}
-                alt={goal.buteur.country}
-                className="w-5"
-              />
+              {flagCountry(goal.buteur.country) && (
+                <span
+                  className={`fi fi-${flagCountry(goal.buteur.country)}`}
+                  style={{ width: "1rem", height: "1rem" }}
+                />
+              )}
             </p>
             {goal.passeur && (
               <p className="text-sm text-muted-foreground mt-1">

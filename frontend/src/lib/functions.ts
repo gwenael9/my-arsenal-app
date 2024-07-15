@@ -1,4 +1,7 @@
+import { useLangue } from "@/components/Layout/LangueContext";
 import { Goal, Player } from "@/types/graphql";
+
+// const langue = useLangue();
 
 export function toUpOne(str: string) {
   return str
@@ -9,25 +12,27 @@ export function toUpOne(str: string) {
     .join(" ");
 }
 
-export function formaterDate(dateString: string): string {
-  const [jour, mois, annee] = dateString.split("/");
-  const moisEnLettres = [
-    "Janvier",
-    "Février",
-    "Mars",
-    "Avril",
-    "Mai",
-    "Juin",
-    "Juillet",
-    "Août",
-    "Septembre",
-    "Octobre",
-    "Novembre",
-    "Décembre",
-  ];
-  const moisIndex = parseInt(mois, 10) - 1;
-  const moisEnLettresAbrege = moisEnLettres[moisIndex];
-  return `${jour} ${moisEnLettresAbrege} ${annee}`;
+export function formaterDate(date: string) {
+  const [day, month, year] = date.split("/").map(Number);
+  const { langue } = useLangue();
+
+    const dateFormat = new Date(year, month-1, day);
+    const options: Intl.DateTimeFormatOptions = {
+      // weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    };
+    
+    const locale = langue ? 'fr-FR' : 'en-US';
+    const formatDate = dateFormat.toLocaleDateString(locale, options);
+
+    if (langue) {
+      const [dayPart, monthPart, yearPart] = formatDate.split(' ');
+      return `${dayPart} ${toUpOne(monthPart)} ${yearPart}`;
+    }
+
+    return formatDate;
 }
 
 const flags: { [key: string]: string } = {

@@ -25,7 +25,7 @@ export default function Layout({ children, title }: LayoutProps) {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
 
-  const { langue, toggleLangue } = useLangue();
+  const { langue, setLangue } = useLangue();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -72,6 +72,11 @@ export default function Layout({ children, title }: LayoutProps) {
         style={{ width: "1rem", height: "1rem" }}
       ></span>
     );
+  };
+
+  const handleLangueChange = (value: string) => {
+    const newLangue = value === "fr";
+    setLangue(newLangue);
   };
 
   return (
@@ -124,7 +129,7 @@ export default function Layout({ children, title }: LayoutProps) {
         <nav className={`items-center space-x-6 hidden sm:flex`}>
           {navLink.map((n, index) => (
             <Link
-              className="font-bold uppercase hover:text-primary"
+              className="font-bold uppercase nav-link"
               key={index}
               href={n.link}
               target={n.target}
@@ -136,7 +141,7 @@ export default function Layout({ children, title }: LayoutProps) {
             <Select
               name="langue"
               value={langue ? "Français" : "Anglais"}
-              onValueChange={toggleLangue}
+              onValueChange={handleLangueChange}
             >
               <SelectTrigger className="flex items-center gap-2 border-none p-1">
                 <SelectValue asChild>{renderLangueValue(langue)}</SelectValue>

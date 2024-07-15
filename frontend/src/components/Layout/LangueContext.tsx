@@ -3,7 +3,7 @@ import LoadingLangue from "../LoadingLangue";
 
 interface LangueContextType {
     langue: boolean;
-    toggleLangue: () => void;
+    setLangue: (lang: boolean) => void;
     loading: boolean;
 }
 
@@ -13,16 +13,18 @@ export const LangueProvider = ({ children }: { children: ReactNode}) => {
     const [langue, setLangue] = useState(true);
     const [loading, setLoading] = useState(false);
 
-    const toggleLangue = () => {
-        setLoading(true);
-        setTimeout(() => {
-            setLangue((prevLangue) => !prevLangue);
-            setLoading(false);
-        }, 800);
+    const toggleLangue = (newLangue: boolean) => {
+        if (langue !== newLangue) {
+            setLoading(true);
+            setTimeout(() => {
+                setLangue(newLangue);
+                setLoading(false);
+            }, 800);
+        }
     }
 
     return (
-        <LangueContext.Provider value={{ langue, toggleLangue, loading }}>
+        <LangueContext.Provider value={{ langue, setLangue: toggleLangue, loading }}>
             {children}
             {loading && <LoadingLangue />}
         </LangueContext.Provider>
