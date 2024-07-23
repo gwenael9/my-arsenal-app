@@ -82,7 +82,7 @@ export default function ChartsGoal({ goals, item, saison }: CompetitionsProps) {
   return (
     <>
       {number > 0 && (
-        <Card className="border sm:w-[500px] sm:relative sm:h-[250px]">
+        <Card className="border sm:w-[500px] sm:relative h-full sm:h-[250px]">
           <CardHeader>
             <CardTitle>{toUpOne(title)}</CardTitle>
             <CardDescription>{descriptionText}</CardDescription>
