@@ -88,7 +88,7 @@ export default function ChartsGoal({ goals, item, saison }: CompetitionsProps) {
             <CardDescription>{descriptionText}</CardDescription>
           </CardHeader>
           <CardContent>
-            <ChartContainer config={chartConfig} className="aspect-square max-h-[200px] w-full sm:w-1/2 sm:absolute sm:top-8 sm:right-0">
+            <ChartContainer config={chartConfig} className="aspect-square sm:max-h-[200px] w-full sm:w-1/2 sm:absolute sm:top-8 sm:right-0">
               <PieChart>
                 <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
                 <Pie data={goalsTri} dataKey="buts" nameKey="competition" innerRadius={60} strokeWidth={5}>
