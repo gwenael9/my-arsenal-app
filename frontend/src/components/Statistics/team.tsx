@@ -2,6 +2,7 @@ import { useGetGoalsBySaisonQuery, useGoalsQuery } from "@/types/graphql";
 import AgainstMostGoalCard from "./against.card";
 import ChartsGoal from "./charts.goals";
 import { useLangue } from "@/components/Layout/LangueContext";
+import StadeGoals from "./charts.where";
 
 interface TeamProps {
   saison: string;
@@ -29,6 +30,7 @@ export default function Team({ saison }: TeamProps) {
     <>
       <AgainstMostGoalCard saison={saison} />
       <ChartsGoal goals={goals} saison={saison} />
+      <StadeGoals goals={goals} saison={saison} />
     </>
   );
 }

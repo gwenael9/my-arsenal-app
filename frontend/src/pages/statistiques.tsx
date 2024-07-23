@@ -1,7 +1,7 @@
 import { useLangue } from "@/components/Layout/LangueContext";
 import Layout from "@/components/Layout/Layout";
 import PlayerStatistics from "@/components/Statistics/player";
-import Team from "@/components/Statistics/Team/team";
+import Team from "@/components/Statistics/team";
 import {
   Select,
   SelectContent,
