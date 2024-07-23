@@ -47,15 +47,14 @@ export default function PlayerStatistics({
   }
 
   return (
-    <div className="sm:px-12 mt-4 flex gap-4 justify-center flex-wrap">
+    <>
       <AgainstMostGoalCard
         playerId={playerId}
         name={getName(player)}
         saison={saison}
       />
-
       <ChartsGoal goals={goals} item="buteur" saison={saison} />
       <ChartsGoal goals={passes} item="passeur" saison={saison} />
-    </div>
+    </>
   );
 }

@@ -9,7 +9,7 @@ interface TeamProps {
 
 export default function Team({ saison }: TeamProps) {
   const { langue } = useLangue();
-  
+
   const { data } = useGetGoalsBySaisonQuery({
     variables: {
       saison: saison,
@@ -18,18 +18,17 @@ export default function Team({ saison }: TeamProps) {
   const goals = data?.getGoalsBySaison || [];
 
   if (goals.length == 0) {
-    return <div className="text-center mt-4">{langue ? "Aucun but pour le moment..." : "No goal yet..."}</div>;
+    return (
+      <div className="text-center mt-4">
+        {langue ? "Aucun but pour le moment..." : "No goal yet..."}
+      </div>
+    );
   }
 
   return (
-    <div className="sm:px-12 mt-4 flex gap-4 justify-center flex-wrap">
-      <div>
-        <AgainstMostGoalCard saison={saison} />
-      </div>
-
-      <div>
-        <ChartsGoal goals={goals} saison={saison} />
-      </div>
-    </div>
+    <>
+      <AgainstMostGoalCard saison={saison} />
+      <ChartsGoal goals={goals} saison={saison} />
+    </>
   );
 }

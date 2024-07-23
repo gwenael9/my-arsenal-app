@@ -31,20 +31,30 @@ export default function AgainstMostGoalCard({
     },
   });
   const result = data?.getTeamWithMostGoals;
-  
+
   if (!result || result.goals <= 0) return null;
 
   const team = teams.find((t) => t.name === result?.name);
   const code = team ? team.code : "";
 
-  const description = saison === "all" 
-    ? (langue ? "Toutes saisons confondues" : "All seasons combined") 
-    : (langue ? `Pour la saison ${saison}` : `For the ${saison} season`);
+  const description =
+    saison === "all"
+      ? langue
+        ? "Toutes saisons confondues"
+        : "All seasons combined"
+      : langue
+        ? `Pour la saison ${saison}`
+        : `For the ${saison} season`;
 
   const title = langue ? "Equipe favorite" : "Favorite team";
-  const goalsScored = langue ? (result.goals === 1 ? "but marqué" : "buts marqués") : (result.goals === 1 ? "goal scored" : "goals scored");
+  const goalsScored = langue
+    ? result.goals === 1
+      ? "but marqué"
+      : "buts marqués"
+    : result.goals === 1
+      ? "goal scored"
+      : "goals scored";
   const infoText = `${langue ? "Il s'agit de l'adversaire au quel" : "This is the opponent against whom"} ${name || "Arsenal"} ${langue ? "a marqué le plus de buts" : "have scored the most goals"}.`;
-
 
   return (
     <Card className="border sm:w-[500px] sm:h-[250px]">
@@ -58,7 +68,9 @@ export default function AgainstMostGoalCard({
             <div className="flex flex-col gap-3">
               <div>
                 <h3 className="font-semibold text-lg">{result.name}</h3>
-                <p>{result.goals} {goalsScored}</p>
+                <p>
+                  {result.goals} {goalsScored}
+                </p>
               </div>
               <p className="text-base hidden sm:block italic">{infoText}</p>
             </div>
@@ -70,7 +82,7 @@ export default function AgainstMostGoalCard({
             height={0}
             width={100}
             alt="club logo"
-            className="sm:w-[150px] max-h-[150px]"
+            className={`${code != "tot" && "sm:w-[150px]"} max-h-[170px] ${code == "tot" && "w-[70px] sm:w-[85px]"}`}
           />
         </div>
       </div>
