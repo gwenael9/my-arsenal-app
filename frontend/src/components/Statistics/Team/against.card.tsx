@@ -82,7 +82,8 @@ export default function AgainstMostGoalCard({
             height={0}
             width={100}
             alt="club logo"
-            className={`${code != "tot" && "sm:w-[150px]"} max-h-[170px] ${code == "tot" && "w-[70px] sm:w-[85px]"}`}
+            // variant de taille pour les logos de tottenham et nottingham
+            className={`${code != "tot" && "sm:w-[150px]"} max-h-[170px] ${code == "tot" || code == "nf" && "w-[70px] sm:w-[85px]"}`}
           />
         </div>
       </div>
