@@ -67,7 +67,7 @@ export default function ChartsGoal({ goals, item, saison }: CompetitionsProps) {
   const totalGoals = React.useMemo(() => goalsTri.reduce((acc, curr) => acc + curr.buts, 0), [goalsTri]);
 
   const number = goals.length;
-  const title = item === "passeur" ? (langue ? "passes décisives" : "assists") : (langue ? "buts" : "goals");
+  const title = item === "passeur" ? (langue ? "Passes décisives" : "Assists") : (langue ? "Buts" : "Goals");
   const contentGoal = item === "passeur" 
     ? (number === 1 ? (langue ? "passe décisive" : "assist") : (langue ? "passes décisives" : "assists"))
     : (number === 1 ? (langue ? "but" : "goal") : (langue ? "buts" : "goals"));
@@ -84,7 +84,7 @@ export default function ChartsGoal({ goals, item, saison }: CompetitionsProps) {
       {number > 0 && (
         <Card className="border sm:w-[500px] sm:relative h-full sm:h-[250px]">
           <CardHeader className="pb-0 sm:pb-6">
-            <CardTitle>{toUpOne(title)}</CardTitle>
+            <CardTitle>{title}</CardTitle>
             <CardDescription>{descriptionText}</CardDescription>
           </CardHeader>
           <CardContent>
@@ -100,7 +100,7 @@ export default function ChartsGoal({ goals, item, saison }: CompetitionsProps) {
                             {totalGoals.toLocaleString()}
                           </tspan>
                           <tspan x={viewBox.cx} y={(viewBox.cy || 0) + 24} className="fill-muted-foreground">
-                            {toUpOne(title)}
+                            {title}
                           </tspan>
                         </text>
                       );
