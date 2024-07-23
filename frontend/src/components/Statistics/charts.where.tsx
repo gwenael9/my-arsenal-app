@@ -94,7 +94,7 @@ const infoText = langue ? `${data[0].goals} à domicile et ${data[1].goals} à l
               dataKey="goals"
               radius={8}
               barSize={40}
-              fill={({ payload }: { payload: any }) => payload.fill}
+            //   fill={({ payload }: { payload: any }) => payload.fill}
             />
           </BarChart>
         </ChartContainer>
