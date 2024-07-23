@@ -83,23 +83,11 @@ export default function ChartsGoal({ goals, item, saison }: CompetitionsProps) {
     <>
       {number > 0 && (
         <Card className="border sm:w-[500px] sm:relative h-full sm:h-[250px]">
-          <CardHeader>
+          <CardHeader className="pb-0 sm:pb-6">
             <CardTitle>{toUpOne(title)}</CardTitle>
             <CardDescription>{descriptionText}</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="sm:w-1/2 text-sm sm:text-base">
-              <h3 className="font-semibold text-lg">
-                {item
-                  ? `${number} ${contentGoal}.`
-                  : `${number} ${title} ${langue ? "en" : "in"} ${nbMatch} ${langue ? "match" : "games"}.`}
-              </h3>
-              <p>
-                {item
-                  ? `${getRatioGoalByMatch(number, nbTotalGoals, true)}% ${arsenalGoalsText}.`
-                  : `${averageText} ${getRatioGoalByMatch(number, nbMatch)} ${title} ${perGameText}.`}
-              </p>
-            </div>
             <ChartContainer config={chartConfig} className="aspect-square max-h-[200px] w-full sm:w-1/2 sm:absolute sm:top-8 sm:right-0">
               <PieChart>
                 <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
@@ -122,6 +110,18 @@ export default function ChartsGoal({ goals, item, saison }: CompetitionsProps) {
                 </Pie>
               </PieChart>
             </ChartContainer>
+            <div className="sm:w-1/2 text-sm sm:text-base">
+              <h3 className="font-semibold text-lg">
+                {item
+                  ? `${number} ${contentGoal}.`
+                  : `${number} ${title} ${langue ? "en" : "in"} ${nbMatch} ${langue ? "match" : "games"}.`}
+              </h3>
+              <p>
+                {item
+                  ? `${getRatioGoalByMatch(number, nbTotalGoals, true)}% ${arsenalGoalsText}.`
+                  : `${averageText} ${getRatioGoalByMatch(number, nbMatch)} ${title} ${perGameText}.`}
+              </p>
+            </div>
           </CardContent>
         </Card>
       )}
