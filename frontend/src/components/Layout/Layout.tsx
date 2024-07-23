@@ -54,7 +54,8 @@ export default function Layout({ children, title }: LayoutProps) {
 
   const navLink = [
     { name: `${langue ? "Buts" : "Goals"}`, link: `/goals/${firstGoal}` },
-    { name: `${langue ? "Statistiques" : "Statistics"}`, link: "/statistique" },
+    { name: `${langue ? "Classement" : "Ranking"}`, link: "/classement" },
+    { name: `${langue ? "Statistiques" : "Statistics"}`, link: "/statistiques" },
     {
       name: `${langue ? "Me soutenir" : "Support me"}`,
       link: "https://www.paypal.com/paypalme/ggueho",
@@ -116,17 +117,17 @@ export default function Layout({ children, title }: LayoutProps) {
         <div className="flex justify-between items-center gap-2.5">
           <Link href="/" className="font-bold uppercase">
             <h1>
-              <span className="hidden md:block">
+              <span className="hidden lg:block">
                 {langue
                   ? "tous les buts d'arsenal 23/24"
                   : "all goals for arsenal 23/24"}
               </span>
-              <span className="md:hidden">arsenal</span>
+              <span className="lg:hidden">arsenal</span>
             </h1>
           </Link>
         </div>
 
-        <nav className={`items-center space-x-6 hidden sm:flex`}>
+        <nav className={`items-center space-x-6 hidden md:flex`}>
           {navLink.map((n, index) => (
             <Link
               className="font-bold uppercase nav-link"
@@ -149,7 +150,11 @@ export default function Layout({ children, title }: LayoutProps) {
               <SelectContent>
                 <SelectGroup>
                   {langueTable.map((l, index) => (
-                    <SelectItem key={index} value={l} className="pl-2 flex justify-center">
+                    <SelectItem
+                      key={index}
+                      value={l}
+                      className="pl-2 flex justify-center"
+                    >
                       <p
                         className={`fi fi-${l}`}
                         style={{ width: "1rem", height: "1rem" }}
@@ -162,7 +167,7 @@ export default function Layout({ children, title }: LayoutProps) {
           </div>
         </nav>
 
-        <div className="sm:hidden flex items-center">
+        <div className="md:hidden flex items-center">
           <button onClick={toggleMenu}>
             {!isOpen ? <AlignJustify height={24} /> : <X height={24} />}
           </button>

@@ -33,4 +33,9 @@ export const competitions = [
   "Community Shield",
 ];
 
-export const saisons = ["2023/2024"];
+export const saisons = ["2023/2024", "2024/2025"];
+
+// pl + ldc + facup + communityshied + leaguecup
+// nb de match en 23/24
+export const nbMatchFisrtSaison = 38 + 10 + 1 + 1 + 2;
+export const nbMatchSecondSaison = 1;

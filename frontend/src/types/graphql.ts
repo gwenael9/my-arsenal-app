@@ -17,6 +17,12 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
+export type AgainstTeam = {
+  __typename?: 'AgainstTeam';
+  goals: Scalars['Float']['output'];
+  name: Scalars['String']['output'];
+};
+
 export type Goal = {
   __typename?: 'Goal';
   against: Scalars['String']['output'];
@@ -113,8 +119,12 @@ export type Player = {
 export type Query = {
   __typename?: 'Query';
   getGoalByOrdre: Goal;
+  getGoalsByPlayerId: Array<Goal>;
+  getGoalsBySaison: Array<Goal>;
+  getGoalsBySaisonAndPlayerId: Array<Goal>;
   getPlayerById: Player;
   getPlayerByName: Player;
+  getTeamWithMostGoals: AgainstTeam;
   getUserProfile: UserProfile;
   goals: Array<Goal>;
   login: Message;
@@ -129,6 +139,24 @@ export type QueryGetGoalByOrdreArgs = {
 };
 
 
+export type QueryGetGoalsByPlayerIdArgs = {
+  playerId: Scalars['String']['input'];
+  type: Scalars['String']['input'];
+};
+
+
+export type QueryGetGoalsBySaisonArgs = {
+  saison: Scalars['String']['input'];
+};
+
+
+export type QueryGetGoalsBySaisonAndPlayerIdArgs = {
+  playerId: Scalars['String']['input'];
+  saison: Scalars['String']['input'];
+  type: Scalars['String']['input'];
+};
+
+
 export type QueryGetPlayerByIdArgs = {
   playerId: Scalars['String']['input'];
 };
@@ -136,6 +164,12 @@ export type QueryGetPlayerByIdArgs = {
 
 export type QueryGetPlayerByNameArgs = {
   playerName: Scalars['String']['input'];
+};
+
+
+export type QueryGetTeamWithMostGoalsArgs = {
+  buteurId?: InputMaybe<Scalars['String']['input']>;
+  saison: Scalars['String']['input'];
 };
 
 
@@ -215,6 +249,30 @@ export type GoalsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GoalsQuery = { __typename?: 'Query', goals: Array<{ __typename?: 'Goal', id: string, link: string, where: string, date: string, against: string, ordre: number, competition: string, saison: string, buteur: { __typename?: 'Player', id: string, firstname: string, lastname: string, country: string }, passeur?: { __typename?: 'Player', id: string, firstname: string, lastname: string, country: string } | null }> };
 
+export type GetGoalsByPlayerIdQueryVariables = Exact<{
+  type: Scalars['String']['input'];
+  playerId: Scalars['String']['input'];
+}>;
+
+
+export type GetGoalsByPlayerIdQuery = { __typename?: 'Query', getGoalsByPlayerId: Array<{ __typename?: 'Goal', id: string, date: string, link: string, against: string, where: string, ordre: number, competition: string, saison: string, buteur: { __typename?: 'Player', id: string, firstname: string, lastname: string, country: string } }> };
+
+export type GetGoalsBySaisonQueryVariables = Exact<{
+  saison: Scalars['String']['input'];
+}>;
+
+
+export type GetGoalsBySaisonQuery = { __typename?: 'Query', getGoalsBySaison: Array<{ __typename?: 'Goal', id: string, date: string, link: string, against: string, where: string, ordre: number, competition: string, saison: string, buteur: { __typename?: 'Player', id: string, firstname: string, lastname: string, country: string }, passeur?: { __typename?: 'Player', id: string, firstname: string, lastname: string, country: string } | null }> };
+
+export type GetGoalsBySaisonAndPlayerIdQueryVariables = Exact<{
+  type: Scalars['String']['input'];
+  playerId: Scalars['String']['input'];
+  saison: Scalars['String']['input'];
+}>;
+
+
+export type GetGoalsBySaisonAndPlayerIdQuery = { __typename?: 'Query', getGoalsBySaisonAndPlayerId: Array<{ __typename?: 'Goal', id: string, date: string, link: string, against: string, where: string, ordre: number, competition: string, saison: string, buteur: { __typename?: 'Player', id: string, firstname: string, lastname: string, country: string }, passeur?: { __typename?: 'Player', id: string, firstname: string, lastname: string, country: string } | null }> };
+
 export type PlayersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -225,7 +283,7 @@ export type GetPlayerByIdQueryVariables = Exact<{
 }>;
 
 
-export type GetPlayerByIdQuery = { __typename?: 'Query', getPlayerById: { __typename?: 'Player', firstname: string, lastname: string } };
+export type GetPlayerByIdQuery = { __typename?: 'Query', getPlayerById: { __typename?: 'Player', id: string, firstname: string, lastname: string, country: string, goals?: Array<{ __typename?: 'Goal', id: string, date: string, link: string, against: string, where: string, ordre: number, competition: string, saison: string }> | null, passes?: Array<{ __typename?: 'Goal', id: string, date: string, link: string, against: string, where: string, ordre: number, competition: string, saison: string }> | null } };
 
 export type GetPlayerByNameQueryVariables = Exact<{
   playerName: Scalars['String']['input'];
@@ -233,6 +291,14 @@ export type GetPlayerByNameQueryVariables = Exact<{
 
 
 export type GetPlayerByNameQuery = { __typename?: 'Query', getPlayerByName: { __typename?: 'Player', id: string, firstname: string, lastname: string, country: string, goals?: Array<{ __typename?: 'Goal', id: string, date: string, link: string, against: string, where: string, ordre: number, competition: string, saison: string, buteur: { __typename?: 'Player', id: string, firstname: string, lastname: string, country: string }, passeur?: { __typename?: 'Player', id: string, firstname: string, lastname: string, country: string } | null }> | null, passes?: Array<{ __typename?: 'Goal', id: string, date: string, link: string, against: string, where: string, ordre: number, competition: string, saison: string }> | null } };
+
+export type GetTeamWithMostGoalsQueryVariables = Exact<{
+  saison: Scalars['String']['input'];
+  buteurId?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type GetTeamWithMostGoalsQuery = { __typename?: 'Query', getTeamWithMostGoals: { __typename?: 'AgainstTeam', name: string, goals: number } };
 
 export type GetUserProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -636,6 +702,180 @@ export type GoalsQueryHookResult = ReturnType<typeof useGoalsQuery>;
 export type GoalsLazyQueryHookResult = ReturnType<typeof useGoalsLazyQuery>;
 export type GoalsSuspenseQueryHookResult = ReturnType<typeof useGoalsSuspenseQuery>;
 export type GoalsQueryResult = Apollo.QueryResult<GoalsQuery, GoalsQueryVariables>;
+export const GetGoalsByPlayerIdDocument = gql`
+    query GetGoalsByPlayerId($type: String!, $playerId: String!) {
+  getGoalsByPlayerId(type: $type, playerId: $playerId) {
+    id
+    date
+    link
+    against
+    where
+    ordre
+    competition
+    saison
+    buteur {
+      id
+      firstname
+      lastname
+      country
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetGoalsByPlayerIdQuery__
+ *
+ * To run a query within a React component, call `useGetGoalsByPlayerIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetGoalsByPlayerIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetGoalsByPlayerIdQuery({
+ *   variables: {
+ *      type: // value for 'type'
+ *      playerId: // value for 'playerId'
+ *   },
+ * });
+ */
+export function useGetGoalsByPlayerIdQuery(baseOptions: Apollo.QueryHookOptions<GetGoalsByPlayerIdQuery, GetGoalsByPlayerIdQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetGoalsByPlayerIdQuery, GetGoalsByPlayerIdQueryVariables>(GetGoalsByPlayerIdDocument, options);
+      }
+export function useGetGoalsByPlayerIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetGoalsByPlayerIdQuery, GetGoalsByPlayerIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetGoalsByPlayerIdQuery, GetGoalsByPlayerIdQueryVariables>(GetGoalsByPlayerIdDocument, options);
+        }
+export function useGetGoalsByPlayerIdSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetGoalsByPlayerIdQuery, GetGoalsByPlayerIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetGoalsByPlayerIdQuery, GetGoalsByPlayerIdQueryVariables>(GetGoalsByPlayerIdDocument, options);
+        }
+export type GetGoalsByPlayerIdQueryHookResult = ReturnType<typeof useGetGoalsByPlayerIdQuery>;
+export type GetGoalsByPlayerIdLazyQueryHookResult = ReturnType<typeof useGetGoalsByPlayerIdLazyQuery>;
+export type GetGoalsByPlayerIdSuspenseQueryHookResult = ReturnType<typeof useGetGoalsByPlayerIdSuspenseQuery>;
+export type GetGoalsByPlayerIdQueryResult = Apollo.QueryResult<GetGoalsByPlayerIdQuery, GetGoalsByPlayerIdQueryVariables>;
+export const GetGoalsBySaisonDocument = gql`
+    query GetGoalsBySaison($saison: String!) {
+  getGoalsBySaison(saison: $saison) {
+    id
+    date
+    link
+    against
+    where
+    ordre
+    competition
+    saison
+    buteur {
+      id
+      firstname
+      lastname
+      country
+    }
+    passeur {
+      id
+      firstname
+      lastname
+      country
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetGoalsBySaisonQuery__
+ *
+ * To run a query within a React component, call `useGetGoalsBySaisonQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetGoalsBySaisonQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetGoalsBySaisonQuery({
+ *   variables: {
+ *      saison: // value for 'saison'
+ *   },
+ * });
+ */
+export function useGetGoalsBySaisonQuery(baseOptions: Apollo.QueryHookOptions<GetGoalsBySaisonQuery, GetGoalsBySaisonQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetGoalsBySaisonQuery, GetGoalsBySaisonQueryVariables>(GetGoalsBySaisonDocument, options);
+      }
+export function useGetGoalsBySaisonLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetGoalsBySaisonQuery, GetGoalsBySaisonQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetGoalsBySaisonQuery, GetGoalsBySaisonQueryVariables>(GetGoalsBySaisonDocument, options);
+        }
+export function useGetGoalsBySaisonSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetGoalsBySaisonQuery, GetGoalsBySaisonQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetGoalsBySaisonQuery, GetGoalsBySaisonQueryVariables>(GetGoalsBySaisonDocument, options);
+        }
+export type GetGoalsBySaisonQueryHookResult = ReturnType<typeof useGetGoalsBySaisonQuery>;
+export type GetGoalsBySaisonLazyQueryHookResult = ReturnType<typeof useGetGoalsBySaisonLazyQuery>;
+export type GetGoalsBySaisonSuspenseQueryHookResult = ReturnType<typeof useGetGoalsBySaisonSuspenseQuery>;
+export type GetGoalsBySaisonQueryResult = Apollo.QueryResult<GetGoalsBySaisonQuery, GetGoalsBySaisonQueryVariables>;
+export const GetGoalsBySaisonAndPlayerIdDocument = gql`
+    query GetGoalsBySaisonAndPlayerId($type: String!, $playerId: String!, $saison: String!) {
+  getGoalsBySaisonAndPlayerId(type: $type, playerId: $playerId, saison: $saison) {
+    id
+    date
+    link
+    against
+    where
+    ordre
+    competition
+    buteur {
+      id
+      firstname
+      lastname
+      country
+    }
+    passeur {
+      id
+      firstname
+      lastname
+      country
+    }
+    saison
+  }
+}
+    `;
+
+/**
+ * __useGetGoalsBySaisonAndPlayerIdQuery__
+ *
+ * To run a query within a React component, call `useGetGoalsBySaisonAndPlayerIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetGoalsBySaisonAndPlayerIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetGoalsBySaisonAndPlayerIdQuery({
+ *   variables: {
+ *      type: // value for 'type'
+ *      playerId: // value for 'playerId'
+ *      saison: // value for 'saison'
+ *   },
+ * });
+ */
+export function useGetGoalsBySaisonAndPlayerIdQuery(baseOptions: Apollo.QueryHookOptions<GetGoalsBySaisonAndPlayerIdQuery, GetGoalsBySaisonAndPlayerIdQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetGoalsBySaisonAndPlayerIdQuery, GetGoalsBySaisonAndPlayerIdQueryVariables>(GetGoalsBySaisonAndPlayerIdDocument, options);
+      }
+export function useGetGoalsBySaisonAndPlayerIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetGoalsBySaisonAndPlayerIdQuery, GetGoalsBySaisonAndPlayerIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetGoalsBySaisonAndPlayerIdQuery, GetGoalsBySaisonAndPlayerIdQueryVariables>(GetGoalsBySaisonAndPlayerIdDocument, options);
+        }
+export function useGetGoalsBySaisonAndPlayerIdSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetGoalsBySaisonAndPlayerIdQuery, GetGoalsBySaisonAndPlayerIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetGoalsBySaisonAndPlayerIdQuery, GetGoalsBySaisonAndPlayerIdQueryVariables>(GetGoalsBySaisonAndPlayerIdDocument, options);
+        }
+export type GetGoalsBySaisonAndPlayerIdQueryHookResult = ReturnType<typeof useGetGoalsBySaisonAndPlayerIdQuery>;
+export type GetGoalsBySaisonAndPlayerIdLazyQueryHookResult = ReturnType<typeof useGetGoalsBySaisonAndPlayerIdLazyQuery>;
+export type GetGoalsBySaisonAndPlayerIdSuspenseQueryHookResult = ReturnType<typeof useGetGoalsBySaisonAndPlayerIdSuspenseQuery>;
+export type GetGoalsBySaisonAndPlayerIdQueryResult = Apollo.QueryResult<GetGoalsBySaisonAndPlayerIdQuery, GetGoalsBySaisonAndPlayerIdQueryVariables>;
 export const PlayersDocument = gql`
     query Players {
   players {
@@ -701,8 +941,30 @@ export type PlayersQueryResult = Apollo.QueryResult<PlayersQuery, PlayersQueryVa
 export const GetPlayerByIdDocument = gql`
     query GetPlayerById($playerId: String!) {
   getPlayerById(playerId: $playerId) {
+    id
     firstname
     lastname
+    country
+    goals {
+      id
+      date
+      link
+      against
+      where
+      ordre
+      competition
+      saison
+    }
+    passes {
+      id
+      date
+      link
+      against
+      where
+      ordre
+      competition
+      saison
+    }
   }
 }
     `;
@@ -814,6 +1076,48 @@ export type GetPlayerByNameQueryHookResult = ReturnType<typeof useGetPlayerByNam
 export type GetPlayerByNameLazyQueryHookResult = ReturnType<typeof useGetPlayerByNameLazyQuery>;
 export type GetPlayerByNameSuspenseQueryHookResult = ReturnType<typeof useGetPlayerByNameSuspenseQuery>;
 export type GetPlayerByNameQueryResult = Apollo.QueryResult<GetPlayerByNameQuery, GetPlayerByNameQueryVariables>;
+export const GetTeamWithMostGoalsDocument = gql`
+    query GetTeamWithMostGoals($saison: String!, $buteurId: String) {
+  getTeamWithMostGoals(saison: $saison, buteurId: $buteurId) {
+    name
+    goals
+  }
+}
+    `;
+
+/**
+ * __useGetTeamWithMostGoalsQuery__
+ *
+ * To run a query within a React component, call `useGetTeamWithMostGoalsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTeamWithMostGoalsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTeamWithMostGoalsQuery({
+ *   variables: {
+ *      saison: // value for 'saison'
+ *      buteurId: // value for 'buteurId'
+ *   },
+ * });
+ */
+export function useGetTeamWithMostGoalsQuery(baseOptions: Apollo.QueryHookOptions<GetTeamWithMostGoalsQuery, GetTeamWithMostGoalsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetTeamWithMostGoalsQuery, GetTeamWithMostGoalsQueryVariables>(GetTeamWithMostGoalsDocument, options);
+      }
+export function useGetTeamWithMostGoalsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTeamWithMostGoalsQuery, GetTeamWithMostGoalsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetTeamWithMostGoalsQuery, GetTeamWithMostGoalsQueryVariables>(GetTeamWithMostGoalsDocument, options);
+        }
+export function useGetTeamWithMostGoalsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetTeamWithMostGoalsQuery, GetTeamWithMostGoalsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetTeamWithMostGoalsQuery, GetTeamWithMostGoalsQueryVariables>(GetTeamWithMostGoalsDocument, options);
+        }
+export type GetTeamWithMostGoalsQueryHookResult = ReturnType<typeof useGetTeamWithMostGoalsQuery>;
+export type GetTeamWithMostGoalsLazyQueryHookResult = ReturnType<typeof useGetTeamWithMostGoalsLazyQuery>;
+export type GetTeamWithMostGoalsSuspenseQueryHookResult = ReturnType<typeof useGetTeamWithMostGoalsSuspenseQuery>;
+export type GetTeamWithMostGoalsQueryResult = Apollo.QueryResult<GetTeamWithMostGoalsQuery, GetTeamWithMostGoalsQueryVariables>;
 export const GetUserProfileDocument = gql`
     query GetUserProfile {
   getUserProfile {

@@ -68,7 +68,7 @@ export default class UserResolver {
     return newUser;
   }
 
-  @Authorized(["USER", "ADMIN"])
+  @Authorized(["ADMIN"])
   @Query(() => UserProfile)
   async getUserProfile(@Ctx() ctx: MyContext) {
     if (ctx.user) {

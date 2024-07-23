@@ -7,7 +7,7 @@ import {
   Root,
   Authorized,
 } from "type-graphql";
-import Goal, { InputCreateGoal } from "../entities/goal.entity";
+import Goal, { AgainstTeam, InputCreateGoal } from "../entities/goal.entity";
 import GoalService from "../services/goal.service";
 import PlayerService from "../services/player.service";
 import Player from "../entities/player.entity";
@@ -35,7 +35,6 @@ export default class GoalResolver {
   // Champ résolveur pour obtenir l'ID du joueur associé à un goal
   @FieldResolver(() => Player, { nullable: true })
   async buteur(@Root() goal: Goal) {
-    // Utilisez le service PlayerService pour obtenir le joueur associé
     return await new PlayerService().getPlayerById(goal.buteurId);
   }
 
@@ -43,7 +42,6 @@ export default class GoalResolver {
   @FieldResolver(() => Player, { nullable: true })
   async passeur(@Root() goal: Goal) {
     if (goal.passeurId) {
-      // Utilisez le service PlayerService pour obtenir le joueur associé
       return await new PlayerService().getPlayerById(goal.passeurId);
     } else {
       return null;
@@ -65,5 +63,52 @@ export default class GoalResolver {
     m.success = true;
 
     return m;
+  }
+
+  // obtenir l'équipe à laquelle on a inscrit le + de buts
+  @Query(() => AgainstTeam)
+  async getTeamWithMostGoals(
+    @Arg("saison") saison: string,
+    @Arg("buteurId", { nullable: true }) buteurId?: string
+  ) {
+    const goals = buteurId
+      ? await new GoalService().getTeamAndNbGoalsForPlayer(buteurId, saison)
+      : await new GoalService().getTeamAndNbGoals(saison);
+
+    if (goals) {
+      const g = new AgainstTeam();
+      g.name = goals.mostFrequentTeam;
+      g.goals = goals.maxFrequency;
+      return g;
+    }
+
+    return "";
+
+  }
+
+  @Query(() => [Goal])
+  async getGoalsByPlayerId(
+    @Arg("playerId") id: string,
+    @Arg("type") type: "buteur" | "passeur"
+  ) {
+    return await new GoalService().getGoalsByPlayerId(id, type);
+  }
+
+  @Query(() => [Goal])
+  async getGoalsBySaison(@Arg("saison") saison: string) {
+    return await new GoalService().getGoalsBySaison(saison);
+  }
+
+  @Query(() => [Goal])
+  async getGoalsBySaisonAndPlayerId(
+    @Arg("saison") saison: string,
+    @Arg("playerId") id: string,
+    @Arg("type") type: "buteur" | "passeur"
+  ) {
+    return await new GoalService().getGoalsBySaisonAndPlayerId(
+      saison,
+      id,
+      type
+    );
   }
 }

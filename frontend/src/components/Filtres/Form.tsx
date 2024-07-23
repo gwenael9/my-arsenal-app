@@ -31,9 +31,8 @@ export default function FormFilters({
   selectTeam,
   handleMaj,
 }: FormProps) {
-
   const { langue } = useLangue();
-  
+
   const filters = {
     Buteur: langue ? "Buteur" : "Striker",
     Passeur: langue ? "Passeur" : "Assist",

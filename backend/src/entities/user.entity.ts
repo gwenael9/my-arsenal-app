@@ -60,7 +60,7 @@ export class InputRegister {
   password?: string;
 
   @Field() 
-  role?: string;
+  role?: ROLE;
 }
 
 @InputType()

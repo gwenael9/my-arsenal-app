@@ -83,24 +83,23 @@ body {
   background-size: 35px 35px;
 }
 
-/* Ajoutez ces styles dans un fichier CSS global ou un module CSS si vous utilisez un fichier CSS-in-JS */
-
 .nav-link {
-  position: relative; /* Pour permettre à ::after de se positionner correctement */
-  display: inline-block; /* Assure que le pseudo-élément se comporte comme un bloc */
+  position: relative;
+  display: inline-block;
 }
 
 .nav-link::after {
   content: '';
   position: absolute;
-  bottom: 0; /* Place le trait en bas du lien */
-  left: 0; /* Commence à la gauche du lien */
-  width: 0; /* Commence avec une largeur de 0 pour l'animation */
-  height: 1px; /* Hauteur du trait */
-  background-color: #f00000; /* Couleur du trait */
-  transition: width 0.3s ease; /* Anime la largeur du trait */
+  bottom: 0; 
+  left: 0; 
+  width: 0; 
+  height: 1px; 
+  background-color: #f00000; 
+  transition: width 0.3s ease; 
 }
 
+
 .nav-link:hover::after {
-  width: 100%; /* Étend la largeur du trait pour qu'il couvre tout le lien */
+  width: 100%;
 }

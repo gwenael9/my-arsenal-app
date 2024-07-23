@@ -98,3 +98,12 @@ export class InputCreateGoal {
   @Field()
   saison?: string;
 }
+
+@ObjectType()
+export class AgainstTeam {
+  @Field()
+  name: string;
+
+  @Field()
+  goals: number;
+}

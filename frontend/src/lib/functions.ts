@@ -1,7 +1,5 @@
 import { useLangue } from "@/components/Layout/LangueContext";
-import { Goal, Player } from "@/types/graphql";
-
-// const langue = useLangue();
+import { Player } from "@/types/graphql";
 
 export function toUpOne(str: string) {
   return str
@@ -16,23 +14,23 @@ export function formaterDate(date: string) {
   const [day, month, year] = date.split("/").map(Number);
   const { langue } = useLangue();
 
-    const dateFormat = new Date(year, month-1, day);
-    const options: Intl.DateTimeFormatOptions = {
-      // weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    };
-    
-    const locale = langue ? 'fr-FR' : 'en-US';
-    const formatDate = dateFormat.toLocaleDateString(locale, options);
+  const dateFormat = new Date(year, month - 1, day);
+  const options: Intl.DateTimeFormatOptions = {
+    // weekday: 'long',
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
 
-    if (langue) {
-      const [dayPart, monthPart, yearPart] = formatDate.split(' ');
-      return `${dayPart} ${toUpOne(monthPart)} ${yearPart}`;
-    }
+  const locale = langue ? "fr-FR" : "en-US";
+  const formatDate = dateFormat.toLocaleDateString(locale, options);
 
-    return formatDate;
+  if (langue) {
+    const [dayPart, monthPart, yearPart] = formatDate.split(" ");
+    return `${dayPart} ${toUpOne(monthPart)} ${yearPart}`;
+  }
+
+  return formatDate;
 }
 
 const flags: { [key: string]: string } = {
@@ -60,9 +58,8 @@ export const getName = (name: Player | any, item?: string) => {
       fullname = `${name.firstname} Smith-Rowe`;
     } else if (name.lastname == "csc") {
       fullname = name.lastname.toUpperCase();
-    }
-    else {
-     fullname = `${name.firstname} ${name.lastname}`;
+    } else {
+      fullname = `${name.firstname} ${name.lastname}`;
     }
     return item === "buteur" ? fullname.toUpperCase() : toUpOne(fullname);
   }
@@ -79,4 +76,11 @@ export const modifNameTeam = (item: string) => {
     return "Nottingham";
   }
   return item;
+};
+
+// obtenir le ratio but / match
+export const getRatioGoalByMatch = (item: number, total: number, value?: boolean) => {
+  const number = value ? 100 : 1;
+  const ratio = (item / total) * number;
+  return ratio.toFixed(2);
 };

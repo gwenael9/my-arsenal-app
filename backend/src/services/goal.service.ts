@@ -55,12 +55,25 @@ export default class GoalService {
     return await this.db.save(newGoal);
   }
 
+  async getGoalsBySaison(saison: string) {
+    if (saison == "all") {
+      return await this.listGoal();
+    }
+    return this.db.find({ where: { saison } });
+  }
+
   async getGoalsByButeurId(buteurId: string) {
     return this.db.find({ where: { buteurId } });
   }
 
   async getGoalsByPasseurId(passeurId: string) {
     return this.db.find({ where: { passeurId } });
+  }
+
+  async getGoalsByPlayerId(id: string, type: "buteur" | "passeur") {
+    const whereCondition =
+      type === "buteur" ? { buteurId: id } : { passeurId: id };
+    return this.db.find({ where: whereCondition });
   }
 
   async getGoalByOrdre(ordre: number) {
@@ -83,5 +96,59 @@ export default class GoalService {
     const goal = await this.findOneGoal(id);
     await this.db.remove(goal);
     return { ...goal, id };
+  }
+
+  private async getTeamAndNbGoalsFromGoals(goals: Goal[]) {
+    const teamFrequency: Record<string, number> = {};
+
+    goals.forEach((goal: Goal) => {
+      const againstTeam = goal.against;
+      if (againstTeam) {
+        teamFrequency[againstTeam] = (teamFrequency[againstTeam] || 0) + 1;
+      }
+    });
+
+    let maxFrequency = 0;
+    let mostFrequentTeam = "";
+
+    for (const team in teamFrequency) {
+      if (teamFrequency[team] > maxFrequency) {
+        maxFrequency = teamFrequency[team];
+        mostFrequentTeam = team;
+      }
+    }
+
+    return { mostFrequentTeam, maxFrequency };
+  }
+
+  async getTeamAndNbGoals(saison: string) {
+    if (saison == "all") {
+      const goals = await this.listGoal();
+      return this.getTeamAndNbGoalsFromGoals(goals);
+    }
+
+    const goals = await this.getGoalsBySaison(saison);
+    return this.getTeamAndNbGoalsFromGoals(goals);
+
+  }
+
+  async getTeamAndNbGoalsForPlayer(id: string, saison: string) {
+    if (saison == "all") {
+      const goals = await this.getGoalsByButeurId(id);
+      return this.getTeamAndNbGoalsFromGoals(goals);
+    }
+
+    const goals = await this.getGoalsBySaisonAndPlayerId(saison, id, "buteur");
+    return this.getTeamAndNbGoalsFromGoals(goals);
+  }
+
+  async getGoalsBySaisonAndPlayerId(saison: string, id: string, type: "buteur" | "passeur") {
+    let whereCondition;
+    if (saison === "all") {
+      whereCondition = type === "buteur" ? { buteurId: id } : { passeurId: id };
+    } else {
+      whereCondition = type === "buteur" ? { buteurId: id, saison } : { passeurId: id, saison };
+    }
+    return this.db.find({ where: whereCondition });
   }
 }
