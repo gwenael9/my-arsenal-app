@@ -15,7 +15,11 @@ import { useLangue } from "../Layout/LangueContext";
 type SortKey = "goals" | "passes";
 type SortDirection = "ascending" | "descending";
 
-export default function Ranking() {
+interface RankingProps {
+  saison: string;
+}
+
+export default function Ranking({ saison }: RankingProps) {
   const { data: playersData } = usePlayersQuery();
   const players = playersData?.players || [];
 
@@ -29,7 +33,21 @@ export default function Ranking() {
     direction: "descending",
   });
 
-  const sortedPlayers = players.slice().sort((a, b) => {
+  // on affiche pas les joueurs avec 0 b/p
+  const playersFiltered = players.filter((player) => {
+    if (saison === "all") {
+      return true; 
+    }
+    const nbGoals = player.goals?.filter(goal => goal.saison === saison).length || 0;
+    const nbPasses = player.passes?.filter(pass => pass.saison === saison).length || 0;
+    return nbGoals > 0 || nbPasses > 0;
+  }).map(player => ({
+    ...player,
+    goals: saison === "all" ? player.goals || [] : player.goals?.filter(goal => goal.saison === saison) || [],
+    passes: saison === "all" ? player.passes || [] : player.passes?.filter(pass => pass.saison === saison) || []
+  }));
+  
+  const sortedPlayers = playersFiltered.slice().sort((a, b) => {
     if (a.lastname === "csc") return 1;
     if (b.lastname === "csc") return -1;
     const aValue = a[sortConfig.key]?.length || 0;
@@ -37,13 +55,6 @@ export default function Ranking() {
     return sortConfig.direction === "ascending"
       ? aValue - bValue
       : bValue - aValue;
-  });
-
-  // on affiche pas les joueurs avec 0 b/p
-  const playersFiltered = sortedPlayers.filter((player) => {
-    const nbGoals = player.goals?.length || 0;
-    const nbPasses = player.passes?.length || 0;
-    return nbGoals > 0 || nbPasses > 0;
   });
 
   const requestSort = (key: SortKey) => {
@@ -93,7 +104,7 @@ export default function Ranking() {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {playersFiltered.map((player, index) => (
+        {sortedPlayers.map((player, index) => (
           <TableRow key={index}>
             <TableCell className="font-bold w-10">
               <div className="flex justify-center">

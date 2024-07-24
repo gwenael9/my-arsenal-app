@@ -63,6 +63,4 @@ export default class PlayerResolver {
 
     return m;
   }
-
-
 }

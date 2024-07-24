@@ -1,6 +1,8 @@
 import { Repository, FindOneOptions } from "typeorm";
 import datasource from "../lib/datasource";
 import Player, { InputCreatePlayer } from "../entities/player.entity";
+import GoalService from "./goal.service";
+import Goal from "../entities/goal.entity";
 
 export default class PlayerService {
   db: Repository<Player>;

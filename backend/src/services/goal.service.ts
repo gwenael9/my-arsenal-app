@@ -129,7 +129,6 @@ export default class GoalService {
 
     const goals = await this.getGoalsBySaison(saison);
     return this.getTeamAndNbGoalsFromGoals(goals);
-
   }
 
   async getTeamAndNbGoalsForPlayer(id: string, saison: string) {
@@ -142,12 +141,19 @@ export default class GoalService {
     return this.getTeamAndNbGoalsFromGoals(goals);
   }
 
-  async getGoalsBySaisonAndPlayerId(saison: string, id: string, type: "buteur" | "passeur") {
+  async getGoalsBySaisonAndPlayerId(
+    saison: string,
+    id: string,
+    type: "buteur" | "passeur"
+  ) {
     let whereCondition;
     if (saison === "all") {
       whereCondition = type === "buteur" ? { buteurId: id } : { passeurId: id };
     } else {
-      whereCondition = type === "buteur" ? { buteurId: id, saison } : { passeurId: id, saison };
+      whereCondition =
+        type === "buteur"
+          ? { buteurId: id, saison }
+          : { passeurId: id, saison };
     }
     return this.db.find({ where: whereCondition });
   }

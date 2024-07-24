@@ -9,7 +9,12 @@
         "build": "tsc",
         "start:prod": "node build/index.js",
         "resetDB": "ts-node-dev src/lib/resetDb.ts",
-        "seedDB": "ts-node-dev src/lib/seedDb.ts"
+        "seedDB": "ts-node-dev src/lib/seedDb.ts",
+        "seedSaison": "ts-node-dev src/lib/seedSaison.ts",
+        "migration:create": "typeorm-ts-node-commonjs migration:create",
+        "migration:generate": "typeorm-ts-node-commonjs migration:generate -d src/lib/datasource.ts",
+        "migration:up": "typeorm-ts-node-commonjs migration:run -d src/lib/datasource.ts",
+        "migration:down": "typeorm-ts-node-commonjs migration:revert -d src/lib/datasource.ts"
     },
     "author": "",
     "license": "ISC",

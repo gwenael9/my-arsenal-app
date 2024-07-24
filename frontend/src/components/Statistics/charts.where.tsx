@@ -1,13 +1,6 @@
 "use client";
 
 import { Goal } from "@/types/graphql";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "../ui/card";
 import { useLangue } from "../Layout/LangueContext";
 import { Bar, BarChart, CartesianGrid, XAxis, Tooltip } from "recharts";
 import {
@@ -15,6 +8,7 @@ import {
   ChartContainer,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import CardForCharts from "./card.charts";
 
 const chartConfig: ChartConfig = {
   goals: {
@@ -53,6 +47,8 @@ export default function StadeGoals({ goals, saison }: StadeGoalsProps) {
   };
   const data = categorizeGoals(goals);
 
+  const title = langue ? "Domicile - Extérieur" : "Home - Away";
+
   const description =
     saison === "all"
       ? langue
@@ -64,45 +60,39 @@ export default function StadeGoals({ goals, saison }: StadeGoalsProps) {
   const total = langue
     ? `Un total de ${number} buts`
     : `A total of ${number} goals`;
-    
-const infoText = langue ? `${data[0].goals} à domicile et ${data[1].goals} à l'extérieur` : `${data[0].goals} home and ${data[1].goals} away`;
+
+  const infoText = langue
+    ? `${data[0].goals} à domicile et ${data[1].goals} à l'extérieur`
+    : `${data[0].goals} home and ${data[1].goals} away`;
 
   return (
-    <Card className="border sm:w-[500px] sm:h-[250px] sm:relative">
-      <CardHeader className="pb-0 sm:pb-6">
-        <CardTitle>
-          {langue ? "Domicile - Extérieur" : "Home - Away"}
-        </CardTitle>
-        <CardDescription>{description}</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <ChartContainer
-          config={chartConfig}
-          className="aspect-square sm:max-h-[200px] w-full sm:w-1/2 sm:absolute sm:top-8 sm:right-0"
-        >
-          <BarChart data={data}>
-            <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="where"
-              tickLine={false}
-              tickMargin={10}
-              axisLine={false}
-              tickFormatter={(value) => value}
-            />
-            <Tooltip content={<ChartTooltipContent hideLabel />} />
-            <Bar
-              dataKey="goals"
-              radius={8}
-              barSize={40}
-            //   fill={({ payload }: { payload: any }) => payload.fill}
-            />
-          </BarChart>
-        </ChartContainer>
-        <div className="sm:w-1/2 text-sm sm:text-base mt-2 sm:mt-0">
-          <h3 className="font-semibold text-lg">{total}.</h3>
-          <p>{infoText}.</p>
-        </div>
-      </CardContent>
-    </Card>
+    <CardForCharts
+      title={title}
+      description={description}
+      total={total}
+      infoText={infoText}
+    >
+      <ChartContainer
+        config={chartConfig}
+        className="aspect-square sm:max-h-[200px] w-full sm:w-1/2 sm:absolute sm:top-8 sm:right-0"
+      >
+        <BarChart data={data}>
+          <CartesianGrid vertical={false} />
+          <XAxis
+            dataKey="where"
+            tickLine={false}
+            tickMargin={10}
+            axisLine={false}
+            tickFormatter={(value) => value}
+          />
+          <Tooltip content={<ChartTooltipContent hideLabel />} />
+          <Bar
+            dataKey="goals"
+            radius={8}
+            barSize={40}
+          />
+        </BarChart>
+      </ChartContainer>
+    </CardForCharts>
   );
 }

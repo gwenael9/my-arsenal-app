@@ -3,6 +3,7 @@ import Player from "../entities/player.entity";
 import Goal from "../entities/goal.entity";
 import * as dotenv from "dotenv";
 import User from "../entities/user.entity";
+import Saison from "../entities/saison.entity";
 
 dotenv.config();
 
@@ -13,6 +14,9 @@ export default new DataSource({
   username: process.env.DB_USER || "postgres",
   password: process.env.DB_PASS || "postgres",
   database: process.env.DB_NAME || "postgres",
-  entities: [Player, Goal, User],
+  entities: [Player, Goal, User, Saison],
+  migrations: ["migrations/*.ts"],
+  migrationsTableName: "migrations",
   synchronize: true,
+  // synchronize: false,
 });
