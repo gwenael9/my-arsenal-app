@@ -3,7 +3,7 @@ import AgainstMostGoalCard from "./against.card";
 import ChartsGoal from "./charts.goals";
 import { NoGoal } from "../NoGoal";
 import { useState, useEffect } from "react";
-import LoadingLangue from "../LoadingLangue";
+import LoadingBase from "../Loading";
 
 interface PlayerStatisticsPros {
   playerId: string;
@@ -40,14 +40,17 @@ export default function PlayerStatistics({
 
   useEffect(() => {
     if (!goalsLoading && !passesLoading) {
-      setLoading(false);
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+      }, 300);
     } else {
       setLoading(true);
     }
   }, [goalsLoading, passesLoading]);
 
   if (loading) {
-    return <LoadingLangue />; 
+    return <LoadingBase />;
   }
 
   return (
