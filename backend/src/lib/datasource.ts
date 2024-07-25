@@ -17,6 +17,6 @@ export default new DataSource({
   entities: [Player, Goal, User, Saison],
   migrations: ["migrations/*.ts"],
   migrationsTableName: "migrations",
-  synchronize: true,
-  // synchronize: false,
+  // synchronize: true,
+  synchronize: false,
 });
