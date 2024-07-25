@@ -11,10 +11,23 @@ export default class Saison extends BaseEntity {
   @Column()
   @Field()
   name: string;
+
+  @Column({ default: 0 })
+  @Field()
+  match: number;
 }
 
 @InputType()
 export class InputCreateSaison {
   @Field()
   name: string;
+
+  @Field()
+  match: number;
+}
+
+@ObjectType()
+export class UpdateSaisonMatch {
+  @Field()
+  match: number;
 }
