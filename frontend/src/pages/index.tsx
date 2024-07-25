@@ -4,9 +4,13 @@ import Layout from "@/components/Layout/Layout";
 import GoalCard from "@/components/Goals/goal.card";
 import { Button } from "@/components/ui/button";
 import { SelectItem } from "@/components/ui/select";
-import { useGoalsQuery, usePlayersQuery } from "@/types/graphql";
+import {
+  useGoalsQuery,
+  usePlayersQuery,
+  useSaisonsQuery,
+} from "@/types/graphql";
 import { PLAYER_BY_ID } from "@/requetes/queries/playerById.queries";
-import { ArrowDown, ArrowUp, SlidersHorizontal, Undo2, X } from "lucide-react";
+import { ArrowDown, ArrowUp, SlidersHorizontal, X } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import ReponseFiltres from "@/components/Filtres/Reponse";
 import { getName, toUpOne } from "@/lib/functions";
@@ -15,8 +19,6 @@ import Image from "next/image";
 import { competitions, teams } from "@/utils/teams";
 import { useLangue } from "@/components/Layout/LangueContext";
 import { NoGoal } from "@/components/NoGoal";
-
-const stade = "Emirates Stadium";
 
 export default function Home() {
   const { toast } = useToast();
@@ -29,15 +31,17 @@ export default function Home() {
     Stade: langue ? "Stade" : "Stadium",
     Competition: langue ? "Compétition" : "Competition",
     Adversaire: langue ? "Adversaire" : "Against",
+    Saison: langue ? "Saison" : "Season",
   };
 
+  const stade = "Emirates Stadium";
   const lieuOptions = [stade, `${langue ? "Extérieur" : "Others"}`];
 
   // tout nos buts
   const { data: goalsData } = useGoalsQuery();
   // tout nos joueurs
   const { data: playersData } = usePlayersQuery();
-  const players = playersData?.players;
+  const players = playersData?.players || [];
 
   // function qui va trier nos joueurs selon leurs buts ou passes
   const triPlayer = (item: "goal" | "passe") => {
@@ -65,6 +69,8 @@ export default function Home() {
   const [selectCompetition, setSelectedCompetition] = useState("");
   // equipe sélectionné dans les filtres
   const [selectTeam, setSelectTeam] = useState("");
+  // saison sélectionné dans les filtres
+  const [selectSaison, setSelectSaison] = useState("");
 
   // button filtre
   const [buttonFiltre, setButtonFiltre] = useState(true);
@@ -78,6 +84,9 @@ export default function Home() {
     variables: { playerId: selectPasseurId },
   });
 
+  const { data: saisonData } = useSaisonsQuery();
+  const saisons = saisonData?.saisons || [];
+
   // reset les filtres
   const handleMaj = (item?: string) => {
     setSelectedButeurId("");
@@ -85,6 +94,7 @@ export default function Home() {
     setSelectedPasseurId("");
     setSelectedCompetition("");
     setSelectTeam("");
+    setSelectSaison("");
     setButtonFiltre(true);
     if (item == "toast") {
       toast({
@@ -107,6 +117,8 @@ export default function Home() {
       setSelectedCompetition(value === "Tout" ? "" : value);
     } else if (filter === filters.Adversaire) {
       setSelectTeam(value === "Tout" ? "" : value);
+    } else if (filter === filters.Saison) {
+      setSelectSaison(value === "Tout" ? "" : value);
     }
   };
 
@@ -204,6 +216,22 @@ export default function Home() {
               ))}
           </>
         );
+      case filters.Saison:
+        return (
+          <>
+            <SelectItem value="Tout">{langue ? "Tout" : "All"}</SelectItem>
+            {saisons.map((option, index) => {
+              if (option.name === "all") {
+                return null;
+              }
+              return (
+                <SelectItem key={index} value={option.name}>
+                  {option.name}
+                </SelectItem>
+              );
+            })}
+          </>
+        );
       default:
         return null;
     }
@@ -228,12 +256,15 @@ export default function Home() {
         !selectCompetition || goal.competition == selectCompetition;
       // on filtre par l'adversaire si un adversaire est sélectionnée
       const adversaireMatch = !selectTeam || goal.against == selectTeam;
+      // on filtre par la saison si une saison est sélectionnée
+      const saisonMatch = !selectSaison || goal.saison === selectSaison;
       return (
         buteurMatch &&
         passeurMatch &&
         stadeMatch &&
         competitionMatch &&
-        adversaireMatch
+        adversaireMatch &&
+        saisonMatch
       );
     }) || [];
 
@@ -267,6 +298,8 @@ export default function Home() {
       return selectCompetition;
     } else if (value === filters.Adversaire) {
       return selectTeam;
+    } else if (value === filters.Saison) {
+      return selectSaison;
     }
   };
 
@@ -326,6 +359,7 @@ export default function Home() {
                 selectedButeurId={selectedButeurId}
                 handleMaj={handleMaj}
                 selectTeam={selectTeam}
+                selectSaison={selectSaison}
               />
             )}
           </div>
@@ -341,6 +375,7 @@ export default function Home() {
               selectedButeurId={selectedButeurId}
               selectTeam={selectTeam}
               handleMaj={handleMaj}
+              selectSaison={selectSaison}
             />
           </div>
         </div>
@@ -377,12 +412,19 @@ export default function Home() {
                 onClick={() => setSelectTeam("")}
               />
             )}
+            {selectSaison && (
+              <ReponseFiltres
+                data={selectSaison}
+                onClick={() => setSelectSaison("")}
+              />
+            )}
           </div>
           {(selectStade ||
             selectedButeurId ||
             selectPasseurId ||
             selectCompetition ||
-            selectTeam) && (
+            selectTeam ||
+            selectSaison) && (
             <Button onClick={() => handleMaj("toast")}>
               <X />
             </Button>

@@ -17,6 +17,7 @@ interface FormProps {
   selectStade: string;
   selectCompetition: string;
   selectTeam: string;
+  selectSaison: string;
   handleMaj: () => void;
 }
 
@@ -29,6 +30,7 @@ export default function FormFilters({
   selectPasseurId,
   selectStade,
   selectTeam,
+  selectSaison,
   handleMaj,
 }: FormProps) {
   const { langue } = useLangue();
@@ -39,7 +41,9 @@ export default function FormFilters({
     Stade: langue ? "Stade" : "Stadium",
     Competition: langue ? "Compétition" : "Competition",
     Adversaire: langue ? "Adversaire" : "Against",
+    // Saison: langue ? "Saison" : "Season",
   };
+
 
   return (
     <form className="w-full max-w-[900px]">
@@ -58,12 +62,13 @@ export default function FormFilters({
           </Select>
         ))}
       </div>
-      <div className="flex sm:hidden justify-end">
+      <div className="flex sm:hidden justify-end mt-3">
         {!selectedButeurId &&
           !selectPasseurId &&
           !selectStade &&
           !selectCompetition &&
-          !selectTeam && (
+          !selectTeam &&
+          !selectSaison && (
             <Button onClick={handleMaj}>
               <Undo2 />
             </Button>
