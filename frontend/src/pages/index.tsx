@@ -14,14 +14,15 @@ import FormFilters from "@/components/Filtres/Form";
 import Image from "next/image";
 import { competitions, teams } from "@/utils/teams";
 import { useLangue } from "@/components/Layout/LangueContext";
+import { NoGoal } from "@/components/NoGoal";
 
 const stade = "Emirates Stadium";
 
 export default function Home() {
   const { toast } = useToast();
-  
+
   const { langue } = useLangue();
-  
+
   const filters = {
     Buteur: langue ? "Buteur" : "Striker",
     Passeur: langue ? "Passeur" : "Assist",
@@ -42,9 +43,9 @@ export default function Home() {
   const triPlayer = (item: "goal" | "passe") => {
     return players?.slice().sort((a, b) => {
       const aLength =
-        item === "goal" ? a.goals?.length ?? 0 : a.passes?.length ?? 0;
+        item === "goal" ? (a.goals?.length ?? 0) : (a.passes?.length ?? 0);
       const bLength =
-        item === "goal" ? b.goals?.length ?? 0 : b.passes?.length ?? 0;
+        item === "goal" ? (b.goals?.length ?? 0) : (b.passes?.length ?? 0);
       return bLength - aLength;
     });
   };
@@ -115,7 +116,9 @@ export default function Home() {
       case filters.Buteur:
         return (
           <>
-            <SelectItem value={filters.Buteur}>{langue ? "Tous les joueurs" : "All players"}</SelectItem>
+            <SelectItem value={filters.Buteur}>
+              {langue ? "Tous les joueurs" : "All players"}
+            </SelectItem>
             {triPlayer("goal")?.map((p, index) => {
               if (selectPasseurId && p.id == selectPasseurId) {
                 return null;
@@ -131,7 +134,9 @@ export default function Home() {
       case filters.Passeur:
         return (
           <>
-            <SelectItem value={filters.Passeur}>{langue ? "Tous les joueurs" : "All players"}</SelectItem>
+            <SelectItem value={filters.Passeur}>
+              {langue ? "Tous les joueurs" : "All players"}
+            </SelectItem>
             {triPlayer("passe")?.map((p, index) => {
               if (
                 (selectedButeurId && p.id == selectedButeurId) ||
@@ -393,7 +398,7 @@ export default function Home() {
             ))}
           </div>
         ) : (
-          <div className="text-center">{langue ? "Aucun but pour le moment..." : "No goal yet..."}</div>
+          <NoGoal />
         )}
       </div>
     </Layout>

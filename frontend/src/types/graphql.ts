@@ -55,6 +55,11 @@ export type InputCreatePlayer = {
   lastname: Scalars['String']['input'];
 };
 
+export type InputCreateSaison = {
+  match: Scalars['Float']['input'];
+  name: Scalars['String']['input'];
+};
+
 export type InputLogin = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
@@ -76,9 +81,11 @@ export type Mutation = {
   __typename?: 'Mutation';
   createGoal: Goal;
   createPlayer: Player;
+  createSaison: Saison;
   deleteGoal: Message;
   deletePlayer: Message;
   register: User;
+  updateSaisonMatch: Saison;
 };
 
 
@@ -89,6 +96,11 @@ export type MutationCreateGoalArgs = {
 
 export type MutationCreatePlayerArgs = {
   infos: InputCreatePlayer;
+};
+
+
+export type MutationCreateSaisonArgs = {
+  infos: InputCreateSaison;
 };
 
 
@@ -104,6 +116,12 @@ export type MutationDeletePlayerArgs = {
 
 export type MutationRegisterArgs = {
   infos: InputRegister;
+};
+
+
+export type MutationUpdateSaisonMatchArgs = {
+  newMatch: Scalars['Float']['input'];
+  saisonId: Scalars['String']['input'];
 };
 
 export type Player = {
@@ -130,6 +148,8 @@ export type Query = {
   login: Message;
   logout: Message;
   players: Array<Player>;
+  saisonByName: Saison;
+  saisons: Array<Saison>;
   users: Array<User>;
 };
 
@@ -175,6 +195,19 @@ export type QueryGetTeamWithMostGoalsArgs = {
 
 export type QueryLoginArgs = {
   infos: InputLogin;
+};
+
+
+export type QuerySaisonByNameArgs = {
+  name: Scalars['String']['input'];
+};
+
+export type Saison = {
+  __typename?: 'Saison';
+  goals: Scalars['Float']['output'];
+  id: Scalars['String']['output'];
+  match: Scalars['Float']['output'];
+  name: Scalars['String']['output'];
 };
 
 export type User = {
@@ -224,6 +257,14 @@ export type RegisterMutationVariables = Exact<{
 
 
 export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'User', id: string, email: string, password: string, role: string } };
+
+export type UpdateSaisonMatchMutationVariables = Exact<{
+  newMatch: Scalars['Float']['input'];
+  saisonId: Scalars['String']['input'];
+}>;
+
+
+export type UpdateSaisonMatchMutation = { __typename?: 'Mutation', updateSaisonMatch: { __typename?: 'Saison', id: string, name: string, match: number, goals: number } };
 
 export type LoginQueryVariables = Exact<{
   infos: InputLogin;
@@ -291,6 +332,18 @@ export type GetPlayerByNameQueryVariables = Exact<{
 
 
 export type GetPlayerByNameQuery = { __typename?: 'Query', getPlayerByName: { __typename?: 'Player', id: string, firstname: string, lastname: string, country: string, goals?: Array<{ __typename?: 'Goal', id: string, date: string, link: string, against: string, where: string, ordre: number, competition: string, saison: string, buteur: { __typename?: 'Player', id: string, firstname: string, lastname: string, country: string }, passeur?: { __typename?: 'Player', id: string, firstname: string, lastname: string, country: string } | null }> | null, passes?: Array<{ __typename?: 'Goal', id: string, date: string, link: string, against: string, where: string, ordre: number, competition: string, saison: string }> | null } };
+
+export type SaisonsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type SaisonsQuery = { __typename?: 'Query', saisons: Array<{ __typename?: 'Saison', id: string, name: string, match: number, goals: number }> };
+
+export type SaisonByNameQueryVariables = Exact<{
+  name: Scalars['String']['input'];
+}>;
+
+
+export type SaisonByNameQuery = { __typename?: 'Query', saisonByName: { __typename?: 'Saison', id: string, name: string, match: number, goals: number } };
 
 export type GetTeamWithMostGoalsQueryVariables = Exact<{
   saison: Scalars['String']['input'];
@@ -504,6 +557,43 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export const UpdateSaisonMatchDocument = gql`
+    mutation UpdateSaisonMatch($newMatch: Float!, $saisonId: String!) {
+  updateSaisonMatch(newMatch: $newMatch, saisonId: $saisonId) {
+    id
+    name
+    match
+    goals
+  }
+}
+    `;
+export type UpdateSaisonMatchMutationFn = Apollo.MutationFunction<UpdateSaisonMatchMutation, UpdateSaisonMatchMutationVariables>;
+
+/**
+ * __useUpdateSaisonMatchMutation__
+ *
+ * To run a mutation, you first call `useUpdateSaisonMatchMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateSaisonMatchMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateSaisonMatchMutation, { data, loading, error }] = useUpdateSaisonMatchMutation({
+ *   variables: {
+ *      newMatch: // value for 'newMatch'
+ *      saisonId: // value for 'saisonId'
+ *   },
+ * });
+ */
+export function useUpdateSaisonMatchMutation(baseOptions?: Apollo.MutationHookOptions<UpdateSaisonMatchMutation, UpdateSaisonMatchMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateSaisonMatchMutation, UpdateSaisonMatchMutationVariables>(UpdateSaisonMatchDocument, options);
+      }
+export type UpdateSaisonMatchMutationHookResult = ReturnType<typeof useUpdateSaisonMatchMutation>;
+export type UpdateSaisonMatchMutationResult = Apollo.MutationResult<UpdateSaisonMatchMutation>;
+export type UpdateSaisonMatchMutationOptions = Apollo.BaseMutationOptions<UpdateSaisonMatchMutation, UpdateSaisonMatchMutationVariables>;
 export const LoginDocument = gql`
     query Login($infos: InputLogin!) {
   login(infos: $infos) {
@@ -1076,6 +1166,91 @@ export type GetPlayerByNameQueryHookResult = ReturnType<typeof useGetPlayerByNam
 export type GetPlayerByNameLazyQueryHookResult = ReturnType<typeof useGetPlayerByNameLazyQuery>;
 export type GetPlayerByNameSuspenseQueryHookResult = ReturnType<typeof useGetPlayerByNameSuspenseQuery>;
 export type GetPlayerByNameQueryResult = Apollo.QueryResult<GetPlayerByNameQuery, GetPlayerByNameQueryVariables>;
+export const SaisonsDocument = gql`
+    query Saisons {
+  saisons {
+    id
+    name
+    match
+    goals
+  }
+}
+    `;
+
+/**
+ * __useSaisonsQuery__
+ *
+ * To run a query within a React component, call `useSaisonsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSaisonsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSaisonsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useSaisonsQuery(baseOptions?: Apollo.QueryHookOptions<SaisonsQuery, SaisonsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SaisonsQuery, SaisonsQueryVariables>(SaisonsDocument, options);
+      }
+export function useSaisonsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SaisonsQuery, SaisonsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SaisonsQuery, SaisonsQueryVariables>(SaisonsDocument, options);
+        }
+export function useSaisonsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<SaisonsQuery, SaisonsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<SaisonsQuery, SaisonsQueryVariables>(SaisonsDocument, options);
+        }
+export type SaisonsQueryHookResult = ReturnType<typeof useSaisonsQuery>;
+export type SaisonsLazyQueryHookResult = ReturnType<typeof useSaisonsLazyQuery>;
+export type SaisonsSuspenseQueryHookResult = ReturnType<typeof useSaisonsSuspenseQuery>;
+export type SaisonsQueryResult = Apollo.QueryResult<SaisonsQuery, SaisonsQueryVariables>;
+export const SaisonByNameDocument = gql`
+    query SaisonByName($name: String!) {
+  saisonByName(name: $name) {
+    id
+    name
+    match
+    goals
+  }
+}
+    `;
+
+/**
+ * __useSaisonByNameQuery__
+ *
+ * To run a query within a React component, call `useSaisonByNameQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSaisonByNameQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSaisonByNameQuery({
+ *   variables: {
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useSaisonByNameQuery(baseOptions: Apollo.QueryHookOptions<SaisonByNameQuery, SaisonByNameQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SaisonByNameQuery, SaisonByNameQueryVariables>(SaisonByNameDocument, options);
+      }
+export function useSaisonByNameLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SaisonByNameQuery, SaisonByNameQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SaisonByNameQuery, SaisonByNameQueryVariables>(SaisonByNameDocument, options);
+        }
+export function useSaisonByNameSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<SaisonByNameQuery, SaisonByNameQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<SaisonByNameQuery, SaisonByNameQueryVariables>(SaisonByNameDocument, options);
+        }
+export type SaisonByNameQueryHookResult = ReturnType<typeof useSaisonByNameQuery>;
+export type SaisonByNameLazyQueryHookResult = ReturnType<typeof useSaisonByNameLazyQuery>;
+export type SaisonByNameSuspenseQueryHookResult = ReturnType<typeof useSaisonByNameSuspenseQuery>;
+export type SaisonByNameQueryResult = Apollo.QueryResult<SaisonByNameQuery, SaisonByNameQueryVariables>;
 export const GetTeamWithMostGoalsDocument = gql`
     query GetTeamWithMostGoals($saison: String!, $buteurId: String) {
   getTeamWithMostGoals(saison: $saison, buteurId: $buteurId) {

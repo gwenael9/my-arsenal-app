@@ -8,9 +8,9 @@ dotenv.config();
 async function seedSaison() {
   const saisonService = new SaisonService();
 
-  // vérifie si un utilisateur avec l'e-mail spécifié existe déjà
   const saison1 = await saisonService.findSaisonByName("2023/2024");
-  const saison2 = await saisonService.findSaisonByName("2024/2025");
+  // const saison2 = await saisonService.findSaisonByName("2024/2025");
+  const saisonAll = await saisonService.findSaisonByName("all");
 
   if (!saison1) {
     const newSaison = await saisonService.createSaison({
@@ -21,10 +21,19 @@ async function seedSaison() {
     await newSaison.save();
   }
 
-  if (!saison2) {
+  // if (!saison2) {
+  //   const newSaison = await saisonService.createSaison({
+  //     name: "2024/2025",
+  //     match: 0,
+  //   });
+
+  //   await newSaison.save();
+  // }
+
+  if (!saisonAll) {
     const newSaison = await saisonService.createSaison({
-      name: "2024/2025",
-      match: 0,
+      name: "all",
+      match: 52,
     });
 
     await newSaison.save();

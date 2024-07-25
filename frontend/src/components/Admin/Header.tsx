@@ -1,32 +1,19 @@
 import Link from "next/link";
-import { useState } from "react";
 import { Button } from "../ui/button";
 import { useRouter } from "next/router";
-import { useGetUserProfileQuery, useLogoutLazyQuery } from "@/types/graphql";
-import { useToast } from "../ui/use-toast";
+import { useLogoutLazyQuery } from "@/types/graphql";
 import { LogOut } from "lucide-react";
 
 export default function Header() {
-
   const router = useRouter();
-  const { toast } = useToast();
 
   const [logout] = useLogoutLazyQuery();
-
-  const { data: currentUser } = useGetUserProfileQuery({
-    errorPolicy: "ignore",
-  });
 
   const handleLogout = () => {
     logout({
       onCompleted: (data) => {
         if (data.logout.success) {
           router.push("/");
-          setTimeout(() => {
-            toast({
-              title: `Bye ${currentUser?.getUserProfile.email} !`,
-            });
-          }, 500);
         }
       },
     });
@@ -35,9 +22,11 @@ export default function Header() {
   return (
     <header className="sticky top-0 left-0 right-0 p-6 bg-tertiary">
       <div className="flex mx-auto items-center justify-between text-white">
-        <Link className="font-bold uppercase" href="/">admin</Link>
+        <Link className="font-bold uppercase" href="/">
+          accueil
+        </Link>
 
-        <Button variant={"arrow"} onClick={handleLogout} className="sm:border">
+        <Button variant="destructive" onClick={handleLogout}>
           <span className="sm:hidden">
             <LogOut />
           </span>

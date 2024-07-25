@@ -25,9 +25,3 @@ export class InputCreateSaison {
   @Field()
   match: number;
 }
-
-@ObjectType()
-export class UpdateSaisonMatch {
-  @Field()
-  match: number;
-}

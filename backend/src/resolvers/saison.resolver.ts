@@ -7,7 +7,7 @@ import {
   Arg,
   Authorized,
 } from "type-graphql";
-import Saison, { InputCreateSaison, UpdateSaisonMatch } from "../entities/saison.entity";
+import Saison, { InputCreateSaison } from "../entities/saison.entity";
 import SaisonService from "../services/saison.service";
 import Goal from "../entities/goal.entity";
 
@@ -18,8 +18,20 @@ export default class SaisonResolver {
     return await new SaisonService().listSaison();
   }
 
+  @Query(() => Saison)
+  async saisonByName(@Arg("name") name: string): Promise<Saison> {
+    const saison = await new SaisonService().findSaisonByName(name);
+    if (!saison) {
+      throw new Error("Saison introuvable.");
+    }
+    return saison;
+  }
+
   @FieldResolver(() => Number)
   async goals(@Root() saison: Saison): Promise<number> {
+    if (saison.name == "all") {
+      return await Goal.count();
+    }
     const goals = await Goal.count({ where: { saison: saison.name } });
     return goals;
   }
@@ -32,11 +44,10 @@ export default class SaisonResolver {
   @Authorized(["ADMIN"])
   @Mutation(() => Saison)
   async updateSaisonMatch(@Arg("saisonId") id: string, @Arg("newMatch") newMatch: number) {
-    const saisonService = new SaisonService();
-    const saison = await saisonService.findSaisonById(id);
+    const saison = await new SaisonService().findSaisonById(id);
     if (!saison) {
       throw new Error("Saison introuvable.");
     }
-    return await saisonService.updateSaisonMatch(saison, newMatch);
+    return await new SaisonService().updateSaisonMatch(saison, newMatch);
   }
 }

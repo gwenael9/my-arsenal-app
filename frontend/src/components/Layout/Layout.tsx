@@ -1,9 +1,9 @@
 import Head from "next/head";
 import { ReactNode, useEffect, useState } from "react";
 import { Toaster } from "../ui/toaster";
-import { useGoalsQuery } from "@/types/graphql";
+import { useGetUserProfileQuery, useGoalsQuery } from "@/types/graphql";
 import Link from "next/link";
-import { AlignJustify, X } from "lucide-react";
+import { AlignJustify, Divide, X } from "lucide-react";
 import MenuMobile from "./MenuMobile";
 import { useRouter } from "next/router";
 import {
@@ -16,7 +16,7 @@ import {
 } from "../ui/select";
 import { useLangue } from "./LangueContext";
 
-interface LayoutProps {
+export interface LayoutProps {
   children: ReactNode;
   title: string;
 }
@@ -26,6 +26,10 @@ export default function Layout({ children, title }: LayoutProps) {
   const router = useRouter();
 
   const { langue, setLangue } = useLangue();
+
+  const { data: currentUser } = useGetUserProfileQuery({
+    errorPolicy: "ignore",
+  });
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -55,7 +59,10 @@ export default function Layout({ children, title }: LayoutProps) {
   const navLink = [
     { name: `${langue ? "Buts" : "Goals"}`, link: `/goals/${firstGoal}` },
     { name: `${langue ? "Classement" : "Ranking"}`, link: "/classement" },
-    { name: `${langue ? "Statistiques" : "Statistics"}`, link: "/statistiques" },
+    {
+      name: `${langue ? "Statistiques" : "Statistics"}`,
+      link: "/statistiques",
+    },
     {
       name: `${langue ? "Me soutenir" : "Support me"}`,
       link: "https://www.paypal.com/paypalme/ggueho",
@@ -128,6 +135,11 @@ export default function Layout({ children, title }: LayoutProps) {
         </div>
 
         <nav className={`items-center space-x-6 hidden md:flex`}>
+          {currentUser && currentUser.getUserProfile && (
+            <Link className="font-bold uppercase nav-link" href="/admin">
+              admin
+            </Link>
+          )}
           {navLink.map((n, index) => (
             <Link
               className="font-bold uppercase nav-link"

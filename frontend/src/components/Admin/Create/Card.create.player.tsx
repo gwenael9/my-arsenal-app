@@ -81,7 +81,7 @@ export default function CardCreatePlayer() {
             </div>
           </div>
           <div className="flex justify-end">
-            <Button variant="success" className="" type="submit">
+            <Button variant="success" type="submit">
               Confirmer
             </Button>
           </div>

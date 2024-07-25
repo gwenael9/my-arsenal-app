@@ -9,8 +9,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { getRatioGoalByMatch } from "@/lib/functions";
-import { Goal, useGetGoalsBySaisonQuery } from "@/types/graphql";
-import { nbMatchFisrtSaison, nbMatchSecondSaison } from "@/utils/teams";
+import { Goal, useSaisonByNameQuery } from "@/types/graphql";
 import { useLangue } from "@/components/Layout/LangueContext";
 import CardForCharts from "./card.charts";
 
@@ -26,7 +25,7 @@ const chartConfig = {
 interface CompetitionsProps {
   goals: Goal[];
   item?: "buteur" | "passeur";
-  saison: string;
+  name: string;
 }
 
 const competitionColors: Record<string, string> = {
@@ -35,10 +34,15 @@ const competitionColors: Record<string, string> = {
   "Community Shield": "cs",
 };
 
-export default function ChartsGoal({ goals, item, saison }: CompetitionsProps) {
+export default function ChartsGoal({ goals, item, name }: CompetitionsProps) {
   const { langue } = useLangue();
-  const { data } = useGetGoalsBySaisonQuery({ variables: { saison } });
-  const nbTotalGoals = data?.getGoalsBySaison.length || 0;
+
+  const { data } = useSaisonByNameQuery({
+    variables: {
+      name,
+    },
+  });
+  const saison = data?.saisonByName;
 
   const goalsTri = goals.reduce<
     { competition: string; buts: number; fill: string }[]
@@ -57,12 +61,10 @@ export default function ChartsGoal({ goals, item, saison }: CompetitionsProps) {
     return acc;
   }, []);
 
-  const totalGoals = React.useMemo(
-    () => goalsTri.reduce((acc, curr) => acc + curr.buts, 0),
-    [goalsTri]
-  );
+  const number = item ? goals.length : saison?.goals || 0;
+  const totalGoalsSaison = saison?.goals || 0;
+  const nbMatch = saison?.match || 0;
 
-  const number = goals.length;
   const title =
     item === "passeur"
       ? langue
@@ -80,13 +82,6 @@ export default function ChartsGoal({ goals, item, saison }: CompetitionsProps) {
         ? "buts"
         : "goals";
 
-  const nbMatch =
-    saison === "2023/2024"
-      ? nbMatchFisrtSaison
-      : saison === "2024/2025"
-        ? nbMatchSecondSaison
-        : nbMatchFisrtSaison + nbMatchSecondSaison;
-
   const descriptionText = langue
     ? "Dans chaque compétition"
     : "In each competition";
@@ -94,11 +89,11 @@ export default function ChartsGoal({ goals, item, saison }: CompetitionsProps) {
   const perGameText = langue ? "par match" : "per game";
   const arsenalGoalsText = langue ? "des buts d'Arsenal" : "of Arsenal's goals";
 
-  const testTotal = item
+  const textTotal = item
     ? `${number} ${contentGoal}`
     : `${number} ${contentGoal} ${langue ? "en" : "in"} ${nbMatch} ${langue ? "matchs" : "games"}`;
   const infoText = item
-    ? `${getRatioGoalByMatch(number, nbTotalGoals, true)}% ${arsenalGoalsText}`
+    ? `${getRatioGoalByMatch(number, totalGoalsSaison, true)}% ${arsenalGoalsText}`
     : `${averageText} ${getRatioGoalByMatch(number, nbMatch)} ${title} ${perGameText}`;
 
   return (
@@ -106,7 +101,7 @@ export default function ChartsGoal({ goals, item, saison }: CompetitionsProps) {
       <CardForCharts
         title={title}
         description={descriptionText}
-        total={testTotal}
+        total={textTotal}
         infoText={infoText}
       >
         <ChartContainer
@@ -140,7 +135,7 @@ export default function ChartsGoal({ goals, item, saison }: CompetitionsProps) {
                           y={viewBox.cy}
                           className="text-3xl font-bold"
                         >
-                          {totalGoals.toLocaleString()}
+                          {number}
                         </tspan>
                         <tspan
                           x={viewBox.cx}

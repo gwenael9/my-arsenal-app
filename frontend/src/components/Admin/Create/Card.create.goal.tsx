@@ -10,6 +10,7 @@ import {
   CreateGoalMutationVariables,
   InputCreateGoal,
   usePlayersQuery,
+  useSaisonsQuery,
 } from "@/types/graphql";
 import { useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
@@ -25,13 +26,16 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { getName } from "@/lib/functions";
-import { competitions, saisons } from "@/utils/teams";
+import { competitions } from "@/utils/teams";
 
 export default function CardCreateGoal() {
   const { toast } = useToast();
 
   const { data: playersData } = usePlayersQuery();
   const players = playersData?.players || [];
+
+  const { data: saisonData } = useSaisonsQuery();
+  const saisons = saisonData?.saisons || [];
 
   const formRef = useRef<HTMLFormElement>(null);
   const router = useRouter();
@@ -194,8 +198,8 @@ export default function CardCreateGoal() {
                   <SelectContent>
                     <SelectGroup>
                       {saisons.map((saison, index) => (
-                        <SelectItem key={index} value={saison}>
-                          {saison}
+                        <SelectItem key={index} value={saison.name}>
+                          {saison.name}
                         </SelectItem>
                       ))}
                     </SelectGroup>

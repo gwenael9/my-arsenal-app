@@ -13,15 +13,8 @@ import { useRouter } from "next/router";
 export default function Login() {
   const router = useRouter();
   const { toast } = useToast();
-  // const [admin, setAdmin] = useState(true);
-
-  // const handleAdmin = () => {
-  //   setAdmin(!admin);
-  // };
 
   const [login] = useLazyQuery<LoginQuery, LoginQueryVariables>(LOGIN);
-
-  // const [register] = useRegisterMutation();
 
   const handleSubmitLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

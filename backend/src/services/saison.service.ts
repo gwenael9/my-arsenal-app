@@ -28,9 +28,31 @@ export default class SaisonService {
     const newSaison = this.db.create({ name, match });
     return await this.db.save(newSaison);
   }
-
+  
   async updateSaisonMatch(saison: Saison, newMatch: number): Promise<Saison> {
+    if (newMatch < 0) {
+      throw new Error("La valeur doit être positive.");
+    }
+
+    // sauvegarder la valeur actuelle de match avant la mise à jour
+    const oldMatch = saison.match;
+
+    // met à jour le nombre de match pour la saison spécifiée
     saison.match = newMatch;
-    return await saison.save();
+    await this.db.save(saison);
+
+    // trouver la saison "all"
+    const allSaison = await this.findSaisonByName("all");
+    if (!allSaison) {
+      throw new Error("Saison 'all' introuvable.");
+    }
+
+    const difference = newMatch - oldMatch;
+
+    // Met à jour le nombre de match pour la saison "all"
+    allSaison.match += difference;
+    await this.db.save(allSaison);
+
+    return saison;
   }
 }

@@ -1,5 +1,6 @@
 import CardCreateGoal from "@/components/Admin/Create/Card.create.goal";
 import CardCreatePlayer from "@/components/Admin/Create/Card.create.player";
+import CardSaison from "@/components/Admin/Create/Card.update.match";
 import Etiquettes from "@/components/Admin/Etiquettes";
 import Layout from "@/components/Admin/Layout";
 import { Button } from "@/components/ui/button";
@@ -28,14 +29,14 @@ export default function AdminGoals() {
   const goals = goalsData?.goals || [];
   const [deleteGoal] = useDeleteGoalMutation();
 
-  const triGoals = goals.slice().sort((a, b) => (b.ordre - a.ordre));
+  const triGoals = goals.slice().sort((a, b) => b.ordre - a.ordre);
 
   const handleDeleteGoal = (id: string) => {
     deleteGoal({
       variables: {
         deleteGoalId: id,
       },
-      refetchQueries: [{ query: LIST_GOALS}],
+      refetchQueries: [{ query: LIST_GOALS }],
       onCompleted: () => {
         toast({
           title: "But supprimée avec succès !",
@@ -53,11 +54,11 @@ export default function AdminGoals() {
       variables: {
         deletePlayerId: id,
       },
-      refetchQueries: [{ query: LIST_PLAYERS}],
+      refetchQueries: [{ query: LIST_PLAYERS }],
       onCompleted: () => {
         toast({
           title: "Joueur supprimée avec succès !",
-        })
+        });
       },
     });
   };
@@ -66,7 +67,10 @@ export default function AdminGoals() {
     <Layout title="Configuration">
       <div className="flex justify-end sm:justify-between items-center py-4">
         <h2 className="font-bold text-xl sm:text-2xl hidden sm:block">
-          Nombres de {isGoalOrPlayer ? `buts : ${goals.length}` : `joueurs : ${players.length-1}`} 
+          Nombres de{" "}
+          {isGoalOrPlayer
+            ? `buts : ${goals.length}`
+            : `joueurs : ${players.length - 1}`}
         </h2>
         <Button variant={"filtre"} onClick={handleSwith}>
           {isGoalOrPlayer ? "Joueurs" : "Buts"}
@@ -78,17 +82,24 @@ export default function AdminGoals() {
           {isGoalOrPlayer ? <CardCreateGoal /> : <CardCreatePlayer />}
         </div>
 
-        <div>
+        <div className="flex flex-col-reverse sm:flex-col gap-4">
+          {isGoalOrPlayer && <CardSaison />}
           <div className="flex flex-wrap gap-2 mb-8 sm:mb-0">
-            {isGoalOrPlayer ? (
-              triGoals.map((goal, index) => (
-                <Etiquettes key={index} handleDelete={handleDeleteGoal} goal={goal} />
-              ))
-            ) : (
-              players.map((player, index) => (
-                <Etiquettes key={index} handleDelete={handleDeletePlayer} player={player} />
-              ))
-            )}
+            {isGoalOrPlayer
+              ? triGoals.map((goal, index) => (
+                  <Etiquettes
+                    key={index}
+                    handleDelete={handleDeleteGoal}
+                    goal={goal}
+                  />
+                ))
+              : players.map((player, index) => (
+                  <Etiquettes
+                    key={index}
+                    handleDelete={handleDeletePlayer}
+                    player={player}
+                  />
+                ))}
           </div>
         </div>
       </div>
