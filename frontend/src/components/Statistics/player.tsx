@@ -53,21 +53,15 @@ export default function PlayerStatistics({
     return <LoadingBase />;
   }
 
+  if (goals.length == 0 && passes.length == 0) {
+    return <NoGoal />;
+  }
+
   return (
     <>
-      {goals.length > 0 || passes.length > 0 ? (
-        <>
-          <AgainstMostGoalCard
-            playerId={playerId}
-            name={name}
-            saison={saison}
-          />
-          <ChartsGoal goals={goals} item="buteur" name={saison} />
-          <ChartsGoal goals={passes} item="passeur" name={saison} />
-        </>
-      ) : (
-        <NoGoal />
-      )}
+      <AgainstMostGoalCard playerId={playerId} name={name} saison={saison} />
+      <ChartsGoal goals={goals} item="buteur" name={saison} />
+      <ChartsGoal goals={passes} item="passeur" name={saison} />
     </>
   );
 }
