@@ -37,6 +37,7 @@ const competitionColors: Record<string, string> = {
 export default function ChartsGoal({ goals, item, name }: CompetitionsProps) {
   const { langue } = useLangue();
 
+  // on recupere les données de la saison (matchs, buts)
   const { data } = useSaisonByNameQuery({
     variables: {
       name,
@@ -44,6 +45,28 @@ export default function ChartsGoal({ goals, item, name }: CompetitionsProps) {
   });
   const saison = data?.saisonByName;
 
+  // on tri nos goals
+  /*
+    goals [
+      id: x
+      date: x
+      link: x
+      ordre: x
+      passeur: x
+      saison: x
+      where: x
+      competition: x
+    ]
+
+    =>
+
+    goalsTri [
+      competition: 'pl'
+      buts: tout les buts de la competition 'pl'
+      fill: color
+    ]
+
+  */
   const goalsTri = goals.reduce<
     { competition: string; buts: number; fill: string }[]
   >((acc, goal) => {
@@ -61,9 +84,17 @@ export default function ChartsGoal({ goals, item, name }: CompetitionsProps) {
     return acc;
   }, []);
 
-  const number = item ? goals.length : saison?.goals || 0;
+  // nombres de buts
+  const number = goals.length;
+  // tout les buts de la saison selectionnée
   const totalGoalsSaison = saison?.goals || 0;
+  // nombres de matchs dans la saison selectionnée
   const nbMatch = saison?.match || 0;
+
+  // si aucun match dans la saison sélectionné, on affiche pas la card
+  if (nbMatch == 0) {
+    return null;
+  }
 
   const title =
     item === "passeur"

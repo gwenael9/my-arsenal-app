@@ -27,7 +27,6 @@ export default function CardLog({ item, handleSubmit, value}: CardLogProps) {
               autoComplete="email"
               autoCorrect="off"
               name="email"
-              // value={value}
             />
             <Label htmlFor="password">Mot de passe</Label>
             <Input id="password" type="password" name="password" />

@@ -1,3 +1,4 @@
+import { SelectSaison } from "@/components/Statistics/Select/SelectSaison";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -63,6 +64,8 @@ export default function CardSaison() {
     setMatchSaison(parseInt(value));
   };
 
+  const triSaisons = saisons.filter((saison) => saison.name !== "all");
+
   return (
     <Card className="border rounded border-tertiary/20 w-full sm:w-1/2">
       <CardHeader>
@@ -72,9 +75,8 @@ export default function CardSaison() {
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="flex gap-4">
             <div>
-              <Label htmlFor="idSaison">Saison</Label>
+              <Label>Saison</Label>
               <Select
-                name="idSaison"
                 value={idSaison}
                 onValueChange={setIdSaison}
               >
@@ -83,7 +85,7 @@ export default function CardSaison() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    {saisons.map((p) => (
+                    {triSaisons.map((p) => (
                       <SelectItem key={p.id} value={p.id}>
                         {p.name}
                       </SelectItem>
@@ -95,8 +97,6 @@ export default function CardSaison() {
             <div>
               <Label htmlFor="match">Nb de matchs</Label>
               <Input
-                name="match"
-                id="match"
                 placeholder="52"
                 type="number"
                 value={matchSaison}

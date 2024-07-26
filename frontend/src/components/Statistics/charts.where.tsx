@@ -86,11 +86,7 @@ export default function StadeGoals({ goals, saison }: StadeGoalsProps) {
             tickFormatter={(value) => value}
           />
           <Tooltip content={<ChartTooltipContent hideLabel />} />
-          <Bar
-            dataKey="goals"
-            radius={8}
-            barSize={40}
-          />
+          <Bar dataKey="goals" radius={8} barSize={40} />
         </BarChart>
       </ChartContainer>
     </CardForCharts>

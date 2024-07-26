@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Player, usePlayersQuery } from "@/types/graphql";
+import { usePlayersQuery } from "@/types/graphql";
 import {
   Table,
   TableBody,
@@ -34,36 +34,24 @@ export default function Ranking({ saison }: RankingProps) {
   });
 
   // on affiche pas les joueurs avec 0 b/p
-  const playersFiltered = players.filter((player) => {
-    if (saison === "all") {
-      return true; 
-    }
-    const nbGoals = player.goals?.filter(goal => goal.saison === saison).length || 0;
-    const nbPasses = player.passes?.filter(pass => pass.saison === saison).length || 0;
-    return nbGoals > 0 || nbPasses > 0;
-  }).map(player => ({
-    ...player,
-    goals: saison === "all" ? player.goals || [] : player.goals?.filter(goal => goal.saison === saison) || [],
-    passes: saison === "all" ? player.passes || [] : player.passes?.filter(pass => pass.saison === saison) || []
-  }));
+  const filteredPlayers = players.filter((player) => {
+    const filterGoals = (player.goals || []).filter(goal => saison === "all" || goal.saison === saison).length;
+    const filterPasses = (player.passes || []).filter(pass => saison === "all" || pass.saison === saison).length;
+    return filterGoals > 0 || filterPasses > 0;
+  });
   
-  const sortedPlayers = playersFiltered.slice().sort((a, b) => {
+  const sortedPlayers = [...filteredPlayers].sort((a, b) => {
     if (a.lastname === "csc") return 1;
     if (b.lastname === "csc") return -1;
-    const aValue = a[sortConfig.key]?.length || 0;
-    const bValue = b[sortConfig.key]?.length || 0;
-    return sortConfig.direction === "ascending"
-      ? aValue - bValue
-      : bValue - aValue;
+    const aValue = (a[sortConfig.key] || []).length;
+    const bValue = (b[sortConfig.key] || []).length;
+    return sortConfig.direction === "ascending" ? aValue - bValue : bValue - aValue;
   });
 
   const requestSort = (key: SortKey) => {
     setSortConfig((prev) => ({
       key,
-      direction:
-        prev.key === key && prev.direction === "descending"
-          ? "ascending"
-          : "descending",
+      direction: prev.key === key && prev.direction === "descending" ? "ascending" : "descending",
     }));
   };
 
@@ -72,9 +60,7 @@ export default function Ranking({ saison }: RankingProps) {
   const getBgPosition = (item: number) =>
     ["bg-or", "bg-argent", "bg-bronze", "bg-primary"][item - 1] || "bg-primary";
 
-  const headers = langue
-    ? { goals: "buts", passes: "passes" }
-    : { goals: "goals", passes: "assists" };
+  const headers = langue ? { goals: "buts", passes: "passes" } : { goals: "goals", passes: "assists" };
 
   return (
     <Table className="max-w-[1200px]">

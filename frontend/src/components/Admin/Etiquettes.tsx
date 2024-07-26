@@ -14,6 +14,7 @@ export default function Etiquettes({
   player,
   goal,
 }: EtiquettesProps) {
+
   return (
     <div
       key={player ? player.id : goal?.id}
