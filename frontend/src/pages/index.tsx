@@ -433,7 +433,10 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="my-4 mx-3 sm:mx-12">
+      <div
+        className="my-4 mx-3 sm:mx-12"
+        style={{ minHeight: "calc(100vh - 580px)" }}
+      >
         {goalsFiltre.length > 0 ? (
           <div className="flex flex-wrap gap-4 justify-center">
             {goalsFiltre.map((goal) => (

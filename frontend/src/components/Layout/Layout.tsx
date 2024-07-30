@@ -96,7 +96,7 @@ export default function Layout({ children, title }: LayoutProps) {
           <>
             <meta
               name="description"
-              content="Tout les buts d'Arsenal pour la l 2023/2024"
+              content="Tout les buts d'Arsenal pour la saison 2023/2024"
             />
             <meta
               name="viewport"
@@ -189,7 +189,7 @@ export default function Layout({ children, title }: LayoutProps) {
       <MenuMobile isOpen={isOpen} closeMenu={closeMenu} navLink={navLink} />
       <main
         className={`overflow-y-auto ${isOpen && "blur"}`}
-        style={{ maxHeight: "calc(100vh - 80px" }}
+        style={{ height: "calc(100vh - 80px)" }}
       >
         {children}
       </main>
