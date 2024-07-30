@@ -19,6 +19,7 @@ import Image from "next/image";
 import { competitions, teams } from "@/utils/teams";
 import { useLangue } from "@/components/Layout/LangueContext";
 import { NoGoal } from "@/components/NoGoal";
+import Footer from "@/components/Layout/Footer";
 
 export default function Home() {
   const { toast } = useToast();
@@ -443,6 +444,7 @@ export default function Home() {
           <NoGoal />
         )}
       </div>
+      <Footer />
     </Layout>
   );
 }

@@ -15,6 +15,7 @@ import {
   SelectValue,
 } from "../ui/select";
 import { useLangue } from "./LangueContext";
+import Footer from "./Footer";
 
 export interface LayoutProps {
   children: ReactNode;

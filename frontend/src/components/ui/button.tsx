@@ -23,6 +23,7 @@ const buttonVariants = cva(
         black: "bg-black text-white hover:bg-black/80",
         carousel: "border rounded-full",
         arrowCard: "rounded-full border-black border",
+        footer: "p-2 rounded-full border",
         arrow: "",
         langue: ""
       },
