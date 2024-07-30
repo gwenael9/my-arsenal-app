@@ -39,7 +39,7 @@ export default function Home() {
   const lieuOptions = [stade, `${langue ? "Extérieur" : "Others"}`];
 
   // tout nos buts
-  const { data: goalsData } = useGoalsQuery();
+  const { data: goalsData, loading } = useGoalsQuery();
   // tout nos joueurs
   const { data: playersData } = usePlayersQuery();
   const players = playersData?.players || [];
@@ -444,7 +444,7 @@ export default function Home() {
           <NoGoal />
         )}
       </div>
-      <Footer />
+      {!loading && <Footer />}
     </Layout>
   );
 }
