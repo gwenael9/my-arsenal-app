@@ -1,10 +1,5 @@
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
@@ -17,6 +12,7 @@ import {
 } from "@/types/graphql";
 import { useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
+import CardLayout from "./CardLayout";
 
 export default function CardCreatePlayer() {
   const { toast } = useToast();
@@ -24,7 +20,7 @@ export default function CardCreatePlayer() {
     CreatePlayerMutation,
     CreatePlayerMutationVariables
   >(CREATE_PLAYER, {
-    refetchQueries: [{ query: LIST_PLAYERS}],
+    refetchQueries: [{ query: LIST_PLAYERS }],
     onCompleted: () => {
       toast({
         title: "Joueur créé avec succès !",
@@ -60,33 +56,28 @@ export default function CardCreatePlayer() {
   };
 
   return (
-    <Card className="w-[300px] border border-tertiary/20">
-      <CardHeader>
-        <CardTitle>Ajouter un joueur</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit} className="grid gap-2">
-          <div className="grid w-full items-center gap-4">
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="firstname">Firstname</Label>
-              <Input name="firstname" id="firstname" placeholder="Bukayo" />
-            </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="lastname">Lastname</Label>
-              <Input name="lastname" id="lastname" placeholder="Saka" />
-            </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="country">Pays</Label>
-              <Input name="country" id="country" placeholder="Angleterre" />
-            </div>
+    <CardLayout title="Ajouter un joueur">
+      <form onSubmit={handleSubmit} className="grid gap-2">
+        <div className="grid w-full items-center gap-4">
+          <div className="flex flex-col space-y-1.5">
+            <Label htmlFor="firstname">Firstname</Label>
+            <Input name="firstname" id="firstname" placeholder="Bukayo" />
           </div>
-          <div className="flex justify-end">
-            <Button variant="success" type="submit">
-              Confirmer
-            </Button>
+          <div className="flex flex-col space-y-1.5">
+            <Label htmlFor="lastname">Lastname</Label>
+            <Input name="lastname" id="lastname" placeholder="Saka" />
           </div>
-        </form>
-      </CardContent>
-    </Card>
+          <div className="flex flex-col space-y-1.5">
+            <Label htmlFor="country">Pays</Label>
+            <Input name="country" id="country" placeholder="Angleterre" />
+          </div>
+        </div>
+        <div className="flex justify-end">
+          <Button variant="success" type="submit">
+            Confirmer
+          </Button>
+        </div>
+      </form>
+    </CardLayout>
   );
 }

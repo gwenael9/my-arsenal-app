@@ -4,7 +4,6 @@ import { X } from "lucide-react";
 
 interface EtiquettesProps {
   handleDelete: (item: string) => void;
-  // a revoir 
   player?: Player | any;
   goal?: Goal;
 }
