@@ -93,8 +93,8 @@ body {
   position: absolute;
   bottom: 0; 
   left: 0; 
-  width: 0; 
-  height: 1px; 
+  width: 10px; 
+  height: 3px; 
   background-color: #f00000; 
   transition: width 0.3s ease; 
 }

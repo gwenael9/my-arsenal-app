@@ -21,6 +21,11 @@ export default class GoalResolver {
     return await new GoalService().listGoal();
   }
 
+  @Query(() => [Number])
+  async nbGoals() {
+    return await new GoalService().getNbGoals();
+  }
+
   // ajouter un goal
   @Authorized(["ADMIN"])
   @Mutation(() => Goal)

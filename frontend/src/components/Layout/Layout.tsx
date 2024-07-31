@@ -3,7 +3,7 @@ import { ReactNode, useEffect, useState } from "react";
 import { Toaster } from "../ui/toaster";
 import { useGetUserProfileQuery, useGoalsQuery } from "@/types/graphql";
 import Link from "next/link";
-import { AlignJustify, Divide, X } from "lucide-react";
+import { AlignJustify, X } from "lucide-react";
 import MenuMobile from "./MenuMobile";
 import { useRouter } from "next/router";
 import {
@@ -15,7 +15,6 @@ import {
   SelectValue,
 } from "../ui/select";
 import { useLangue } from "./LangueContext";
-import Footer from "./Footer";
 
 export interface LayoutProps {
   children: ReactNode;

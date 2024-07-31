@@ -1,4 +1,4 @@
-import { useGetGoalByOrdreQuery, useGoalsQuery } from "@/types/graphql";
+import { useGetGoalByOrdreQuery } from "@/types/graphql";
 import Layout from "@/components/Layout/Layout";
 import { useRouter } from "next/router";
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,8 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { useLangue } from "@/components/Layout/LangueContext";
+import { useQuery } from "@apollo/client";
+import { NUMBER_GOALS } from "@/requetes/queries/nbGoals.queries";
 
 const GoalCarouselPage = () => {
   const router = useRouter();
@@ -16,7 +18,7 @@ const GoalCarouselPage = () => {
   const { goalOrdre } = router.query;
   const [showError, setShowError] = useState(false);
 
-  // verif si le but est bien valide
+  // vérifie si le but est valide en récupérant les données associées
   const { data: goalByOrdre, loading } = useGetGoalByOrdreQuery({
     variables: {
       goalOrdre: typeof goalOrdre === "string" ? parseInt(goalOrdre, 10) : 0,
@@ -26,39 +28,33 @@ const GoalCarouselPage = () => {
 
   const goal = goalByOrdre?.getGoalByOrdre;
 
-  // tout nos buts
-  const { data: allGoalData } = useGoalsQuery();
-  const allGoal = allGoalData?.goals;
+  const { data: nbGoalsData } = useQuery(NUMBER_GOALS);
+  const nbGoals = nbGoalsData.nbGoals;
 
-  // premier but en bdd
-  const firstGoal = allGoal
-    ?.map((g) => g.ordre)
-    ?.reduce((a, b) => Math.min(a, b), 120);
+  // premier et dernier but
+  const firstGoal = nbGoals[0];
+  const lastGoal = nbGoals[nbGoals.length - 1];
 
-  // dernier but en bdd
-  const lastGoal = allGoal
-    ?.map((g) => g.ordre)
-    ?.reduce((a, b) => Math.max(a, b), 0);
-
+  // changer de goal
   const changeGoal = (direction: "next" | "last") => {
     if (typeof goalOrdre === "string") {
       const currentOrdre = parseInt(goalOrdre, 10);
+      const currentIndex = nbGoals.indexOf(currentOrdre);
       const isNext = direction === "next";
-      const filteredGoals = allGoal
-        ?.map((g) => g.ordre)
-        ?.filter((ordre) =>
-          isNext ? ordre > currentOrdre : ordre < currentOrdre
-        )
-        ?.sort((a, b) => (isNext ? a - b : b - a));
 
-      const nextOrPrevGoal = filteredGoals ? filteredGoals[0] : undefined;
+      if (currentIndex !== -1) {
+        const newIndex = isNext ? currentIndex + 1 : currentIndex - 1;
 
-      if (nextOrPrevGoal !== undefined) {
-        router.push(`/goals/${nextOrPrevGoal}`);
+        // vérifie si le nouvel index est valide avant de naviguer
+        if (newIndex >= 0 && newIndex < nbGoals.length) {
+          const nextOrPrevGoal = nbGoals[newIndex];
+          router.push(`/goals/${nextOrPrevGoal}`);
+        }
       }
     }
   };
 
+  // affichage de l'erreur si le but n'est pas trouvé
   useEffect(() => {
     if (!loading && !goal) {
       const timer = setTimeout(() => {
@@ -68,19 +64,13 @@ const GoalCarouselPage = () => {
     }
   }, [loading, goal]);
 
+  // obtenir les crédits appropriés pour chaque goal
   const getCopyright = (item: number) => {
-    if (
-      item == 8 ||
-      item == 9 ||
-      item == 51 ||
-      item == 25 ||
-      item == 23 ||
-      item == 39
-    ) {
+    if ([8, 9, 51, 25, 23, 39].includes(item)) {
       return ["https://www.youtube.com/@gunnerzcomps", "GunnerzComps"];
-    } else if (item == 20 || item == 21 || item == 108) {
+    } else if ([20, 21, 108].includes(item)) {
       return ["https://www.youtube.com/@AFCBournemouth", "AFC Bournemouth"];
-    } else if (item == 46 || item == 47) {
+    } else if ([46, 47].includes(item)) {
       return ["https://www.youtube.com/@GoalsCinematic", "GoalsCinematic"];
     }
     return ["https://www.youtube.com/@arsenal", "Arsenal"];
@@ -129,7 +119,7 @@ const GoalCarouselPage = () => {
               )}
             </div>
             <Link
-              className="text-xs flex gap-2 border rounded-sm p-2"
+              className="bg-white text-xs flex gap-2 border rounded-md p-2"
               href={getCopyright(goal.ordre)[0]}
               target="_blank"
             >

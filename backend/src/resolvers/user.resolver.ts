@@ -9,7 +9,6 @@ import User, {
   UserProfile,
 } from "../entities/user.entity";
 import UserService from "../services/user.service";
-import { ContextType } from "../types";
 import { Message } from "../entities/message.entity";
 
 @Resolver()

@@ -1,6 +1,5 @@
 import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
@@ -27,6 +26,7 @@ import {
 } from "@/components/ui/select";
 import { getName } from "@/lib/functions";
 import { competitions } from "@/utils/teams";
+import CardLayout from "./CardLayout";
 
 export default function CardCreateGoal() {
   const { toast } = useToast();
@@ -116,7 +116,7 @@ export default function CardCreateGoal() {
             buteurId: selectedButeur,
             passeurId: passeurId,
             competition: selectedCompetition,
-            saison: saisonDefault
+            saison: saisonDefault,
           },
         },
       });
@@ -132,139 +132,135 @@ export default function CardCreateGoal() {
     setSelectedDate(format(date, "dd/MM/yyyy"));
   };
 
+  const triSaisons = saisons.filter((saison) => saison.name !== "all");
+
   return (
-    <Card className="w-full border rounded border-tertiary/20">
-      <CardHeader>
-        <CardTitle>Ajouter un but</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <form ref={formRef} onSubmit={handleSubmit}>
-          <div className="sm:flex sm:gap-10">
-            <div className="w-[200px] flex gap-2 flex-col">
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="ordre">But n°</Label>
-                <Input type="number" name="ordre" id="ordre" placeholder="1" />
-              </div>
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="date">Date</Label>
-                <DatePicker selectedDate={selectedDate} onDateChange={handleDateChange} />
-                <Input type="hidden" name="date" value={selectedDate} />
-              </div>
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="competition">Competition</Label>
-                <Select
-                  name="competition"
-                  value={selectedCompetition}
-                  onValueChange={setSelectedCompetition}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Choisi une competition" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      {competitions.map((compet, index) => (
-                        <SelectItem key={index} value={compet}>
-                          {compet}
-                        </SelectItem>
-                      ))}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="against">Adversaire</Label>
-                <Input
-                  name="against"
-                  id="against"
-                  placeholder="Nottingham Forest"
-                />
-              </div>
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="where">Stade</Label>
-                <Input name="where" id="where" placeholder="Emirates Stadium" />
-              </div>
-            </div>
-            <div className="w-[200px] flex gap-2 flex-col">
+    <CardLayout title="Ajouter un but">
+      <form ref={formRef} onSubmit={handleSubmit}>
+        <div className="sm:flex sm:gap-10">
+          <div className="w-[200px] flex gap-2 flex-col">
             <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="saison">Saison</Label>
-                <Select
-                  name="saison"
-                  value={selectedSaison}
-                  onValueChange={setSelectedSaison}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Choisi une saison" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      {saisons.map((saison, index) => (
-                        <SelectItem key={index} value={saison.name}>
-                          {saison.name}
-                        </SelectItem>
-                      ))}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="buteurId">Buteur</Label>
-                <Select
-                  name="buteurId"
-                  value={selectedButeur}
-                  onValueChange={setSelectedButeur}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Choisi un buteur" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      {players.map((p) => (
-                        <SelectItem key={p.id} value={p.id}>
-                          {getName(p)}
-                        </SelectItem>
-                      ))}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="passeurId">Passeur</Label>
-                <Select
-                  name="passeurId"
-                  value={selectedPasseur}
-                  onValueChange={setSelectedPasseur}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Choisi un passeur" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      {players.map((p) => (
-                        <SelectItem key={p.id} value={p.id}>
-                          {getName(p)}
-                        </SelectItem>
-                      ))}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="link">Lien</Label>
-                <Input
-                  name="link"
-                  id="link"
-                  placeholder="https://youtube.com"
-                />
-              </div>
+              <Label htmlFor="ordre">But n°</Label>
+              <Input type="number" name="ordre" id="ordre" placeholder="1" />
+            </div>
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="date">Date</Label>
+              <DatePicker
+                selectedDate={selectedDate}
+                onDateChange={handleDateChange}
+              />
+              <Input type="hidden" name="date" value={selectedDate} />
+            </div>
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="competition">Competition</Label>
+              <Select
+                name="competition"
+                value={selectedCompetition}
+                onValueChange={setSelectedCompetition}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Choisi une competition" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    {competitions.map((compet, index) => (
+                      <SelectItem key={index} value={compet}>
+                        {compet}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="against">Adversaire</Label>
+              <Input
+                name="against"
+                id="against"
+                placeholder="Nottingham Forest"
+              />
+            </div>
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="where">Stade</Label>
+              <Input name="where" id="where" placeholder="Emirates Stadium" />
             </div>
           </div>
-          <div className="flex justify-end mt-2">
-            <Button variant="success" type="submit">
-              Confirmer
-            </Button>
+          <div className="w-[200px] flex gap-2 flex-col">
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="saison">Saison</Label>
+              <Select
+                name="saison"
+                value={selectedSaison}
+                onValueChange={setSelectedSaison}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Choisi une saison" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    {triSaisons.map((saison, index) => (
+                      <SelectItem key={index} value={saison.name}>
+                        {saison.name}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="buteurId">Buteur</Label>
+              <Select
+                name="buteurId"
+                value={selectedButeur}
+                onValueChange={setSelectedButeur}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Choisi un buteur" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    {players.map((p) => (
+                      <SelectItem key={p.id} value={p.id}>
+                        {getName(p)}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="passeurId">Passeur</Label>
+              <Select
+                name="passeurId"
+                value={selectedPasseur}
+                onValueChange={setSelectedPasseur}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Choisi un passeur" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    {players.map((p) => (
+                      <SelectItem key={p.id} value={p.id}>
+                        {getName(p)}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="link">Lien</Label>
+              <Input name="link" id="link" placeholder="https://youtube.com" />
+            </div>
           </div>
-        </form>
-      </CardContent>
-    </Card>
+        </div>
+        <div className="flex justify-end mt-2">
+          <Button variant="success" type="submit">
+            Confirmer
+          </Button>
+        </div>
+      </form>
+    </CardLayout>
   );
 }

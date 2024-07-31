@@ -14,6 +14,11 @@ export default class GoalService {
     return this.db.find();
   }
 
+  async getNbGoals() {
+    const goals = await this.db.find({ select: ["ordre"] });
+    return goals.map(goal => goal.ordre).sort((a, b) => a - b);
+  }
+
   async createGoal({
     date,
     link,

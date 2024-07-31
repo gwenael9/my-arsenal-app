@@ -20,6 +20,7 @@ import { competitions, teams } from "@/utils/teams";
 import { useLangue } from "@/components/Layout/LangueContext";
 import { NoGoal } from "@/components/NoGoal";
 import Footer from "@/components/Layout/Footer";
+import LoadingBase from "@/components/Loading";
 
 export default function Home() {
   const { toast } = useToast();
@@ -304,12 +305,16 @@ export default function Home() {
     }
   };
 
+  if (loading) {
+    return <LoadingBase />
+  }
+
   return (
     <Layout title="Accueil">
       <div className="px-6 sm:px-8 py-8 sm:py-12 flex flex-col border-b bg-quadrille">
         <div className="flex flex-col gap-3 sm:gap-4">
           <div className="flex justify-between items-center">
-            <h2 className="font-bold text-4xl sm:text-5xl uppercase italic">
+            <h2 className="font-bold text-4xl sm:text-6xl uppercase italic">
               {langue ? (
                 <>
                   <span className="sm:hidden">{`${displayGoal} ${
