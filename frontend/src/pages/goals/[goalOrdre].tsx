@@ -29,7 +29,7 @@ const GoalCarouselPage = () => {
   const goal = goalByOrdre?.getGoalByOrdre;
 
   const { data: nbGoalsData } = useQuery(NUMBER_GOALS);
-  const nbGoals = nbGoalsData.nbGoals;
+  const nbGoals = nbGoalsData.nbGoals || [];
 
   // premier et dernier but
   const firstGoal = nbGoals[0];
