@@ -16,7 +16,7 @@ export default class GoalService {
 
   async getNbGoals() {
     const goals = await this.db.find({ select: ["ordre"] });
-    return goals.map(goal => goal.ordre).sort((a, b) => a - b);
+    return goals.map((goal) => goal.ordre).sort((a, b) => a - b);
   }
 
   async createGoal({

@@ -7,7 +7,7 @@ import {
   Root,
   Authorized,
 } from "type-graphql";
-import Goal, { AgainstTeam, InputCreateGoal } from "../entities/goal.entity";
+import Goal, { AgainstTeam, AllGoalsOrdre, InputCreateGoal } from "../entities/goal.entity";
 import GoalService from "../services/goal.service";
 import PlayerService from "../services/player.service";
 import Player from "../entities/player.entity";
@@ -21,9 +21,10 @@ export default class GoalResolver {
     return await new GoalService().listGoal();
   }
 
-  @Query(() => [Number])
+  @Query(() => AllGoalsOrdre)
   async nbGoals() {
-    return await new GoalService().getNbGoals();
+    const goals = await new GoalService().getNbGoals();
+    return { ordre: goals, total: goals.length };
   }
 
   // ajouter un goal
