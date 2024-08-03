@@ -107,3 +107,12 @@ export class AgainstTeam {
   @Field()
   goals: number;
 }
+
+@ObjectType()
+export class AllGoalsOrdre {
+  @Field(() => [Int])
+  ordre: number[];
+
+  @Field(() => Int)
+  total: number;
+}
