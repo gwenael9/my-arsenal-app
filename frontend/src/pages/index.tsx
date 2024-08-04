@@ -77,6 +77,7 @@ export default function Home() {
   // button filtre
   const [buttonFiltre, setButtonFiltre] = useState(true);
 
+
   // query qui recup le joueur selon son id
   const { data: buteurData } = useQuery(PLAYER_BY_ID, {
     variables: { playerId: selectedButeurId },
@@ -306,34 +307,26 @@ export default function Home() {
   };
 
   if (loading) {
-    return <LoadingBase />
+    return <LoadingBase />;
   }
+
+  const getSaison = (item: string) => {
+    if (!item) {
+      return langue ? "cette saison" : "this seaison";
+    }
+    return `${langue ? "en" : "in"} ${item}`;
+
+  }
+
+  const title = langue ? goalsFiltre.length < 2 ? "but" : "buts" : goalsFiltre.length < 2 ? "goal" : "goals";
 
   return (
     <Layout title="Accueil">
       <div className="px-6 sm:px-8 py-8 sm:py-12 flex flex-col border-b bg-quadrille">
         <div className="flex flex-col gap-3 sm:gap-4">
           <div className="flex justify-between items-center">
-            <h2 className="font-bold text-4xl sm:text-6xl uppercase italic">
-              {langue ? (
-                <>
-                  <span className="sm:hidden">{`${displayGoal} ${
-                    goalsFiltre.length < 2 ? "but" : "buts"
-                  }`}</span>
-                  <span className="hidden sm:block">{`${displayGoal} ${
-                    goalsFiltre.length < 2 ? "but" : "buts"
-                  } cette saison`}</span>
-                </>
-              ) : (
-                <>
-                  <span className="sm:hidden">{`${displayGoal} ${
-                    goalsFiltre.length < 2 ? "goal" : "goals"
-                  }`}</span>
-                  <span className="hidden sm:block">{`${displayGoal} ${
-                    goalsFiltre.length < 2 ? "goal" : "goals"
-                  } this season`}</span>
-                </>
-              )}
+            <h2 className="font-bold text-6xl uppercase italic">
+              {displayGoal} {title} <span className="hidden sm:inline-flex">{getSaison(selectSaison)}</span>
             </h2>
             {goalsFiltre.length > 1 && (
               <Button variant="filtre" onClick={() => setIsFirst(!isFirst)}>
@@ -452,6 +445,7 @@ export default function Home() {
           <NoGoal />
         )}
       </div>
+      
       {!loading && <Footer />}
     </Layout>
   );
