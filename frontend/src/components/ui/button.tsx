@@ -10,22 +10,20 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default: "bg-primary text-white hover:bg-primary/90",
-        or: "bg-or text-white hover:bg-or/90",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline:
           "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-        blue: "bg-blue text-white hover:bg-blue/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
         success: "bg-green-500 text-white hover:bg-green-500/90",
         filtre: "bg-tertiary text-white hover:bg-tertiary/90",
         black: "bg-black text-white hover:bg-black/80",
         carousel: "bg-white border rounded-full",
-        arrowCard: "rounded-full border-black border",
+        arrowCard: "bg-white rounded-full border-black border",
         footer: "p-2 rounded-full border",
         arrow: "",
-        langue: ""
+        langue: "",
       },
       size: {
         default: "h-10 px-4 py-2",

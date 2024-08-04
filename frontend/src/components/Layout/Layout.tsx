@@ -1,9 +1,9 @@
 import Head from "next/head";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import { Toaster } from "../ui/toaster";
 import { useGetUserProfileQuery, useGoalsQuery } from "@/types/graphql";
 import Link from "next/link";
-import { AlignJustify, X } from "lucide-react";
+import { AlignJustify, ArrowUp, X } from "lucide-react";
 import MenuMobile from "./MenuMobile";
 import { useRouter } from "next/router";
 import {
@@ -15,6 +15,7 @@ import {
   SelectValue,
 } from "../ui/select";
 import { useLangue } from "./LangueContext";
+import { Button } from "../ui/button";
 
 export interface LayoutProps {
   children: ReactNode;
@@ -24,6 +25,7 @@ export interface LayoutProps {
 export default function Layout({ children, title }: LayoutProps) {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
+  const mainRef = useRef<HTMLDivElement>(null);
 
   const { langue, setLangue } = useLangue();
 
@@ -45,7 +47,7 @@ export default function Layout({ children, title }: LayoutProps) {
     return () => {
       window.removeEventListener("resize", closeMenu);
     };
-  }, [closeMenu]);
+  }, []);
 
   // tout nos buts
   const { data: allGoalData } = useGoalsQuery();
@@ -72,6 +74,9 @@ export default function Layout({ children, title }: LayoutProps) {
 
   const langueTable = ["fr", "gb"];
 
+  // button scrollTop
+  const [buttonVisible, setButtonVisible] = useState(false);
+
   const renderLangueValue = (langue: boolean) => {
     const langCode = langue ? "fr" : "gb";
     return (
@@ -87,6 +92,36 @@ export default function Layout({ children, title }: LayoutProps) {
     setLangue(newLangue);
   };
 
+  // fonction pour revenir en haut de la page
+  useEffect(() => {
+    const mainElement = mainRef.current;
+    const handleScroll = () => {
+      if (mainElement) {
+        setButtonVisible(mainElement.scrollTop > 200);
+      }
+    };
+
+    if (mainElement) {
+      mainElement.addEventListener("scroll", handleScroll);
+    }
+    handleScroll();
+
+    return () => {
+      if (mainElement) {
+        mainElement.removeEventListener("scroll", handleScroll);
+      }
+    };
+  }, []);
+
+  const scrollToTop = () => {
+    if (mainRef.current) {
+      mainRef.current.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
     <>
       <Head>
@@ -99,7 +134,7 @@ export default function Layout({ children, title }: LayoutProps) {
             />
             <meta
               name="viewport"
-              content="width=device-width, initial-scale-1"
+              content="width=device-width, initial-scale=1"
             />
             <meta name="keywords" content="arsenal buts goals" />
           </>
@@ -187,11 +222,19 @@ export default function Layout({ children, title }: LayoutProps) {
       </header>
       <MenuMobile isOpen={isOpen} closeMenu={closeMenu} navLink={navLink} />
       <main
+        ref={mainRef}
         className={`overflow-y-auto ${isOpen && "blur"}`}
         style={{ height: "calc(100vh - 80px)" }}
       >
         {children}
       </main>
+      {buttonVisible && (
+        <div className="fixed bottom-10 right-10 z-50">
+          <Button variant="arrowCard" onClick={scrollToTop}>
+            <ArrowUp size={24} />
+          </Button>
+        </div>
+      )}
       <Toaster />
     </>
   );
