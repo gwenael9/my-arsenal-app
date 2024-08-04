@@ -325,7 +325,7 @@ export default function Home() {
       <div className="px-6 sm:px-8 py-8 sm:py-12 flex flex-col border-b bg-quadrille">
         <div className="flex flex-col gap-3 sm:gap-4">
           <div className="flex justify-between items-center">
-            <h2 className="font-bold text-6xl uppercase italic">
+            <h2 className="font-bold text-5xl sm:text-6xl uppercase italic">
               {displayGoal} {title} <span className="hidden sm:inline-flex">{getSaison(selectSaison)}</span>
             </h2>
             {goalsFiltre.length > 1 && (
