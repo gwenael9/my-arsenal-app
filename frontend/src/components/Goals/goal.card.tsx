@@ -83,8 +83,8 @@ export default function GoalCard({ goal }: GoalCardProps) {
       <CardFooter>
         <div className="flex gap-1 flex-col">
           <Badge variant="black">{toUpOne(goal.where) || stade}</Badge>
-          {/* <Badge variant="test">{formaterDate(goal.date)}</Badge> */}
-          <Badge variant="test">{goal.saison}</Badge>
+          <Badge variant="test">{formaterDate(goal.date)}</Badge>
+          {/* <Badge variant="test">{goal.saison}</Badge> */}
         </div>
         <Button
           variant="arrowCard"
