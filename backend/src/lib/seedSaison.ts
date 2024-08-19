@@ -9,7 +9,7 @@ async function seedSaison() {
 
   const saisons = [
     { name: "2023/2024", match: 52 },
-    // { name: "2024/2025", match: 0 },
+    { name: "2024/2025", match: 1 },
     { name: "all", match: 52 },
   ];
 

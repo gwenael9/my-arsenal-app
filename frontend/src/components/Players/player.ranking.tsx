@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { usePlayersQuery } from "@/types/graphql";
+import { Goal, usePlayersQuery } from "@/types/graphql";
 import {
   Table,
   TableBody,
@@ -22,7 +22,6 @@ interface RankingProps {
 export default function Ranking({ saison }: RankingProps) {
   const { data: playersData } = usePlayersQuery();
   const players = playersData?.players || [];
-
   const { langue } = useLangue();
 
   const [sortConfig, setSortConfig] = useState<{
@@ -33,18 +32,20 @@ export default function Ranking({ saison }: RankingProps) {
     direction: "descending",
   });
 
-  // on affiche pas les joueurs avec 0 b/p
-  const filteredPlayers = players.filter((player) => {
-    const filterGoals = (player.goals || []).filter(goal => saison === "all" || goal.saison === saison).length;
-    const filterPasses = (player.passes || []).filter(pass => saison === "all" || pass.saison === saison).length;
-    return filterGoals > 0 || filterPasses > 0;
-  });
-  
-  const sortedPlayers = [...filteredPlayers].sort((a, b) => {
+  const filterStatsBySeason = (stats: Goal[]): number =>
+    stats?.filter((item) => saison === "all" || item.saison === saison).length || 0;
+
+  const filteredPlayers = players.filter(
+    (player) => filterStatsBySeason(player.goals as Goal[]) > 0 || filterStatsBySeason(player.passes as Goal[]) > 0
+  );
+
+  const sortedPlayers = filteredPlayers.sort((a, b) => {
     if (a.lastname === "csc") return 1;
     if (b.lastname === "csc") return -1;
-    const aValue = (a[sortConfig.key] || []).length;
-    const bValue = (b[sortConfig.key] || []).length;
+
+    const aValue = filterStatsBySeason(a[sortConfig.key] as Goal[]);
+    const bValue = filterStatsBySeason(b[sortConfig.key] as Goal[]);
+
     return sortConfig.direction === "ascending" ? aValue - bValue : bValue - aValue;
   });
 
@@ -55,12 +56,13 @@ export default function Ranking({ saison }: RankingProps) {
     }));
   };
 
-  const tableHeaderStats: SortKey[] = ["goals", "passes"];
+  const headers = {
+    goals: langue ? "Buts" : "Goals",
+    passes: langue ? "Passes" : "Assists",
+  };
 
-  const getBgPosition = (item: number) =>
-    ["bg-or", "bg-argent", "bg-bronze", "bg-primary"][item - 1] || "bg-primary";
-
-  const headers = langue ? { goals: "buts", passes: "passes" } : { goals: "goals", passes: "assists" };
+  const getBgPosition = (index: number) =>
+    ["bg-or", "bg-argent", "bg-bronze", "bg-primary"][index] || "bg-primary";
 
   return (
     <Table className="max-w-[1200px]">
@@ -68,13 +70,10 @@ export default function Ranking({ saison }: RankingProps) {
         <TableRow>
           <TableHead>Position</TableHead>
           <TableHead>{langue ? "Joueurs" : "Players"}</TableHead>
-          {tableHeaderStats.map((stat, index) => (
-            <TableHead key={index}>
-              <div
-                onClick={() => requestSort(stat)}
-                className="flex justify-center items-center cursor-pointer"
-              >
-                {toUpOne(headers[stat])}
+          {["goals", "passes"].map((stat) => (
+            <TableHead key={stat} onClick={() => requestSort(stat as SortKey)} className="cursor-pointer">
+              <div className="flex justify-center items-center">
+                {toUpOne(headers[stat as SortKey])}
                 {sortConfig.key === stat ? (
                   sortConfig.direction === "ascending" ? (
                     <MoveDown color="red" size={12} />
@@ -91,37 +90,22 @@ export default function Ranking({ saison }: RankingProps) {
       </TableHeader>
       <TableBody>
         {sortedPlayers.map((player, index) => (
-          <TableRow key={index}>
+          <TableRow key={player.id}>
             <TableCell className="font-bold w-10">
               <div className="flex justify-center">
-                <p
-                  className={`px-1 rounded-sm ${
-                    index < 3 || player.lastname === "csc"
-                      ? getBgPosition(index + 1)
-                      : ""
-                  }`}
-                >
+                <p className={`px-1 rounded-sm ${index < 3 || player.lastname === "csc" ? getBgPosition(index) : ""}`}>
                   {index + 1}.
                 </p>
               </div>
             </TableCell>
             <TableCell className="font-bold flex items-center gap-2 justify-center">
               {flagCountry(player.country) && (
-                <span
-                  className={`fi fi-${flagCountry(player.country)}`}
-                  style={{ width: "1rem", height: "1rem" }}
-                />
+                <span className={`fi fi-${flagCountry(player.country)}`} style={{ width: "1rem", height: "1rem" }} />
               )}
-              <div>
-                {player.lastname !== "csc"
-                  ? toUpOne(getName(player))
-                  : player.lastname.toUpperCase()}
-              </div>
+              <div>{player.lastname !== "csc" ? toUpOne(getName(player)) : player.lastname.toUpperCase()}</div>
             </TableCell>
-            <TableCell>{player.goals?.length || 0}</TableCell>
-            <TableCell>
-              {player.lastname !== "csc" ? player.passes?.length || 0 : ""}
-            </TableCell>
+            <TableCell>{filterStatsBySeason(player.goals as Goal[])}</TableCell>
+            <TableCell>{player.lastname !== "csc" ? filterStatsBySeason(player.passes as Goal[]) : ""}</TableCell>
           </TableRow>
         ))}
       </TableBody>
