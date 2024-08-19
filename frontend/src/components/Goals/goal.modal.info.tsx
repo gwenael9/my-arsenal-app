@@ -39,7 +39,7 @@ export default function ModalGoalInfo({ goal }: GoalCardProps) {
           Infos <Info size={20} />
         </Button>
       </DialogTrigger>
-      <DialogContent className="border-tertiary p-4 border overflow-hidden sm:max-w-[450px] w-full max-w-[90%] h-[200px]">
+      <DialogContent className="border-tertiary p-4 border overflow-hidden  w-full max-w-[90%] sm:max-w-[450px] h-[200px]">
         <DialogHeader>
           <DialogTitle>
             <p className="flex items-center gap-2">

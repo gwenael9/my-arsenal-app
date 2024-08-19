@@ -41,7 +41,7 @@ export default function FormFilters({
     Stade: langue ? "Stade" : "Stadium",
     Competition: langue ? "Compétition" : "Competition",
     Adversaire: langue ? "Adversaire" : "Against",
-    // Saison: langue ? "Saison" : "Season",
+    Saison: langue ? "Saison" : "Season",
   };
 
 

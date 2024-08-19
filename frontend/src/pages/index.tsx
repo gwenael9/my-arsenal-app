@@ -77,7 +77,6 @@ export default function Home() {
   // button filtre
   const [buttonFiltre, setButtonFiltre] = useState(true);
 
-
   // query qui recup le joueur selon son id
   const { data: buteurData } = useQuery(PLAYER_BY_ID, {
     variables: { playerId: selectedButeurId },
@@ -311,14 +310,21 @@ export default function Home() {
   }
 
   const getSaison = (item: string) => {
-    if (!item) {
-      return langue ? "cette saison" : "this seaison";
-    }
+    // if (!item) {
+    //   return langue ? "cette saison" : "this seaison";
+    // }
+
+    if (!item) return;
     return `${langue ? "en" : "in"} ${item}`;
+  };
 
-  }
-
-  const title = langue ? goalsFiltre.length < 2 ? "but" : "buts" : goalsFiltre.length < 2 ? "goal" : "goals";
+  const title = langue
+    ? goalsFiltre.length < 2
+      ? "but"
+      : "buts"
+    : goalsFiltre.length < 2
+      ? "goal"
+      : "goals";
 
   return (
     <Layout title="Accueil">
@@ -326,7 +332,7 @@ export default function Home() {
         <div className="flex flex-col gap-3 sm:gap-4">
           <div className="flex justify-between items-center">
             <h2 className="font-bold text-5xl sm:text-6xl uppercase italic">
-              {displayGoal} {title} <span className="hidden sm:inline-flex">{getSaison(selectSaison)}</span>
+              {displayGoal} {title}
             </h2>
             {goalsFiltre.length > 1 && (
               <Button variant="filtre" onClick={() => setIsFirst(!isFirst)}>
@@ -445,7 +451,7 @@ export default function Home() {
           <NoGoal />
         )}
       </div>
-      
+
       {!loading && <Footer />}
     </Layout>
   );

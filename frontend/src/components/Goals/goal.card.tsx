@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { formaterDate, getName, modifNameTeam, toUpOne } from "@/lib/functions";
+import { formaterDate, getName, toUpOne } from "@/lib/functions";
 import { useEffect, useState } from "react";
 import { GoalCardProps } from "@/types/interface";
 import { ArrowRight } from "lucide-react";
@@ -63,7 +63,7 @@ export default function GoalCard({ goal }: GoalCardProps) {
       <CardHeader className="flex flex-col">
         <CardTitle>{getName(goal.buteur, "buteur")}</CardTitle>
         <CardDescription>
-          {goal.passeur != null ? getName(goal.passeur, "passeur") : "-"}
+          {goal.passeur ? getName(goal.passeur, "passeur") : "-"}
         </CardDescription>
       </CardHeader>
       <CardContent className="flex items-center justify-between gap-2 pb-5">
@@ -83,7 +83,8 @@ export default function GoalCard({ goal }: GoalCardProps) {
       <CardFooter>
         <div className="flex gap-1 flex-col">
           <Badge variant="black">{toUpOne(goal.where) || stade}</Badge>
-          <Badge variant="test">{formaterDate(goal.date)}</Badge>
+          {/* <Badge variant="test">{formaterDate(goal.date)}</Badge> */}
+          <Badge variant="test">{goal.saison}</Badge>
         </div>
         <Button
           variant="arrowCard"
@@ -93,7 +94,7 @@ export default function GoalCard({ goal }: GoalCardProps) {
           aria-label={`Voir la vidéo du but n°${goal.ordre}`}
         >
           <ArrowRight
-            className={`${arrowAnimated ? "translate-x-1/2" : ""} ${
+            className={`${arrowAnimated && "translate-x-1/2"} ${
               arrowHovered ? "-translate-x-1/2 " : "translate-x-0"
             } duration-500`}
           />

@@ -158,14 +158,7 @@ export default function Layout({ children, title }: LayoutProps) {
       >
         <div className="flex justify-between items-center gap-2.5">
           <Link href="/" className="font-bold uppercase">
-            <h1>
-              <span className="hidden lg:block">
-                {langue
-                  ? "tous les buts d'arsenal 23/24"
-                  : "all goals for arsenal 23/24"}
-              </span>
-              <span className="lg:hidden">arsenal</span>
-            </h1>
+            <h1>arsenal</h1>
           </Link>
         </div>
 

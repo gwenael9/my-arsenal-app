@@ -171,140 +171,144 @@ async function main() {
       date: "30/09/2023",
       link: "https://www.youtube.com/embed/ca5imK6X4tY?si=rnnxKFBFzP8v-XDF&amp;clip=Ugkxegi_3u2QgN7jliZt132tZLjfY6b5rsiY&amp;clipt=ELbsAhiasQM",
       where: "Vitality Stadium",
-      ordre: 19,
+      ordre: 1,
       against: "Bournemouth",
       buteurId: odegaard.id,
       competition: "Premier League",
+      saison: "2023/2024"
     });
 
     await goalService.createGoal({
       date: "30/09/2023",
       link: "https://www.youtube.com/embed/J-ZItV1PSRQ?si=jbJZj54XYbc9icKb;clipt=EIQYGNOsAQ",
       where: "Vitality Stadium",
-      ordre: 18,
+      ordre: 2,
       against: "Bournemouth",
       buteurId: saka.id,
       competition: "Premier League",
+      saison: "2023/2024"
     });
 
     await goalService.createGoal({
       date: "03/09/2023",
       link: "https://www.youtube.com/embed/rqgAHAnx00k?si=ErtlOik615VK2al7",
       where: "Emirates Stadium",
-      ordre: 9,
+      ordre: 3,
       against: "Manchester United",
       buteurId: jesus.id,
       passeurId: viera.id,
       competition: "Premier League",
+      saison: "2023/2024"
     });
 
     await goalService.createGoal({
       date: "03/09/2023",
       link: "https://www.youtube.com/embed/IGzrjz20Yqo?si=Na9GNvyMeyE2cMLt",
       where: "Emirates Stadium",
-      ordre: 8,
+      ordre: 4,
       against: "Manchester United",
       buteurId: rice.id,
       passeurId: saka.id,
       competition: "Premier League",
+      saison: "2024/2025"
     });
 
-    await goalService.createGoal({
-      date: "05/12/2023",
-      link: "https://www.youtube.com/embed/pIAWbGeURho?si=06yEdDYXPIU43e3y",
-      where: "Kenilworth Road",
-      ordre: 51,
-      against: "Luton",
-      buteurId: rice.id,
-      passeurId: odegaard.id,
-      competition: "Premier League",
-    });
+    // await goalService.createGoal({
+    //   date: "05/12/2023",
+    //   link: "https://www.youtube.com/embed/pIAWbGeURho?si=06yEdDYXPIU43e3y",
+    //   where: "Kenilworth Road",
+    //   ordre: 51,
+    //   against: "Luton",
+    //   buteurId: rice.id,
+    //   passeurId: odegaard.id,
+    //   competition: "Premier League",
+    // });
 
-    await goalService.createGoal({
-      date: "04/05/2024",
-      link: "https://www.youtube.com/embed/urvQq03Q900?si=9sIq5BWwzhSHdxCf",
-      where: "Emirates Stadium",
-      ordre: 110,
-      against: "Bournemouth",
-      buteurId: rice.id,
-      passeurId: jesus.id,
-      competition: "Premier League",
-    });
+    // await goalService.createGoal({
+    //   date: "04/05/2024",
+    //   link: "https://www.youtube.com/embed/urvQq03Q900?si=9sIq5BWwzhSHdxCf",
+    //   where: "Emirates Stadium",
+    //   ordre: 110,
+    //   against: "Bournemouth",
+    //   buteurId: rice.id,
+    //   passeurId: jesus.id,
+    //   competition: "Premier League",
+    // });
 
-    await goalService.createGoal({
-      date: "04/05/2024",
-      link: "https://www.youtube.com/embed/T8qvLtM88rA?si=-bb-64phDeM2zveS",
-      where: "Emirates Stadium",
-      ordre: 109,
-      against: "Bournemouth",
-      buteurId: trossard.id,
-      passeurId: rice.id,
-      competition: "Premier League",
-    });
+    // await goalService.createGoal({
+    //   date: "04/05/2024",
+    //   link: "https://www.youtube.com/embed/T8qvLtM88rA?si=-bb-64phDeM2zveS",
+    //   where: "Emirates Stadium",
+    //   ordre: 109,
+    //   against: "Bournemouth",
+    //   buteurId: trossard.id,
+    //   passeurId: rice.id,
+    //   competition: "Premier League",
+    // });
 
-    await goalService.createGoal({
-      date: "04/05/2024",
-      link: "https://www.youtube.com/embed/t2o306PuOQs?si=W7WKY2e3pWuVGkZc",
-      where: "Emirates Stadium",
-      ordre: 108,
-      against: "Bournemouth",
-      buteurId: saka.id,
-      competition: "Premier League",
-    });
+    // await goalService.createGoal({
+    //   date: "04/05/2024",
+    //   link: "https://www.youtube.com/embed/t2o306PuOQs?si=W7WKY2e3pWuVGkZc",
+    //   where: "Emirates Stadium",
+    //   ordre: 108,
+    //   against: "Bournemouth",
+    //   buteurId: saka.id,
+    //   competition: "Premier League",
+    // });
 
-    await goalService.createGoal({
-      date: "21/10/2023",
-      link: "https://www.youtube.com/embed/GF1ZIsx6An8?si=azNgHPSE3QB7hXhl",
-      where: "Stamford Bridge",
-      ordre: 25,
-      against: "Chelsea",
-      buteurId: trossard.id,
-      passeurId: saka.id,
-      competition: "Premier League",
-    });
+    // await goalService.createGoal({
+    //   date: "21/10/2023",
+    //   link: "https://www.youtube.com/embed/GF1ZIsx6An8?si=azNgHPSE3QB7hXhl",
+    //   where: "Stamford Bridge",
+    //   ordre: 25,
+    //   against: "Chelsea",
+    //   buteurId: trossard.id,
+    //   passeurId: saka.id,
+    //   competition: "Premier League",
+    // });
 
-    await goalService.createGoal({
-      date: "08/10/2023",
-      link: "https://www.youtube.com/embed/DIVuMUeqDZ4?si=mp_vXPcmNXypH371",
-      where: "Emirates Stadium",
-      ordre: 23,
-      against: "Manchester City",
-      buteurId: martinelli.id,
-      passeurId: havertz.id,
-      competition: "Premier League",
-    });
+    // await goalService.createGoal({
+    //   date: "08/10/2023",
+    //   link: "https://www.youtube.com/embed/DIVuMUeqDZ4?si=mp_vXPcmNXypH371",
+    //   where: "Emirates Stadium",
+    //   ordre: 23,
+    //   against: "Manchester City",
+    //   buteurId: martinelli.id,
+    //   passeurId: havertz.id,
+    //   competition: "Premier League",
+    // });
 
-    await goalService.createGoal({
-      date: "25/11/2023",
-      link: "https://www.youtube.com/embed/l49sD0WOJhE?si=CTsHuIAfo9OAo2S2",
-      where: "Community Stadium",
-      ordre: 39,
-      against: "Brentford",
-      buteurId: havertz.id,
-      passeurId: saka.id,
-      competition: "Premier League",
-    });
+    // await goalService.createGoal({
+    //   date: "25/11/2023",
+    //   link: "https://www.youtube.com/embed/l49sD0WOJhE?si=CTsHuIAfo9OAo2S2",
+    //   where: "Community Stadium",
+    //   ordre: 39,
+    //   against: "Brentford",
+    //   buteurId: havertz.id,
+    //   passeurId: saka.id,
+    //   competition: "Premier League",
+    // });
 
-    await goalService.createGoal({
-      date: "30/09/2023",
-      link: "https://www.youtube.com/embed/Hli5jnOBgDE?si=AUEP8agfdazyVoyN",
-      where: "Vitality Stadium",
-      ordre: 20,
-      against: "Bournemouth",
-      buteurId: havertz.id,
-      competition: "Premier League",
-    });
+    // await goalService.createGoal({
+    //   date: "30/09/2023",
+    //   link: "https://www.youtube.com/embed/Hli5jnOBgDE?si=AUEP8agfdazyVoyN",
+    //   where: "Vitality Stadium",
+    //   ordre: 20,
+    //   against: "Bournemouth",
+    //   buteurId: havertz.id,
+    //   competition: "Premier League",
+    // });
 
-    await goalService.createGoal({
-      date: "30/09/2023",
-      link: "https://www.youtube.com/embed/3nTIOvuH1dA?si=75edUgCE0OEimODn",
-      where: "Vitality Stadium",
-      ordre: 21,
-      against: "Bournemouth",
-      buteurId: white.id,
-      passeurId: odegaard.id,
-      competition: "Premier League",
-    });
+    // await goalService.createGoal({
+    //   date: "30/09/2023",
+    //   link: "https://www.youtube.com/embed/3nTIOvuH1dA?si=75edUgCE0OEimODn",
+    //   where: "Vitality Stadium",
+    //   ordre: 21,
+    //   against: "Bournemouth",
+    //   buteurId: white.id,
+    //   passeurId: odegaard.id,
+    //   competition: "Premier League",
+    // });
   }
 }
 
