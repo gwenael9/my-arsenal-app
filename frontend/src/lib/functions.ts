@@ -1,5 +1,6 @@
 import { useLangue } from "@/components/Layout/LangueContext";
-import { Player } from "@/types/graphql";
+import { Goal, Player } from "@/types/graphql";
+import { teams } from "@/utils/teams";
 
 export function toUpOne(str: string) {
   return str
@@ -84,3 +85,35 @@ export const getRatioGoalByMatch = (item: number, total: number, value?: boolean
   const ratio = (item / total) * number;
   return ratio.toFixed(2);
 };
+
+// nous renvoie la taille du logo de competition
+export const logo = (item: Goal, type: "card" | "modal") => {
+  let size;
+  if (item.competition == "FA Cup") {
+    size = 45;
+  } else if (item.competition == "EFL Cup") {
+    size = 20;
+  } else if (item.competition == "Community Shield") {
+    size = 36;
+  } else {
+    size = 30;
+  }
+
+  return type == "card" ? size : size*2;
+};
+
+// recuperer le code lié à une équipe pour afficher son logo
+export const getCode = (nameTeam: string): string => {
+  const team = teams.find((t) => t.name === nameTeam);
+  const code = team ? team.code : "";
+  return code;
+}
+
+// nous renvoie true si le but a été fait à domicile
+export const isDomicile = (goal: Goal): boolean => {
+  if (goal.where == "" || goal.where == "Emirates Stadium") {
+    return true;
+  } 
+    
+  return false;
+}

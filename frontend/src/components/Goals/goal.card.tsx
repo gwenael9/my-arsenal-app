@@ -8,8 +8,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { formaterDate, getName, toUpOne } from "@/lib/functions";
-import { useEffect, useState } from "react";
+import { formaterDate, getName, isDomicile, logo, toUpOne } from "@/lib/functions";
+import { useState } from "react";
 import { GoalCardProps } from "@/types/interface";
 import { ArrowRight } from "lucide-react";
 import { useRouter } from "next/router";
@@ -17,18 +17,12 @@ import Image from "next/image";
 
 export default function GoalCard({ goal }: GoalCardProps) {
   const router = useRouter();
-  const [domicile, setDomicile] = useState(true);
   // effet quand on click sur la fleche
   const [arrowAnimated, setArrowAnimated] = useState(false);
   // effet quand on survole la fleche
   const [arrowHovered, setArrowHovered] = useState(false);
 
   const stade = "Emirates Stadium";
-
-  // si le stade est spécifié --> extérieur sinon domicile
-  useEffect(() => {
-    setDomicile(goal.where == "" || goal.where == stade);
-  }, [goal.where]);
 
   const handleArrowClick = () => {
     setArrowAnimated(true);
@@ -37,24 +31,11 @@ export default function GoalCard({ goal }: GoalCardProps) {
     }, 200);
   };
 
-  // nous renvoie la taille du logo
-  const logo = (item: typeof goal) => {
-    if (item.competition == "FA Cup") {
-      return 45;
-    } else if (item.competition == "EFL Cup") {
-      return 20;
-    } else if (item.competition == "Community Shield") {
-      return 36;
-    }
-
-    return 30;
-  };
-
   return (
     <Card className="border relative overflow-hidden border-tertiary/20 h-[220px]">
       <div
         className={`absolute flex justify-center w-[120px] top-3 -right-7 text-xs p-2 transform font-bold  ${
-          domicile ? "bg-primary text-white" : "bg-secondary"
+          isDomicile(goal) ? "bg-primary text-white" : "bg-secondary"
         }`}
         style={{ transform: "rotate(45deg)" }}
       >
@@ -76,7 +57,7 @@ export default function GoalCard({ goal }: GoalCardProps) {
         <Image
           src={`${goal.competition}.svg`}
           height={0}
-          width={Number(logo(goal))}
+          width={Number(logo(goal, "card"))}
           alt={goal.competition}
         />
       </CardContent>
@@ -84,7 +65,6 @@ export default function GoalCard({ goal }: GoalCardProps) {
         <div className="flex gap-1 flex-col">
           <Badge variant="black">{toUpOne(goal.where) || stade}</Badge>
           <Badge variant="test">{formaterDate(goal.date)}</Badge>
-          {/* <Badge variant="test">{goal.saison}</Badge> */}
         </div>
         <Button
           variant="arrowCard"

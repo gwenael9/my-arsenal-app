@@ -34,16 +34,12 @@ const DialogContent = React.forwardRef<
     <DialogPrimitive.Content
       ref={ref}
       className={cn(
-        "fixed left-[50%] top-[50%] z-50 grid w-full h-1/4 max-w-xl translate-x-[-50%] translate-y-[-50%] gap-4 border bg-white rounded-lg",
+        "fixed left-[50%] top-[50%] z-50 grid w-[90%] sm:w-full sm:max-w-xl translate-x-[-50%] translate-y-[-50%] gap-4 border bg-white rounded-lg",
         className
       )}
       {...props}
     >
       {children}
-      <DialogPrimitive.Close className="absolute right-4 top-4 opacity-70">
-        <X />
-        <span className="sr-only">Close</span>
-      </DialogPrimitive.Close>
     </DialogPrimitive.Content>
   </DialogPortal>
 ))
@@ -55,7 +51,7 @@ const DialogHeader = ({
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
     className={cn(
-      "flex flex-col space-y-1.5 text-center sm:text-left",
+      "flex justify-between items-start",
       className
     )}
     {...props}
@@ -84,7 +80,7 @@ const DialogTitle = React.forwardRef<
   <DialogPrimitive.Title
     ref={ref}
     className={cn(
-      "text-2xl font-semibold leading-none tracking-tight text-start",
+      "text-4xl font-semibold leading-none tracking-tight text-start",
       className
     )}
     {...props}
@@ -98,7 +94,7 @@ const DialogDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Description
     ref={ref}
-    className={cn("text-sm text-muted-foreground", className)}
+    className={cn("text-md text-muted-foreground", className)}
     {...props}
   />
 ))
