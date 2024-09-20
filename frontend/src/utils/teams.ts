@@ -1,4 +1,5 @@
 export const teams = [
+  { name: "Arsenal", code: "afc" },
   { name: "Manchester City", code: "city" },
   { name: "Manchester United", code: "manu" },
   { name: "Liverpool", code: "liv" },

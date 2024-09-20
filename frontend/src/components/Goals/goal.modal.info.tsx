@@ -3,74 +3,74 @@ import { Button } from "../ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
-import {
-  flagCountry,
-  formaterDate,
-  getName,
-  modifNameTeam,
-} from "@/lib/functions";
-import { Calendar, Info, MapPin, Trophy } from "lucide-react";
+import { formaterDate, getCode, getName, isDomicile, logo, toUpOne } from "@/lib/functions";
+import { Info, X } from "lucide-react";
+import Image from "next/image";
+import { Badge } from "../ui/badge";
+import { DialogClose } from "@radix-ui/react-dialog";
 
 export default function ModalGoalInfo({ goal }: GoalCardProps) {
-  
-  const itemDescriptionTable = [
-    {
-      icon: <Calendar size={16} />,
-      item: formaterDate(goal.date),
-    },
-    {
-      icon: <Trophy size={16} />,
-      item: goal.competition,
-    },
-    {
-      icon: <MapPin size={16} />,
-      item: goal.where,
-    },
-  ];
+
+  // recupere le code de l'equipe adverse
+  const codeAdverse = getCode(goal.against);
+
+  const getClubLogo = (isHome: boolean) => (
+    <>
+      <Image
+        src={`/club/${isHome ? "afc" : codeAdverse}.svg`}
+        height={0}
+        width={90}
+        alt={isHome ? "Arsenal logo" : goal.against}
+        className="max-h-[100px]"
+        />
+      <p>vs</p>
+      <Image
+        src={`/club/${isHome ? codeAdverse : "afc"}.svg`}
+        height={0}
+        width={90}
+        alt={isHome ? goal.against : "Arsenal logo"}
+        className="max-h-[100px]"
+      />
+    </>
+  );
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="flex gap-1" variant={"filtre"}>
+        <Button className="flex gap-1" variant="filtre">
           Infos <Info size={20} />
         </Button>
       </DialogTrigger>
-      <DialogContent className="border-tertiary p-4 border overflow-hidden  w-full max-w-[90%] sm:max-w-[450px] h-[200px]">
+      <DialogContent className="border-tertiary p-4 border overflow-hidden">
         <DialogHeader>
-          <DialogTitle>
-            <p className="flex items-center gap-2">
-              {getName(goal.buteur, "buteur")}
-              {flagCountry(goal.buteur.country) && (
-                <span
-                  className={`fi fi-${flagCountry(goal.buteur.country)}`}
-                  style={{ width: "1rem", height: "1rem" }}
-                />
-              )}
-            </p>
-            {goal.passeur && (
-              <p className="text-sm text-muted-foreground mt-1">
-                {getName(goal.passeur)}
-              </p>
-            )}
-          </DialogTitle>
-        </DialogHeader>
-        <div className="flex items-end justify-between">
-          <div className="flex gap-1">
-            <span className="flex items-end">vs. </span>
-            <span className="text-xl sm:text-3xl">
-              {modifNameTeam(goal.against)}
-            </span>
+          <div>
+            <DialogTitle>{getName(goal.buteur)}</DialogTitle>
+            <DialogDescription>{getName(goal.passeur)}</DialogDescription>
           </div>
-          <div className="flex flex-col">
-            {itemDescriptionTable.map((item, index) => (
-              <p key={index} className="flex items-center gap-1">
-                {item.icon} {item.item}
-              </p>
-            ))}
+          <Image
+            src={`/${goal.competition}.svg`}
+            height={0}
+            width={Number(logo(goal, "modal"))}
+            alt={goal.competition}
+          />
+        </DialogHeader>
+        <div className="flex flex-col gap-8">
+          <div className="flex justify-center items-center gap-2">
+            {getClubLogo(isDomicile(goal))}
+          </div>
+          <div className="flex justify-between">
+            <div className="flex items-center gap-1">
+              <Badge variant="black">{toUpOne(goal.where) || "Emirates Stadium"}</Badge>
+              <Badge variant="test">{formaterDate(goal.date)}</Badge>
+            </div>
+            <DialogClose asChild>
+              <div className="hover:cursor-pointer"><X /></div>
+            </DialogClose>
           </div>
         </div>
       </DialogContent>

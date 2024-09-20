@@ -7,8 +7,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { getCode } from "@/lib/functions";
 import { useGetTeamWithMostGoalsQuery } from "@/types/graphql";
-import { teams } from "@/utils/teams";
 import Image from "next/image";
 
 interface AgainstMostGoalCardPros {
@@ -34,8 +34,8 @@ export default function AgainstMostGoalCard({
 
   if (!result || result.goals <= 0) return null;
 
-  const team = teams.find((t) => t.name === result?.name);
-  const code = team ? team.code : "";
+  // on recup le code de l'equipe, arsenal => afc
+  const code = getCode(result.name);
 
   const description =
     saison === "all"
