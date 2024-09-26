@@ -24,6 +24,7 @@ export const teams = [
   { name: "PSV", code: "psv" },
   { name: "Séville", code: "sev" },
   { name: "Porto", code: "por" },
+  { name: "Bolton", code: "bol" },
 ];
 
 export const competitions = [
