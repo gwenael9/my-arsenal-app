@@ -79,7 +79,7 @@ export default function AdminGoals() {
 
       <div className="flex flex-col sm:flex-row gap-3">
         <div className="flex justify-center">
-          {isGoalOrPlayer ? <CardCreateGoal /> : <CardCreatePlayer />}
+          {isGoalOrPlayer ? <CardCreateGoal nbGoals={goals.length} /> : <CardCreatePlayer />}
         </div>
 
         <div className="flex flex-col-reverse sm:flex-col gap-4">

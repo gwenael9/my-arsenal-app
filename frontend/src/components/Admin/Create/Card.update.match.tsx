@@ -1,26 +1,25 @@
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
 import { useSaisonsQuery, useUpdateSaisonMatchMutation } from "@/types/graphql";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useMemo, useState } from "react";
 import CardLayout from "./CardLayout";
+import { InputField, SelectField } from "../FormFields";
 
 export default function CardSaison() {
   const { toast } = useToast();
-  const [idSaison, setIdSaison] = useState("");
-  const [matchSaison, setMatchSaison] = useState(0);
+
+  const [formData, setFormData] = useState({
+    idSaison: "",
+    matchSaison: 0
+  })
 
   const { data } = useSaisonsQuery();
   const saisons = data?.saisons || [];
+
+  const triSaisons = useMemo(() => 
+    saisons.filter((saison) => saison.name !== "all"),
+    [saisons]
+  );
 
   const [updateSaisonMatch] = useUpdateSaisonMatchMutation({
     onCompleted: () => {
@@ -38,63 +37,60 @@ export default function CardSaison() {
   });
 
   useEffect(() => {
-    if (idSaison) {
-      const selectedSaison = saisons.find((saison) => saison.id === idSaison);
-      if (selectedSaison) {
-        setMatchSaison(selectedSaison.match);
-      }
+    const selectedSaison = saisons.find((saison) => saison.id === formData.idSaison);
+    if (selectedSaison) {
+      setFormData((prev) => ({
+        ...prev,
+        matchSaison: selectedSaison.match || 0,
+      }));
     }
-  }, [idSaison, saisons]);
+  }, [formData.idSaison, saisons]);
+
+  const handleInputChange = (name: string, value: string | number) => {
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (matchSaison && idSaison) {
+    const { idSaison, matchSaison } = formData;
+    
+    if (idSaison && matchSaison > 0) {
       updateSaisonMatch({
         variables: {
           saisonId: idSaison,
           newMatch: matchSaison,
         },
       });
+    } else {
+      toast({
+        title: "Veuillez entrer un nombre de matchs valide.",
+        variant: "destructive",
+      });
     }
   };
-
-  const handleMatchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setMatchSaison(parseInt(value));
-  };
-
-  const triSaisons = saisons.filter((saison) => saison.name !== "all");
 
   return (
     <CardLayout title="Modifier le nombre de matchs d'une saison">
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <div className="flex gap-4">
-          <div>
-            <Label>Saison</Label>
-            <Select value={idSaison} onValueChange={setIdSaison}>
-              <SelectTrigger>
-                <SelectValue placeholder="Choisir une saison" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  {triSaisons.map((p) => (
-                    <SelectItem key={p.id} value={p.id}>
-                      {p.name}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          </div>
-          <div>
-            <Label htmlFor="match">Nb de matchs</Label>
-            <Input
-              placeholder="52"
-              type="number"
-              value={matchSaison}
-              onChange={handleMatchChange}
-            />
-          </div>
+          <SelectField
+            label="Saison"
+            name="idSaison"
+            value={formData.idSaison}
+            options={triSaisons.map((saison) => ({
+              value: saison.id,
+              label: saison.name,
+            }))}
+            onChange={handleInputChange}
+          />
+          <InputField
+            label="Nb de matchs"
+            name="matchSaison"
+            type="number"
+            value={formData.matchSaison}
+            onChange={(e) => handleInputChange("matchSaison", parseInt(e.target.value))}
+            placeholder="52"
+          />
         </div>
         <div className="flex justify-end">
           <Button type="submit" variant="success">
