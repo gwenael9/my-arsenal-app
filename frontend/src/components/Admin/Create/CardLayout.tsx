@@ -8,7 +8,7 @@ interface CardLayoutProps {
 
 export default function CardLayout({ title, children }: CardLayoutProps) {
   return (
-    <Card className="border border-tertiary/20">
+    <Card className="border border-tertiary/20 w-full">
       <CardHeader>
         <CardTitle>{title}</CardTitle>
       </CardHeader>
