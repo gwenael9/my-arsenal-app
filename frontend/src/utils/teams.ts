@@ -25,6 +25,7 @@ export const teams = [
   { name: "Séville", code: "sev" },
   { name: "Porto", code: "por" },
   { name: "Bolton", code: "bol" },
+  { name: "Leicester", code: "lei" },
 ];
 
 export const competitions = [
