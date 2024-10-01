@@ -203,6 +203,7 @@ export default function Home() {
             <SelectItem value="Tout">{langue ? "Tout" : "All"}</SelectItem>
             {teams
               .sort((a, b) => a.name.localeCompare(b.name))
+              .filter(option => option.name !== "Arsenal")
               .map((option, index) => (
                 <SelectItem key={index} value={option.name}>
                   <div className="flex gap-2 items-center">
@@ -308,15 +309,6 @@ export default function Home() {
   if (loading) {
     return <LoadingBase />;
   }
-
-  const getSaison = (item: string) => {
-    // if (!item) {
-    //   return langue ? "cette saison" : "this seaison";
-    // }
-
-    if (!item) return;
-    return `${langue ? "en" : "in"} ${item}`;
-  };
 
   const title = langue
     ? goalsFiltre.length < 2
