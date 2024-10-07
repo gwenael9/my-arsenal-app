@@ -8,6 +8,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { useLangue } from "@/components/Layout/LangueContext";
+import React from "react";
 
 const GoalCarouselPage = () => {
   const router = useRouter();
@@ -67,6 +68,8 @@ const GoalCarouselPage = () => {
       return ["https://www.youtube.com/@AFCBournemouth", "AFC Bournemouth"];
     } else if ([46, 47].includes(item)) {
       return ["https://www.youtube.com/@GoalsCinematic", "GoalsCinematic"];
+    } else if ([133, 134, 135].includes(item)) {
+      return ["https://www.youtube.com/@SouthamptonFC", "Southampton FC"];
     }
     return ["https://www.youtube.com/@arsenal", "Arsenal"];
   };
