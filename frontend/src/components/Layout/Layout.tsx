@@ -1,3 +1,4 @@
+import React from "react";
 import Head from "next/head";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { Toaster } from "../ui/toaster";
