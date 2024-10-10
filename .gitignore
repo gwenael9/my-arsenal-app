@@ -1,6 +1,6 @@
 global.env
 secret.env
-note.md
+*.txt
 
 .env.production
 .env.staging
