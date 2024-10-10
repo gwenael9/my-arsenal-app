@@ -31,15 +31,17 @@ const GoalCarouselPage = () => {
     return "erreur de chargement";
   }
 
-  const messageErreur = langue ? `But n°${goalOrdre} inconnu` : `Goal #${goalOrdre} unknown`;
+  const messageErreur = langue
+    ? `But n°${goalOrdre} inconnu`
+    : `Goal #${goalOrdre} unknown`;
 
   if (goalOrdre && !allGoals.ordre.includes(parseInt(goalOrdre as string))) {
-    return <Erreur item={messageErreur} />
+    return <Erreur item={messageErreur} />;
   }
 
   // premier et dernier but
   const firstGoal = allGoals.ordre[0];
-  const lastGoal = allGoals.ordre[allGoals.total-1];
+  const lastGoal = allGoals.ordre[allGoals.total - 1];
 
   // changer de goal
   const changeGoal = (direction: "next" | "last") => {
@@ -82,7 +84,7 @@ const GoalCarouselPage = () => {
             <ModalGoalInfo goal={goal} />
           </div>
           <div
-            className="flex pt-24 md:pt-12 items-center flex-col gap-4"
+            className="flex pt-24 md:pt-8 items-center flex-col gap-4"
             style={{ height: "calc(100vh - 80px)" }}
           >
             <div className="flex items-center gap-4">

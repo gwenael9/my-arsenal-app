@@ -17,6 +17,8 @@ export default new DataSource({
   entities: [Player, Goal, User, Saison],
   migrations: ["migrations/*.ts"],
   migrationsTableName: "migrations",
-  // synchronize: true,
-  synchronize: false,
+  // passer sur true en local lorsque la bdd a été vidé et qu'on veux la remplir
+  synchronize: true,
+  // sur false en prod
+  // synchronize: false,
 });
