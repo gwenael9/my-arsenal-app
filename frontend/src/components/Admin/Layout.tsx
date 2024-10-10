@@ -24,13 +24,10 @@ export default function Layout({ children, title }: LayoutProps) {
           rel="stylesheet"
         ></link>
       </Head>
-      <Header />
-      <main
-        className="py-2 px-12 overflow-y-auto"
-        style={{ maxHeight: "calc(100vh - 80px" }}
-      >
-        {children}
-      </main>
+      <div className="flex h-screen">
+        <Header />
+        <main className="flex-grow p-8 overflow-y-auto">{children}</main>
+      </div>
       <Toaster />
     </>
   );

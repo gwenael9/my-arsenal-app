@@ -60,7 +60,7 @@ export default function MenuMobile({
                 <Button
                   key={index}
                   className={`${getBgColor(lang)}`}
-                  variant="langue"
+                  variant="none"
                   onClick={() => setLangue(lang === "fr")}
                 >
                   <span

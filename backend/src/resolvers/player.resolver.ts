@@ -21,6 +21,12 @@ export default class PlayerResolver {
     return await new PlayerService().listPlayers();
   }
 
+  @Query(() => Number)
+  async nbPlayers() {
+    const players = await this.players();
+    return players.length;
+  }
+
   // ajouter un player
   @Mutation(() => Player)
   async createPlayer(@Arg("infos") infos: InputCreatePlayer) {
@@ -52,7 +58,7 @@ export default class PlayerResolver {
   async getPlayerByName(@Arg("playerName") playerName: string) {
     return await new PlayerService().getPlayerByName(playerName);
   }
-  
+
   @Authorized(["ADMIN"])
   @Mutation(() => Message)
   async deletePlayer(@Arg("id") id: string) {

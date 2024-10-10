@@ -24,7 +24,7 @@ export default function Login() {
         variables: { infos: { email: data.email, password: data.password } },
         onCompleted(data) {
           if (data.login.success) {
-            router.push("/admin/configuration");
+            router.push("/admin/joueurs");
             setTimeout(() => {
               toast({
                 title: data.login.message,

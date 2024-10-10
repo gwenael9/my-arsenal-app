@@ -13,6 +13,7 @@ import {
   useGoalsQuery,
   usePlayersQuery,
 } from "@/types/graphql";
+import Link from "next/link";
 import { useState } from "react";
 
 export default function AdminGoals() {
@@ -63,9 +64,11 @@ export default function AdminGoals() {
     });
   };
 
+  
+
   return (
     <Layout title="Configuration">
-      <div className="flex justify-end sm:justify-between items-center py-4">
+      {/* <div className="flex justify-end sm:justify-between items-center py-4">
         <h2 className="font-bold text-xl sm:text-2xl hidden sm:block">
           Nombres de{" "}
           {isGoalOrPlayer
@@ -102,7 +105,8 @@ export default function AdminGoals() {
                 ))}
           </div>
         </div>
-      </div>
+      </div> */}
+      <div>cc</div>
     </Layout>
   );
 }

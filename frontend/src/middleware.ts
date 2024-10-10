@@ -29,7 +29,7 @@ async function checkToken(token: string | undefined, request: NextRequest) {
   // si token undefined
   if (!token) {
     // si l'user essaie d'aller sur ces deux liens
-    if (request.nextUrl.pathname.startsWith("/admin/configuration")) {
+    if (request.nextUrl.pathname.startsWith("/admin/joueurs")) {
       // on renvoie à l'accueil
       response = NextResponse.redirect(new URL("/", request.url));
     } else {
@@ -55,11 +55,19 @@ async function checkToken(token: string | undefined, request: NextRequest) {
         if (payload.role === "ADMIN") {
           // on renvoie directement vers la page des players sans se reconnecter
           response = NextResponse.redirect(
-            new URL("/admin/configuration", request.url)
+            new URL("/admin/joueurs", request.url)
           );
         } else {
           // sinon on renvoie à l'accueil
           response = NextResponse.redirect(new URL("/", request.url));
+        }
+      }
+
+      const allowedPaths = ["/admin/joueurs", "/admin/buts", "/admin/saisons"];
+      if (request.nextUrl.pathname.startsWith("/admin/")) {
+        if (!allowedPaths.includes(request.nextUrl.pathname)) {
+          // redirection vers l'accueil si le chemin n'est pas autorisé
+          return NextResponse.redirect(new URL("/", request.url));
         }
       }
 
