@@ -16,6 +16,12 @@ export const LIST_PLAYERS = gql`
                 ordre
                 competition
                 saison
+                buteur {
+                    id
+                    country
+                    firstname
+                    lastname
+                }
             }
             passes {
                 id
@@ -26,6 +32,12 @@ export const LIST_PLAYERS = gql`
                 ordre
                 competition
                 saison
+                buteur {
+                    id
+                    country
+                    firstname
+                    lastname
+                }
             }
         }
     }

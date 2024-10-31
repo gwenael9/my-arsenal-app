@@ -4,7 +4,7 @@ import { X } from "lucide-react";
 
 interface EtiquettesProps {
   handleDelete: (item: string) => void;
-  player?: Player | any;
+  player?: Player;
   goal?: Goal;
 }
 
@@ -22,7 +22,7 @@ export default function Etiquettes({
       <p className="uppercase">{player ? player.lastname : goal?.ordre}</p>
       <Button
         size={"arrow"}
-        variant={"arrow"}
+        variant="none"
         onClick={() => handleDelete(player ? player.id : goal ? goal.id : "")}
       >
         <X size={16} />

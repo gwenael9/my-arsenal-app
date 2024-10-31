@@ -11,7 +11,7 @@ const buttonVariants = cva(
       variant: {
         default: "bg-primary text-white hover:bg-primary/90",
         destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+          "text-destructive hover:text-destructive/90",
         outline:
           "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
         ghost: "hover:bg-accent hover:text-accent-foreground",
@@ -22,8 +22,7 @@ const buttonVariants = cva(
         carousel: "bg-white border rounded-full",
         arrowCard: "bg-white rounded-full border-black border",
         footer: "p-2 rounded-full border",
-        arrow: "",
-        langue: "",
+        none: ""
       },
       size: {
         default: "h-10 px-4 py-2",
@@ -31,6 +30,7 @@ const buttonVariants = cva(
         lg: "h-11 rounded-md px-8",
         icon: "h-10 w-10",
         arrow: "h-5 p-0",
+        none: ""
       },
     },
     defaultVariants: {

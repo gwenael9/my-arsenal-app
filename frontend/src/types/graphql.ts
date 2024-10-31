@@ -154,6 +154,7 @@ export type Query = {
   login: Message;
   logout: Message;
   nbGoals: AllGoalsOrdre;
+  nbPlayers: Scalars['Float']['output'];
   players: Array<Player>;
   saisonByName: Saison;
   saisons: Array<Saison>;
@@ -326,10 +327,15 @@ export type NbGoalsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type NbGoalsQuery = { __typename?: 'Query', nbGoals: { __typename?: 'AllGoalsOrdre', ordre: Array<number>, total: number } };
 
+export type NbPlayersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type NbPlayersQuery = { __typename?: 'Query', nbPlayers: number };
+
 export type PlayersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type PlayersQuery = { __typename?: 'Query', players: Array<{ __typename?: 'Player', country: string, id: string, firstname: string, lastname: string, goals?: Array<{ __typename?: 'Goal', id: string, link: string, where: string, date: string, against: string, ordre: number, competition: string, saison: string }> | null, passes?: Array<{ __typename?: 'Goal', id: string, link: string, where: string, date: string, against: string, ordre: number, competition: string, saison: string }> | null }> };
+export type PlayersQuery = { __typename?: 'Query', players: Array<{ __typename?: 'Player', country: string, id: string, firstname: string, lastname: string, goals?: Array<{ __typename?: 'Goal', id: string, link: string, where: string, date: string, against: string, ordre: number, competition: string, saison: string, buteur: { __typename?: 'Player', id: string, country: string, firstname: string, lastname: string } }> | null, passes?: Array<{ __typename?: 'Goal', id: string, link: string, where: string, date: string, against: string, ordre: number, competition: string, saison: string, buteur: { __typename?: 'Player', id: string, country: string, firstname: string, lastname: string } }> | null }> };
 
 export type GetPlayerByIdQueryVariables = Exact<{
   playerId: Scalars['String']['input'];
@@ -1018,6 +1024,43 @@ export type NbGoalsQueryHookResult = ReturnType<typeof useNbGoalsQuery>;
 export type NbGoalsLazyQueryHookResult = ReturnType<typeof useNbGoalsLazyQuery>;
 export type NbGoalsSuspenseQueryHookResult = ReturnType<typeof useNbGoalsSuspenseQuery>;
 export type NbGoalsQueryResult = Apollo.QueryResult<NbGoalsQuery, NbGoalsQueryVariables>;
+export const NbPlayersDocument = gql`
+    query nbPlayers {
+  nbPlayers
+}
+    `;
+
+/**
+ * __useNbPlayersQuery__
+ *
+ * To run a query within a React component, call `useNbPlayersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useNbPlayersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useNbPlayersQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useNbPlayersQuery(baseOptions?: Apollo.QueryHookOptions<NbPlayersQuery, NbPlayersQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<NbPlayersQuery, NbPlayersQueryVariables>(NbPlayersDocument, options);
+      }
+export function useNbPlayersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<NbPlayersQuery, NbPlayersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<NbPlayersQuery, NbPlayersQueryVariables>(NbPlayersDocument, options);
+        }
+export function useNbPlayersSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<NbPlayersQuery, NbPlayersQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<NbPlayersQuery, NbPlayersQueryVariables>(NbPlayersDocument, options);
+        }
+export type NbPlayersQueryHookResult = ReturnType<typeof useNbPlayersQuery>;
+export type NbPlayersLazyQueryHookResult = ReturnType<typeof useNbPlayersLazyQuery>;
+export type NbPlayersSuspenseQueryHookResult = ReturnType<typeof useNbPlayersSuspenseQuery>;
+export type NbPlayersQueryResult = Apollo.QueryResult<NbPlayersQuery, NbPlayersQueryVariables>;
 export const PlayersDocument = gql`
     query Players {
   players {
@@ -1034,6 +1077,12 @@ export const PlayersDocument = gql`
       ordre
       competition
       saison
+      buteur {
+        id
+        country
+        firstname
+        lastname
+      }
     }
     passes {
       id
@@ -1044,6 +1093,12 @@ export const PlayersDocument = gql`
       ordre
       competition
       saison
+      buteur {
+        id
+        country
+        firstname
+        lastname
+      }
     }
   }
 }

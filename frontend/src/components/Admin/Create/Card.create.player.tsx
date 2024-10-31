@@ -54,28 +54,26 @@ export default function CardCreatePlayer() {
   };
 
   return (
-    <CardLayout title="Ajouter un joueur">
-      <form onSubmit={handleSubmit} className="grid gap-2">
-        <div className="grid w-full items-center gap-4">
-          <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="firstname">Firstname</Label>
-            <Input name="firstname" id="firstname" placeholder="Bukayo" />
-          </div>
-          <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="lastname">Lastname</Label>
-            <Input name="lastname" id="lastname" placeholder="Saka" />
-          </div>
-          <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="country">Pays</Label>
-            <Input name="country" id="country" placeholder="Angleterre" />
-          </div>
+    <form onSubmit={handleSubmit}>
+      <div className="flex gap-4">
+        <div className="flex flex-col space-y-1.5">
+          <Label htmlFor="firstname">Firstname</Label>
+          <Input name="firstname" id="firstname" placeholder="Bukayo" />
         </div>
-        <div className="flex justify-end">
+        <div className="flex flex-col space-y-1.5">
+          <Label htmlFor="lastname">Lastname</Label>
+          <Input name="lastname" id="lastname" placeholder="Saka" />
+        </div>
+        <div className="flex flex-col space-y-1.5">
+          <Label htmlFor="country">Pays</Label>
+          <Input name="country" id="country" placeholder="Angleterre" />
+        </div>
+        <div className="flex items-end">
           <Button variant="success" type="submit">
             Confirmer
           </Button>
         </div>
-      </form>
-    </CardLayout>
+      </div>
+    </form>
   );
 }
