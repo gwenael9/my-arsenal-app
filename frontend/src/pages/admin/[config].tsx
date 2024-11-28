@@ -1,3 +1,4 @@
+import CardCreateGoal from "@/components/Admin/Create/Card.create.goal";
 import Layout from "@/components/Admin/Layout";
 import ModalCreate from "@/components/Admin/modal.create";
 import TableAdmin from "@/components/Admin/table.admin";
@@ -81,7 +82,7 @@ export default function Config() {
         />
       </div>
       <div className="mt-4 flex justify-center">
-        {config === "joueurs" ? <TableAdmin data={players} /> : <div>cc</div>}
+        {config === "joueurs" ? <TableAdmin data={players} /> : <CardCreateGoal nbGoals={136} />}
       </div>
     </Layout>
   );
